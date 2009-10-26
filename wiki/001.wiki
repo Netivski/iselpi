@@ -1,0 +1,6 @@
+Code Revision
+
+Methods
+
+  1 - getFirstPlace 
+  2 - getScores
