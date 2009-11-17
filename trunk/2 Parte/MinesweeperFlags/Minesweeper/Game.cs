@@ -1,0 +1,69 @@
+﻿using System;
+
+namespace Minesweeper
+{
+    public class Game
+    {
+        const int MAX_PLAYERS = 4;
+
+        string                   name;
+        GameStatus               sStatus;
+        Player[]                 players;
+        int                      playersCount;
+        Cell[,]                  cells;
+        int                      currentPlayer;
+
+
+        public Game( string name, string playerName, int cols, int rows )
+        {
+            this.name     = name;
+            sStatus       = GameStatus.WAITING;
+            players       = new Player[MAX_PLAYERS];
+            cells         = new Cell[rows, cols];
+            playersCount  = 0;
+            currentPlayer = 0;
+            AddPlayer(playerName); //Owner
+        }
+
+        public string Name
+        {
+            get { return name;  }
+        }
+
+        public GameStatus Status
+        {
+            get { return sStatus; }
+        }
+
+        public void AddPlayer( string name )
+        {
+            Player player = new Player( name );
+            players[ playersCount++ ] = player ;
+        }
+
+        public void RemovePlayer( int id )
+        {
+            //Falta o AI JASUS!!!
+
+            players[id] = null;
+        }
+
+        public bool Start()
+        {
+            if ( playersCount  < 2 ) return false;
+
+            //Cria as cel
+
+            sStatus = GameStatus.STARTED;
+
+            return true;
+        }
+
+        public bool Play( int playerId )
+        {
+            if (((currentPlayer + 1) % playersCount) != playerId) return false;
+
+            return true;
+        }
+    }
+}
