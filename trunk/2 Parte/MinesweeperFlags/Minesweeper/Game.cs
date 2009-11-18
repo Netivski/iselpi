@@ -35,10 +35,11 @@ namespace Minesweeper
             get { return sStatus; }
         }
 
-        public void AddPlayer( string name )
+        public int AddPlayer( string name )
         {
             Player player = new Player( name );
             players[ playersCount++ ] = player ;
+            return playersCount;
         }
 
         public void RemovePlayer( int id )

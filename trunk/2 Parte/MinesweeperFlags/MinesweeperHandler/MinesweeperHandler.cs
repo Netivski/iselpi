@@ -1,22 +1,30 @@
 ﻿using System;
 using System.Web;
+using System.IO;
 
 namespace MinesweeperHandler
 {
     public class MinesweeperHandler: IHttpHandler
     {
+        HttpContext ctx = null;
+
         public bool IsReusable
         {
             get { return true; }
         }
 
-        public void ProcessRequest(HttpContext ctx)
-        {
-            if (ctx == null) throw new ArgumentNullException("ctx");
+        protected HttpRequest       Request  { get { return ctx.Request; } }
+        protected HttpResponse      Response { get { return ctx.Response; } }
+        protected HttpServerUtility Server   { get { return ctx.Server; } }
 
-            //ctx.Request.Url
-            string hName = ""; // hName == Handler Name
-            switch (hName)
+
+        public void ProcessRequest(HttpContext context)
+        {
+            if (context == null) throw new ArgumentNullException("context");
+            ctx = context;
+
+            //Virtual Resource
+            switch (Path.GetFileNameWithoutExtension(context.Request.Url.LocalPath))
             {
                 case "CreatePlayer":
                     CreatePlayer();
@@ -71,12 +79,12 @@ namespace MinesweeperHandler
 
         protected void AddPlayer()
         {
-            throw new NotImplementedException();
+            Response.Write(Minesweeper.GameManager.Current[Request["gName"]].AddPlayer(Request["playerName"]));
         }
 
         protected void CreatePlayer()
         {
-            throw new NotImplementedException();
+            Response.Write( Minesweeper.GameManager.Current.CreateGame(Request["gName"], Request["playerName"]) );
         }
     }
 }
