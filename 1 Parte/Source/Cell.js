@@ -76,7 +76,10 @@ Cell.init = function()
 				{
 					if (this.isMine(cell))
 					{
-						setClass(cell,MINE_CELL + pNum);
+						if  (pNum=="BOMB")
+							setClass(cell,BOMB_CELL);
+						else
+							setClass(cell,MINE_CELL + pNum);
 
 						/*
 						   Use this to decrement the adjacent cells of a mine when it get's clicked. Fun to watch!
