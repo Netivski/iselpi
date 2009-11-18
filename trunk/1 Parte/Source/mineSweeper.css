@@ -194,7 +194,8 @@
 .divBackGround .divArena .divCell_Flag_P1,
 .divBackGround .divArena .divCell_Flag_P2,
 .divBackGround .divArena .divCell_Flag_P3,
-.divBackGround .divArena .divCell_Flag_P4
+.divBackGround .divArena .divCell_Flag_P4,
+.divBackGround .divArena .divCell_Bomb
 {	
 	float: left;
 	position: relative;	
@@ -243,6 +244,13 @@
 	background-color: White;
 }
 
+.divBackGround .divArena .divCell_Bomb
+{
+	background-image: url(../Images/Bomb.png);
+	background-repeat: no-repeat;
+	background-color: White;
+}
+
 .divOptions
 {
 	position: absolute;
@@ -250,19 +258,19 @@
 	top: 200px;	
 	width: 240px;
 	height: 122px;	
-	text-align: left;
+	text-align: center;
 	display:none;
 }
 
 .divOptions p
 {
 	position: absolute;
-	top: 45px;
+	top: 70px;
 	font-family: Verdana;
-	font-size: 20px;
+	font-size: 18px;
+	width:240;
 	font-weight: bold;	
-	color: White;
-	text-align: center;	
+	color: Black;
 }
 
 .divBackGround .divOptions button
