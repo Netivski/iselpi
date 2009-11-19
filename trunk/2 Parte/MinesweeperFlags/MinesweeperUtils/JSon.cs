@@ -70,7 +70,23 @@ namespace MinesweeperUtils
             for (int i = 0; i < properties.Count; i++)
             {
                 PropertyInfo pi = type.GetProperty(properties[i]);
-                rObject.AppendFormat("{0}\"{1}\":{2}", (i == 0 ? "" : ","), properties[i], pi.GetValue(obj, null));
+                rObject.AppendFormat("{0}\"{1}\":{2}", (i == 0 ? "" : ","), properties[i], GetPropertyValue(pi.GetValue(obj, null)));
+            }
+
+            return rObject.ToString();
+        }
+
+
+        public static string GetJSonEntity<T>( T obj )
+        {
+            if (obj == null) throw new ArgumentNullException("obj");
+
+            Type type = typeof(T);
+            FieldInfo[] fi = type.GetFields();
+            StringBuilder rObject = new StringBuilder();
+            for (int i = 0; i < fi.Length; i++)
+            {
+                rObject.AppendFormat("{0}\"{1}\":{2}", (i == 0 ? "" : ","), fi[i].Name, fi[i].GetValue(obj));
             }
 
             return rObject.ToString();

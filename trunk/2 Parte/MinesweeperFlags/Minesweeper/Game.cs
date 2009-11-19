@@ -22,7 +22,7 @@ namespace Minesweeper
             cells         = new Cell[rows, cols];
             playersCount  = 0;
             currentPlayer = 0;
-            AddPlayer(playerName); //Owner
+            JoinPlayer(playerName); //Owner
         }
 
         public string Name
@@ -35,7 +35,7 @@ namespace Minesweeper
             get { return sStatus; }
         }
 
-        public int AddPlayer( string name )
+        public int JoinPlayer( string name )
         {
             Player player = new Player( name );
             players[ playersCount++ ] = player ;
@@ -54,7 +54,6 @@ namespace Minesweeper
             if ( playersCount  < 2 ) return false;
 
             //Cria as cel
-
             sStatus = GameStatus.STARTED;
 
             return true;

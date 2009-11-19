@@ -3,21 +3,21 @@
   <Class Name="Minesweeper.Game">
     <Position X="3.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAABEACAAgAAAABAAAAQCAABEAAAAIAgAAAAAAAA=</HashCode>
+      <HashCode>AAAAAABEACAAgAAAAhAAAAQCAABEAACAoAAAAAAAAAA=</HashCode>
       <FileName>Game.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Minesweeper.Cell">
     <Position X="0.75" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAQQAAAAEAAA=</HashCode>
+      <HashCode>AAAAAACAAAAAgAAAAAAAAAAAAAABAAAAAQQAAAAEAAA=</HashCode>
       <FileName>Cell.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Minesweeper.GameManager">
     <Position X="5.25" Y="2.75" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAACAAAAAAACCAAAAIAAAAAAAAABAAEAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAACAAAAACACCAAAAIAAAAAAAAABAAEAAAAA=</HashCode>
       <FileName>GameManager.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -33,6 +33,13 @@
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>CellMine.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Minesweeper.Player">
+    <Position X="7.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACgAAAAoAAAAAAAAAQAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Player.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Enum Name="Minesweeper.GameStatus">

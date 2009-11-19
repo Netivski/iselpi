@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <title>Debug Page</title>
+    <script language="javascript" src="../Source/HttpRequest.js"></script>
+    <script language="javascript" >
+        function joinPlayer() {
+            alert("");  
+            var f = document.forms["frmAJAXJoinPlayer"];
+
+            if (f != undefined) {
+                var gName      = f.gName.value;
+                var playerName = f.playerName.value;
+
+                try {
+                    var req = new HttpRequest("JoinPlayer", gName, playerName, 0);
+                    req.Request("p1", "João ç", "p2", 2);
+                    alert(req.getResponseText());
+                    alert(req.isTrue());
+                    alert(req.isFalse());
+                } catch (e) { alert(e); }
+            }
+        }
+    </script>
+</head>
+<body>
+  <form id="frmCreateGame" action="../CreateGame.ashx" method="get">
+     Game Name <input type="text" id="gName" name="gName" /><br/>
+     Player Name<input type="text" id="playerName" name="playerName" /><br />
+     <input type="submit" value="Create Game"/>
+   </form>
+  <br/>
+  <form id="frmJoinPlayer" action="../JoinPlayer.ashx" method="get">
+     Game Name <input type="text" id="gName" name="gName" /><br/>
+     Player Name<input type="text" id="playerName" name="playerName" /><br />
+     <input type="submit" value="Join Game"/>
+   </form>
+   <br/> 
+  <form id="frmAJAXJoinPlayer" method="get">
+     Game Name <input type="text" id="gName" name="gName" /><br/>
+     Player Name<input type="text" id="playerName" name="playerName" /><br />
+     <a href="javascript:javascript:joinPlayer();">Join Player</a>
+   </form>
+</body>
+</html>

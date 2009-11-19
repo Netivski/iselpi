@@ -1,3 +1,13 @@
+// Board MVC initializer
+
+var Board = new Object();
+Board.init = function(lines, cols, mines){
+		BoardModel.init(lines, cols, mines);
+		BoardController.init();
+		BoardView.init();
+	}
+
+	
 // Board Model --------------------------------------------------------------------------------------
 
 var BoardModel = new Object();
@@ -11,6 +21,7 @@ BoardModel.init = function(lines, cols, mines){
 		this.getCols = function() { return cols; }
 		this.decMinesLeft = function() { _minesLeft--; }
 }
+
 
 // Board Controller ---------------------------------------------------------------------------------
 
@@ -59,6 +70,18 @@ BoardController.init = function(){
 		
 		this.getLines = function() { return BoardModel.getLines(); }
 		
+		this.revealBoard = function()
+			{
+				for (var i=0 ; i<this.getLines() ; i++)
+				{
+					for (var j=0 ; j<this.getCols() ; j++)
+					{	
+						if(Cell.isMine(BoardView.getCellByPos(j,i)))
+							Cell.onClick(BoardView.getCellByPos(j,i),"BOMB");
+					}
+				}
+			}
+		
 		this.getAdjacentCells = function(cell)
 			{
 				var pos = Cell.getPos(cell);
@@ -101,6 +124,7 @@ BoardController.init = function(){
 			}
 }
 
+
 // Board View ---------------------------------------------------------------------------------------
 
 var BoardView = new Object();
@@ -135,11 +159,3 @@ BoardView.init = function(){
 			}
 	}
 }
-
-// Board MVC initializer
-var Board = new Object();
-Board.init = function(lines, cols, mines){
-		BoardModel.init(lines, cols, mines);
-		BoardController.init();
-		BoardView.init();
-	}

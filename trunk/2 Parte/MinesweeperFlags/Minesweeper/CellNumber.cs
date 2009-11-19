@@ -2,7 +2,7 @@
 
 namespace Minesweeper
 {
-    public class CellNumber: Cell
+    internal class CellNumber: Cell
     {
         int value;
 
