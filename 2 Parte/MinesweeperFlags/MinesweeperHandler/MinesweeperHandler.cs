@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web;
 using System.IO;
 using MinesweeperHandler.Proxy;
@@ -74,7 +75,7 @@ namespace MinesweeperHandler
 
         protected void ListActiveGames()
         {
-            throw new NotImplementedException();
+            Response.Write(Utils.JSon.Serialize<string[]>(Minesweeper.GameManager.Current.GetActiveGames()));
         }
 
         protected void RefreshPlayerBoard()
