@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Minesweeper
 {
-    public abstract class Cell
+    internal abstract class Cell
     {
         CellType type;
         bool     hidden;
+        Player   owner  = null; 
 
         public Cell(CellType type)
         {
@@ -25,6 +23,12 @@ namespace Minesweeper
         {
             get { return hidden; }
             set { hidden = value; }
+        }
+
+        public Player Owner
+        {
+            get { return owner; }
+            set { owner = null; }
         }
 
     }

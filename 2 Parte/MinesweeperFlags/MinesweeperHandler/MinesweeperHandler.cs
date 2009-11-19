@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web;
 using System.IO;
+using MinesweeperHandler.Proxy;
 
 namespace MinesweeperHandler
 {
@@ -26,11 +27,20 @@ namespace MinesweeperHandler
             //Virtual Resource
             switch (Path.GetFileNameWithoutExtension(context.Request.Url.LocalPath))
             {
-                case "CreatePlayer":
-                    CreatePlayer();
+                case "ListActiveGames":
+                    ListActiveGames();
                     break;
-                case "AddPlayer":
-                    AddPlayer();
+                case "CreateGameForm":
+                    CreateGameForm();
+                    break;
+                case "JoinPlayerForm":
+                    JoinPlayerForm();
+                    break;
+                case "CreateGame":
+                    CreateGame();
+                    break;
+                case "JoinPlayer":
+                    JoinPlayer();
                     break;
                 case "StartGame":
                     StartGame();
@@ -50,6 +60,21 @@ namespace MinesweeperHandler
                 default:
                     throw new ApplicationException("Invalid Handler Name");
             }
+        }
+
+        protected void JoinPlayerForm()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected void CreateGameForm()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected void ListActiveGames()
+        {
+            throw new NotImplementedException();
         }
 
         protected void RefreshPlayerBoard()
@@ -74,17 +99,28 @@ namespace MinesweeperHandler
 
         protected void StartGame()
         {
-            throw new NotImplementedException();
+            Response.Write(Minesweeper.GameManager.Current[Request["gName"]].Start());
         }
 
-        protected void AddPlayer()
+        protected void JoinPlayer()
         {
-            Response.Write(Minesweeper.GameManager.Current[Request["gName"]].AddPlayer(Request["playerName"]));
+            JSONPlayer player;
+            player.GameName   = Request["gName"];
+            player.PlayerName = Request["playerName"];
+            player.PlayerId   = Minesweeper.GameManager.Current[player.GameName].JoinPlayer(player.PlayerName);
+
+
+            Response.Write(Utils.JSon.Serialize<JSONPlayer>(player));
         }
 
-        protected void CreatePlayer()
+        protected void CreateGame()
         {
-            Response.Write( Minesweeper.GameManager.Current.CreateGame(Request["gName"], Request["playerName"]) );
+            JSONPlayer player;
+            player.GameName   = Request["gName"];
+            player.PlayerName = Request["playerName"];
+            player.PlayerId   = Minesweeper.GameManager.Current.CreateGame(player.GameName, player.PlayerName)? 1: ~0;
+
+            Response.Write(Utils.JSon.Serialize<JSONPlayer>(player));
         }
     }
 }

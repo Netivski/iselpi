@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Minesweeper
 {
-    public class Player
+    internal class Player
     {
         string name;
         int    points;
+        Dictionary<int, Cell> refreshCell;
 
         public Player( string name )
         {
-            this.name = name;
+            this.name   = name;
+            refreshCell = new Dictionary<int, Cell>();
         }
 
         public string Name
@@ -31,6 +31,11 @@ namespace Minesweeper
         {
             get { return points; }
             set { points = value; }
+        }
+
+        public Dictionary<int, Cell> RefreshCell
+        {
+            get { return refreshCell; }
         }
     }
 }

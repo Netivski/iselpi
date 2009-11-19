@@ -1,21 +1,3 @@
-var IMAGES_PATH = "../images/"
-
-var PL_CLASS = "divPlayerBoard"
-
-var PL_INACTIVE = "divPlayerInactive"
-var PL_ACTIVE = "divPlayerActive"
-
-var PL_BOARD_CLASS = "divPlayer"
-var PL_PIC_CLASS = "divPlayerPicture"
-var PL_FLAG_CLASS = "divPlayerFlag"
-var PL_SCORE_CLASS = "divPlayerScore"
-var PL_NAME_CLASS = "divPlayerName"
-var PL_QUIT_CLASS = "divPlayerQuit"
-var BTN_QUIT_CLASS = "btnPlayerQuit"
-
-var PL_PIC_SRC = IMAGES_PATH + "DefaultPicture_P" //File must be a png and must end it's name with "_Px"
-var PL_FLAG_SRC = IMAGES_PATH + "Flag_P" //File must be a png and must end it's name with "_Px"
-
 var Player = new Object();
 
 Player.init = function()
@@ -66,10 +48,6 @@ Player.init = function()
 		
 		this.removePlayer = function (pNum)
 			{
-				// $("." + PL_BOARD_CLASS + ":eq("+pNum+") ." + PL_FLAG_CLASS).remove();
-				// $("." + PL_BOARD_CLASS + ":eq("+pNum+") ." + PL_SCORE_CLASS).remove();
-				// $("." + PL_BOARD_CLASS + ":eq("+pNum+") ." + PL_NAME_CLASS).text("Quited!");
-				// $("." + PL_BOARD_CLASS + ":eq("+pNum+") ." + PL_QUIT_CLASS).remove();
 				$("." + PL_BOARD_CLASS + ":eq("+pNum+")").css("display","none");
 			}
 		

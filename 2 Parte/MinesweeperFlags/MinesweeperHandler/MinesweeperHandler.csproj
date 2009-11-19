@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="JsonExSerializer, Version=3.1.0.258, Culture=neutral, PublicKeyToken=6be1316762335bd4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Assembly\JsonExSerializer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -51,12 +55,10 @@
   <ItemGroup>
     <Compile Include="MinesweeperHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Proxy\JSONPlayer.cs" />
+    <Compile Include="Utils\JSon.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MinesweeperUtils\MinesweeperUtils.csproj">
-      <Project>{ABF82745-532E-4442-B4F8-91A5C58D8021}</Project>
-      <Name>MinesweeperUtils</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Minesweeper\Minesweeper.csproj">
       <Project>{287F8AEF-02E3-4300-81F9-61D0A1B24A5A}</Project>
       <Name>Minesweeper</Name>

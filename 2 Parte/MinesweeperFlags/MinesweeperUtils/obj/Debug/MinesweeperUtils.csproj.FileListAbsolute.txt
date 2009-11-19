@@ -1,0 +1,5 @@
+C:\TSPPIRES\Personal\my.life\ISEL\3 Ano\PI\Minesweeper Flags\iselpi\trunk\2 Parte\MinesweeperFlags\MinesweeperUtils\bin\Debug\MinesweeperUtils.dll
+C:\TSPPIRES\Personal\my.life\ISEL\3 Ano\PI\Minesweeper Flags\iselpi\trunk\2 Parte\MinesweeperFlags\MinesweeperUtils\bin\Debug\MinesweeperUtils.pdb
+C:\TSPPIRES\Personal\my.life\ISEL\3 Ano\PI\Minesweeper Flags\iselpi\trunk\2 Parte\MinesweeperFlags\MinesweeperUtils\obj\Debug\ResolveAssemblyReference.cache
+C:\TSPPIRES\Personal\my.life\ISEL\3 Ano\PI\Minesweeper Flags\iselpi\trunk\2 Parte\MinesweeperFlags\MinesweeperUtils\obj\Debug\MinesweeperUtils.dll
+C:\TSPPIRES\Personal\my.life\ISEL\3 Ano\PI\Minesweeper Flags\iselpi\trunk\2 Parte\MinesweeperFlags\MinesweeperUtils\obj\Debug\MinesweeperUtils.pdb

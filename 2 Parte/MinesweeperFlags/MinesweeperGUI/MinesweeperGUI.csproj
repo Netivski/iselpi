@@ -53,6 +53,7 @@
     <Reference Include="System.Web.Mobile" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Debug\main.htm" />
     <Content Include="Images\Arena.png" />
     <Content Include="Images\BackGround.png" />
     <Content Include="Images\Bomb_P1.png" />
@@ -81,7 +82,10 @@
     <Content Include="MineSweeper.htm" />
     <Content Include="Source\BoardMVC.js" />
     <Content Include="Source\Cell.js" />
+    <Content Include="Source\Constants.js" />
     <Content Include="Source\Game.js" />
+    <Content Include="Source\GameMVC.js" />
+    <Content Include="Source\HttpRequest.js" />
     <Content Include="Source\jquery-1.3.2.js" />
     <Content Include="Source\main.css" />
     <Content Include="Source\mineSweeper.css" />
@@ -96,14 +100,13 @@
       <Project>{C8757F7B-822D-44A5-8F1E-B42BE7492840}</Project>
       <Name>MinesweeperHandler</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MinesweeperUtils\MinesweeperUtils.csproj">
-      <Project>{ABF82745-532E-4442-B4F8-91A5C58D8021}</Project>
-      <Name>MinesweeperUtils</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Minesweeper\Minesweeper.csproj">
       <Project>{287F8AEF-02E3-4300-81F9-61D0A1B24A5A}</Project>
       <Name>Minesweeper</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
