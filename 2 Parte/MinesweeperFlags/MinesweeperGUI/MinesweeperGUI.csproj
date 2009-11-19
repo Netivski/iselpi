@@ -83,7 +83,6 @@
     <Content Include="Source\BoardMVC.js" />
     <Content Include="Source\Cell.js" />
     <Content Include="Source\Constants.js" />
-    <Content Include="Source\Game.js" />
     <Content Include="Source\GameMVC.js" />
     <Content Include="Source\HttpRequest.js" />
     <Content Include="Source\jquery-1.3.2.js" />
