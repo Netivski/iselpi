@@ -3,16 +3,24 @@ using System.Collections.Generic;
 
 namespace Minesweeper
 {
-    internal class Player
+    public class Player
     {
+        int id;
         string name;
         int    points;
         Dictionary<int, Cell> refreshCell;
 
-        public Player( string name )
+        public Player( int id, string name )
         {
+            this.id = id;
             this.name   = name;
             refreshCell = new Dictionary<int, Cell>();
+        }
+
+        public int Id
+        {
+            get { return id;  }
+            set { id = value; }
         }
 
         public string Name
@@ -33,9 +41,15 @@ namespace Minesweeper
             set { points = value; }
         }
 
-        public Dictionary<int, Cell> RefreshCell
+        public Dictionary<int, Cell> GetRefreshCell()
         {
-            get { return refreshCell; }
+            return refreshCell;
         }
+
+        public void ResetRefreshCell()
+        {
+            refreshCell = new Dictionary<int, Cell>();
+        }
+
     }
 }

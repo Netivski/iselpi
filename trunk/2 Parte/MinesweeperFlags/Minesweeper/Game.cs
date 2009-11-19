@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Minesweeper
 {
@@ -37,7 +38,7 @@ namespace Minesweeper
 
         public int JoinPlayer( string name )
         {
-            Player player = new Player( name );
+            Player player = new Player(playersCount, name);
             players[ playersCount++ ] = player ;
             return playersCount;
         }
@@ -59,11 +60,23 @@ namespace Minesweeper
             return true;
         }
 
+        public Player GetPlayer(int playerId)
+        {
+            return players[playerId];
+        }
+
         public bool Play( int playerId )
         {
             if (((currentPlayer + 1) % playersCount) != playerId) return false;
 
             return true;
+        }
+
+        public Dictionary<int, Cell> GetRefreshCell(int playerId)
+        {
+            Dictionary<int, Cell> sRef = players[playerId].GetRefreshCell(); //sRef = Strong Reference
+            players[playerId].ResetRefreshCell();
+            return sRef;
         }
     }
 }
