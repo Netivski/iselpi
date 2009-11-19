@@ -58,9 +58,17 @@ namespace MinesweeperHandler
                 case "RefreshPlayerBoard":
                     RefreshPlayerBoard();
                     break;
+                case "RefreshGameOver":
+                    RefreshGameOver();
+                    break;
                 default:
                     throw new ApplicationException("Invalid Handler Name");
             }
+        }
+
+        private void RefreshGameOver()
+        {
+            throw new NotImplementedException();
         }
 
         protected void JoinPlayerForm()
@@ -75,7 +83,7 @@ namespace MinesweeperHandler
 
         protected void ListActiveGames()
         {
-            Response.Write(Utils.JSon.Serialize<string[]>(Minesweeper.GameManager.Current.GetActiveGames()));
+            Response.Write(Utils.JSon.Serialize<List<string>>(Minesweeper.GameManager.Current.GetActiveGames()));
         }
 
         protected void RefreshPlayerBoard()
@@ -85,7 +93,13 @@ namespace MinesweeperHandler
 
         protected void RefreshCell()
         {
-            throw new NotImplementedException();
+            //Minesweeper.GameManager.Current[Request["gName"]].re
+
+            //JSONPlayer player;
+            //player.GameName = ;
+            //player.PlayerName = Request["playerName"];
+            //player.PlayerId = Minesweeper.GameManager.Current[player.GameName].JoinPlayer(player.PlayerName);
+
         }
 
         protected void Play()

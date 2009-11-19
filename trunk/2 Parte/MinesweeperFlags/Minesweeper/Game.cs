@@ -17,7 +17,7 @@ namespace Minesweeper
         public Game( string name, string playerName, int cols, int rows )
         {
             this.name     = name;
-            sStatus       = GameStatus.WAITING;
+            sStatus       = GameStatus.WAITING_FOR_PLAYERS;
             players       = new Player[MAX_PLAYERS];
             cells         = new Cell[rows, cols];
             playersCount  = 0;
