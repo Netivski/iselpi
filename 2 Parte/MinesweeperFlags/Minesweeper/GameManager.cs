@@ -33,11 +33,18 @@ namespace Minesweeper
             return true;
         }
 
-        public string[] GetActiveGames() 
+        public List<string> GetActiveGames() 
         {
-            string[] rObj = new string[ games.Keys.Count ];
-            games.Keys.CopyTo(rObj, 0);
+            List<string> rObj = new List<string>();
+            foreach (string gName in games.Keys)
+            {
+                if (games[gName].Status == GameStatus.WAITING_FOR_PLAYERS)
+                {
+                    rObj.Add(gName);
+                }
+            }
             return rObj;
         }
+
     }
 }

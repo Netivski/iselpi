@@ -4,7 +4,17 @@
     <title>Debug Page</title>
     <script language="javascript" src="../Source/HttpRequest.js"></script>
     <script language="javascript" >
+
+
+        function doWork() {
+            try {
+                sOut.innerHTML += "*";
+            }
+            finally{ setTimeout("doWork()", 1000); }
+        }
+
         function joinPlayer() {
+          
             var f = document.forms["frmAJAXJoinPlayer"];
 
             if (f != undefined) {
@@ -22,7 +32,7 @@
         }
     </script>
 </head>
-<body>
+<body onload="setTimeout('doWork()', 1000);">
   <form id="frmCreateGame" action="../CreateGame.ashx" method="get">
      Game Name <input type="text" id="gName" name="gName" /><br/>
      Player Name<input type="text" id="playerName" name="playerName" /><br />
@@ -39,6 +49,7 @@
      Game Name <input type="text" id="gName" name="gName" /><br/>
      Player Name<input type="text" id="playerName" name="playerName" /><br />
      <a href="javascript:javascript:joinPlayer();">Join Player</a>
+     <span id="sOut"></span>
    </form>
 </body>
 </html>

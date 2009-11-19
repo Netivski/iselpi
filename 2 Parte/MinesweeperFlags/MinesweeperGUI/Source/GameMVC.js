@@ -58,164 +58,159 @@ GameModel.init = function() {
 // Game Controller ----------------------------------------------------------------------------------
 
 var GameController = new Object();
-GameController.init = function(){
-		Cell.init();
-		Player.init();
-		GameView.renderOptions();
+GameController.init = function() {
+    Cell.init();
+    Player.init();
+    GameView.renderOptions();
+    var poolingActive = false;
 
-		var calcMines = function()
-			{
-				if (TOTAL_MINES%GameModel.getRegisteredPlayers()==0)
-					return TOTAL_MINES+1;
-				return TOTAL_MINES;
-			}
-		
-		var reCalcMines = function()
-			{
-				if (BoardModel.getMinesLeft()%GameModel.getActivePlayers()==0)
-				{
-					BoardController.decMinesLeft();
-					GameView.renderMinesLeft(BoardModel.getMinesLeft());
-					GameController.sendMessage("A mine was removed in order to avoid ties!");
-				}
-					
-			}
-		
-		var nextPlayer = function()
-			{
-				GameModel.nextPlayer();
-				Player.activatePlayer(GameModel.getCurrPlayer(),GameModel.getRegisteredPlayers());
-			}
-		
-		var getScores = function()
-			{
-				var scores = [];
-				
-				for (var i=0 ; i<GameModel.getActivePlayers() ; i++)
-				{
-					scores[i] = Player.getScore(i);
-				}
-				return scores.sort(function (v1, v2) { return v1-v2; } );
-			}
-		
-		var getFirstPlace = function()
-			{
-				var maxPlayer, maxScore=0;
-				
-				for (var i=0 ; i<GameModel.getActivePlayers() ; i++)
-				{
-					if (parseInt(Player.getScore(i))>maxScore)
-					{
-						maxScore=Player.getScore(i);
-						maxPlayer=i;
-					}
-				}
-				return maxPlayer;
-			}
-		
-		var gameOver = function()
-			{
-				if (GameModel.getActivePlayers()<MIN_PLAYERS)
-					return true;
-				
-				var scores = getScores();
-				
-				var firstPlace = parseInt(scores[scores.length-1]);
-				var secondPlace = parseInt(scores[scores.length-2]);
-				var minesLeft = parseInt(BoardModel.getMinesLeft());
-				
-				if((firstPlace) > (secondPlace + minesLeft))
-				{
-					return true;
-				}
-				return false;
-			}		
+    var pooling = function() {
+        try {
+            //<RefreshCell>        Get Cell 2 Refresh
+            //<RefreshPlayerBoard> Get Counters
+            //<RefreshGameOver> Get GameOver
+        }
+        finally { if (poolingActive) setTimeout("doWork()", 1000); }
+    }
 
-		this.evtStartClicked = function() {
-			
-			    
-			
-				if (GameModel.getRegisteredPlayers()>=MIN_PLAYERS)
-				{
-					GameView.hideOptions();
-					Board.init(LINES,COLS,calcMines());
-					GameView.renderBoard();
-					GameView.renderMinesLeft(BoardModel.getMinesLeft());
-					Player.start(GameModel.getRegisteredPlayers());
-					Player.activatePlayer(GameModel.getCurrPlayer(),GameModel.getRegisteredPlayers());
-					BoardController.start();
-					this.sendMessage("Game has just started! Good luck!");
-				}
-				else
-					this.sendMessage("At least 2 players are needed to start a game!")
-			}
-		
-		this.evtCellClicked = function(cell)
-			{
-				if (!gameOver())
-				{
-					if (Cell.isMine(cell))
-					{
-						GameModel.mineFound();
-						BoardController.decMinesLeft();
-						Cell.onClick(cell,GameModel.getCurrPlayer()+1);
-						this.sendMessage(Player.getName(GameModel.getCurrPlayer()) + " found a mine!");
-						GameView.renderMinesLeft(BoardModel.getMinesLeft());
-						if (gameOver())
-							GameView.renderGameOver("Game over! Player " + Player.getName(getFirstPlace()) + " won!");
-					}
-					else if (Cell.isHidden(cell))
-					{
-						nextPlayer();
-						Cell.onClick(cell,GameModel.getCurrPlayer()+1);
-					}
-				}
-			}
-		
-		this.evtAddPlayer = function()
-			{
-				if ($("#playerNameInput").val().length==0)
-				{
-					this.sendMessage("Player name must be at least 1 char long!");
-					return;
-				}
-				if(GameModel.getRegisteredPlayers()<MAX_PLAYERS)
-				{
-					GameModel.incPlayerCount();
-					GameView.renderPlayer(GameModel.getRegisteredPlayers());
-				}
-				GameView.hidePlayerForm();
-			}
-			
-		this.evtRemovePlayer = function(pNum)
-			{
-				if (!gameOver())
-				{
-					GameModel.removePlayer(pNum);
-					Player.removePlayer(pNum);
-					if (gameOver())
-					{
-						GameView.renderGameOver("Game over! Player " + Player.getName(getFirstPlace()) + " won!");
-						return;
-					}
-					reCalcMines();
-					if (GameModel.getCurrPlayer()==pNum)
-						nextPlayer();
-				}
-			}
-		
-		this.revealBoard = function()
-			{
-				GameView.hideOptions();
-				BoardController.revealBoard();
-			}
-		
-		this.sendMessage = function(msg)
-			{
-				GameView.renderMessage(msg);
-			}
-		
-	}
+    this.StartPooling = function() {
+        poolingActive = true;
+        pooling();
+    }
+
+    this.StopPooling = function() {
+      poolingActive = false;
+    }
+
+    var calcMines = function() {
+        if (TOTAL_MINES % GameModel.getRegisteredPlayers() == 0)
+            return TOTAL_MINES + 1;
+        return TOTAL_MINES;
+    }
+
+    var reCalcMines = function() {
+        if (BoardModel.getMinesLeft() % GameModel.getActivePlayers() == 0) {
+            BoardController.decMinesLeft();
+            GameView.renderMinesLeft(BoardModel.getMinesLeft());
+            GameController.sendMessage("A mine was removed in order to avoid ties!");
+        }
+
+    }
+
+    var nextPlayer = function() {
+        GameModel.nextPlayer();
+        Player.activatePlayer(GameModel.getCurrPlayer(), GameModel.getRegisteredPlayers());
+    }
+
+    var getScores = function() {
+        var scores = [];
+
+        for (var i = 0; i < GameModel.getActivePlayers(); i++) {
+            scores[i] = Player.getScore(i);
+        }
+        return scores.sort(function(v1, v2) { return v1 - v2; });
+    }
+
+    var getFirstPlace = function() {
+        var maxPlayer, maxScore = 0;
+
+        for (var i = 0; i < GameModel.getActivePlayers(); i++) {
+            if (parseInt(Player.getScore(i)) > maxScore) {
+                maxScore = Player.getScore(i);
+                maxPlayer = i;
+            }
+        }
+        return maxPlayer;
+    }
+
+    var gameOver = function() {
+        if (GameModel.getActivePlayers() < MIN_PLAYERS)
+            return true;
+
+        var scores = getScores();
+
+        var firstPlace = parseInt(scores[scores.length - 1]);
+        var secondPlace = parseInt(scores[scores.length - 2]);
+        var minesLeft = parseInt(BoardModel.getMinesLeft());
+
+        if ((firstPlace) > (secondPlace + minesLeft)) {
+            return true;
+        }
+        return false;
+    }
+
+    this.evtStartClicked = function() {
+
+
+
+        if (GameModel.getRegisteredPlayers() >= MIN_PLAYERS) {
+            GameView.hideOptions();
+            Board.init(LINES, COLS, calcMines());
+            GameView.renderBoard();
+            GameView.renderMinesLeft(BoardModel.getMinesLeft());
+            Player.start(GameModel.getRegisteredPlayers());
+            Player.activatePlayer(GameModel.getCurrPlayer(), GameModel.getRegisteredPlayers());
+            BoardController.start();
+            this.sendMessage("Game has just started! Good luck!");
+        }
+        else
+            this.sendMessage("At least 2 players are needed to start a game!")
+    }
+
+    this.evtCellClicked = function(cell) {
+        if (!gameOver()) {
+            if (Cell.isMine(cell)) {
+                GameModel.mineFound();
+                BoardController.decMinesLeft();
+                Cell.onClick(cell, GameModel.getCurrPlayer() + 1);
+                this.sendMessage(Player.getName(GameModel.getCurrPlayer()) + " found a mine!");
+                GameView.renderMinesLeft(BoardModel.getMinesLeft());
+                if (gameOver())
+                    GameView.renderGameOver("Game over! Player " + Player.getName(getFirstPlace()) + " won!");
+            }
+            else if (Cell.isHidden(cell)) {
+                nextPlayer();
+                Cell.onClick(cell, GameModel.getCurrPlayer() + 1);
+            }
+        }
+    }
+
+    this.evtAddPlayer = function() {
+        if ($("#playerNameInput").val().length == 0) {
+            this.sendMessage("Player name must be at least 1 char long!");
+            return;
+        }
+        if (GameModel.getRegisteredPlayers() < MAX_PLAYERS) {
+            GameModel.incPlayerCount();
+            GameView.renderPlayer(GameModel.getRegisteredPlayers());
+        }
+        GameView.hidePlayerForm();
+    }
+
+    this.evtRemovePlayer = function(pNum) {
+        if (!gameOver()) {
+            GameModel.removePlayer(pNum);
+            Player.removePlayer(pNum);
+            if (gameOver()) {
+                GameView.renderGameOver("Game over! Player " + Player.getName(getFirstPlace()) + " won!");
+                return;
+            }
+            reCalcMines();
+            if (GameModel.getCurrPlayer() == pNum)
+                nextPlayer();
+        }
+    }
+
+    this.revealBoard = function() {
+        GameView.hideOptions();
+        BoardController.revealBoard();
+    }
+
+    this.sendMessage = function(msg) {
+        GameView.renderMessage(msg);
+    }
+
+}
 
 	
 // Game View ----------------------------------------------------------------------------------------
