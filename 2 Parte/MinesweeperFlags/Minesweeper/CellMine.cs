@@ -2,7 +2,7 @@
 
 namespace Minesweeper
 {
-    internal class CellMine: Cell
+    public class CellMine: Cell
     {
         public CellMine(): base(CellType.Mine)
         {

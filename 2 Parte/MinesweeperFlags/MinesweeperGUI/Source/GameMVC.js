@@ -65,7 +65,8 @@ GameController.init = function() {
     var poolingActive = false;
 
     var pooling = function() {
-        try {
+    try {
+        
             //<RefreshCell>        Get Cell 2 Refresh
             //<RefreshPlayerBoard> Get Counters
             //<RefreshGameOver> Get GameOver

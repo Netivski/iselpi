@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Web;
 using System.IO;
 using MinesweeperHandler.Proxy;
+using Minesweeper;
 
 namespace MinesweeperHandler
 {
@@ -18,6 +19,12 @@ namespace MinesweeperHandler
         protected HttpRequest       Request  { get { return ctx.Request; } }
         protected HttpResponse      Response { get { return ctx.Response; } }
         protected HttpServerUtility Server   { get { return ctx.Server; } }
+
+
+        protected Game CurrentGame
+        {
+            get { return Minesweeper.GameManager.Current[Request["gName"]]; }
+        }
 
 
         public void ProcessRequest(HttpContext context)
@@ -93,13 +100,11 @@ namespace MinesweeperHandler
 
         protected void RefreshCell()
         {
-            //Minesweeper.GameManager.Current[Request["gName"]].re
-
-            //JSONPlayer player;
-            //player.GameName = ;
-            //player.PlayerName = Request["playerName"];
-            //player.PlayerId = Minesweeper.GameManager.Current[player.GameName].JoinPlayer(player.PlayerName);
-
+            Dictionary<int, Cell>  rObj = CurrentGame.GetRefreshCell(Utils.Generic.GetInt(Request["playerId"]));
+            Cell c = new CellMine();
+            c.Owner = CurrentGame.GetPlayer( Utils.Generic.GetInt(Request["playerId"]) );
+            rObj.Add(1, c); 
+            Response.Write(Utils.JSon.Serialize<Dictionary<int, Cell>>(rObj));
         }
 
         protected void Play()
@@ -114,7 +119,7 @@ namespace MinesweeperHandler
 
         protected void StartGame()
         {
-            Response.Write(Minesweeper.GameManager.Current[Request["gName"]].Start());
+            Response.Write(CurrentGame.Start());
         }
 
         protected void JoinPlayer()
@@ -122,7 +127,7 @@ namespace MinesweeperHandler
             JSONPlayer player;
             player.GameName   = Request["gName"];
             player.PlayerName = Request["playerName"];
-            player.PlayerId   = Minesweeper.GameManager.Current[player.GameName].JoinPlayer(player.PlayerName);
+            player.PlayerId   = CurrentGame.JoinPlayer(player.PlayerName);
 
 
             Response.Write(Utils.JSon.Serialize<JSONPlayer>(player));

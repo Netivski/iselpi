@@ -2,7 +2,7 @@
 
 namespace Minesweeper
 {
-    internal abstract class Cell
+    public abstract class Cell
     {
         CellType type;
         bool     hidden;
@@ -28,7 +28,7 @@ namespace Minesweeper
         public Player Owner
         {
             get { return owner; }
-            set { owner = null; }
+            set { owner = value; }
         }
 
     }

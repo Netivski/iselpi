@@ -13,9 +13,16 @@
             finally{ setTimeout("doWork()", 1000); }
         }
 
-        function joinPlayer() {
-          
+        function joinPlayer() {          
             var f = document.forms["frmAJAXJoinPlayer"];
+
+            alert(f.capitals.value);
+            for (var i = 0; i < f.capitals.length; i++) {
+                if (f.capitals[i].checked) {
+                    alert(f.capitals[i].value); break;
+                }
+            }
+            
 
             if (f != undefined) {
                 var gName      = f.gName.value;
@@ -46,6 +53,12 @@
    </form>
    <br/> 
   <form id="frmAJAXJoinPlayer" method="get">
+     
+<br/><input type="radio" id="capitals" name="capitals" value="Miami" />Miami
+<br/><input type="radio" id="capitals" name="capitals" value="Tallahassee" />Tallahassee
+<br/><input type="radio" id="capitals" name="capitals" value="Fort Lauderdale" />Fort Lauderdale
+<br/><input type="radio" id="capitals" name="capitals" value="Daytona Beach" />Daytona Beach
+
      Game Name <input type="text" id="gName" name="gName" /><br/>
      Player Name<input type="text" id="playerName" name="playerName" /><br />
      <a href="javascript:javascript:joinPlayer();">Join Player</a>
