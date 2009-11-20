@@ -1,0 +1,12 @@
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\2ª Fase\iselpi\2 Parte\MinesweeperFlags\MinesweeperGUI\bin\MinesweeperGUI.dll
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\2ª Fase\iselpi\2 Parte\MinesweeperFlags\MinesweeperGUI\bin\MinesweeperGUI.pdb
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\2ª Fase\iselpi\2 Parte\MinesweeperFlags\MinesweeperGUI\bin\Minesweeper.dll
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\2ª Fase\iselpi\2 Parte\MinesweeperFlags\MinesweeperGUI\bin\MinesweeperHandler.dll
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\2ª Fase\iselpi\2 Parte\MinesweeperFlags\MinesweeperGUI\bin\JsonExSerializer.dll
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\2ª Fase\iselpi\2 Parte\MinesweeperFlags\MinesweeperGUI\bin\Minesweeper.pdb
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\2ª Fase\iselpi\2 Parte\MinesweeperFlags\MinesweeperGUI\bin\MinesweeperHandler.pdb
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\2ª Fase\iselpi\2 Parte\MinesweeperFlags\MinesweeperGUI\bin\JsonExSerializer.pdb
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\2ª Fase\iselpi\2 Parte\MinesweeperFlags\MinesweeperGUI\bin\JsonExSerializer.xml
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\2ª Fase\iselpi\2 Parte\MinesweeperFlags\MinesweeperGUI\obj\Debug\ResolveAssemblyReference.cache
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\2ª Fase\iselpi\2 Parte\MinesweeperFlags\MinesweeperGUI\obj\Debug\MinesweeperGUI.dll
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\2ª Fase\iselpi\2 Parte\MinesweeperFlags\MinesweeperGUI\obj\Debug\MinesweeperGUI.pdb

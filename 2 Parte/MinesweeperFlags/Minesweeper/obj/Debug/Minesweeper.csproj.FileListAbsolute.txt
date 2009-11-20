@@ -1,0 +1,5 @@
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\2ª Fase\iselpi\2 Parte\MinesweeperFlags\Minesweeper\bin\Debug\Minesweeper.dll
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\2ª Fase\iselpi\2 Parte\MinesweeperFlags\Minesweeper\bin\Debug\Minesweeper.pdb
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\2ª Fase\iselpi\2 Parte\MinesweeperFlags\Minesweeper\obj\Debug\ResolveAssemblyReference.cache
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\2ª Fase\iselpi\2 Parte\MinesweeperFlags\Minesweeper\obj\Debug\Minesweeper.dll
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\2ª Fase\iselpi\2 Parte\MinesweeperFlags\Minesweeper\obj\Debug\Minesweeper.pdb
