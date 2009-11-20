@@ -36,7 +36,7 @@
     }
 
     this.getJSonObject = function() {
-      return eval(xhr.responseText);
+      return eval( "(" + xhr.responseText + ")" );
     }
 
     this.getResponseText = function() { return xhr.responseText; }

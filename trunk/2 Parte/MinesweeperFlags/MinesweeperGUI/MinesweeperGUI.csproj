@@ -79,14 +79,13 @@
     <Content Include="Images\PlayerBoard.png" />
     <Content Include="Images\PlayerSeparator.png" />
     <Content Include="Images\ScoreBoard.png" />
-    <Content Include="MineSweeper.htm" />
+    <Content Include="MineSweeper2000&amp;Half.html" />
     <Content Include="Source\BoardMVC.js" />
     <Content Include="Source\Cell.js" />
     <Content Include="Source\Constants.js" />
     <Content Include="Source\GameMVC.js" />
     <Content Include="Source\HttpRequest.js" />
     <Content Include="Source\jquery-1.3.2.js" />
-    <Content Include="Source\main.css" />
     <Content Include="Source\mineSweeper.css" />
     <Content Include="Source\Player.js" />
     <Content Include="Web.config" />

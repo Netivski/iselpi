@@ -15,6 +15,18 @@
 	opacity: 0.5;
 }
 
+.divPlayerActive
+{
+	   -ms-filter rogid XImageTransform.Microsoft.Alpha(Opacity=30);
+	   opacity:1.0;/* CSS3 standard */
+}
+
+.divPlayerInactive
+        {
+	   /*-ms-filter rogid XImageTransform.Microsoft.Alpha(Opacity=30);*/
+	   opacity:0.0;/* CSS3 standard */
+	} 
+
 .divBackGround
 {	
 	position: static;
@@ -87,18 +99,6 @@
 	height: 76px;
 	border-bottom: solid 2px White;
 }
-
-.divPlayerActive
-{
-	   -ms-filter rogid XImageTransform.Microsoft.Alpha(Opacity=30);
-	   opacity:1.0;/* CSS3 standard */
-}
-
-.divPlayerInactive
-        {
-	   /*-ms-filter rogid XImageTransform.Microsoft.Alpha(Opacity=30);*/
-	   opacity:0.0;/* CSS3 standard */
-	} 
 
 .divBackGround .divPlayerBoard .divPlayer .divPlayerPicture
 {
@@ -257,7 +257,6 @@
 	left: 600px;
 	top: 200px;	
 	width: 240px;
-	height: 122px;	
 	text-align: center;
 	display:none;
 }
@@ -288,7 +287,8 @@
 	float: left;
 	position: relative;
 	left: 0px;
-	top: 0px;
+	margin-top: 3px;
+	background-color : Red;
 	width: 240px;
 	height: 35px;	
 }
@@ -297,8 +297,10 @@
 	float: left;
 	position: relative;
 	top: 6px;
+	left : 3px;
 	width: 120px;
 	background-color:#fff8c6;
+	text-align : center;
 	font-family: Verdana;
 	font-size: 15;	
 }
@@ -313,6 +315,30 @@
 	top: 2px;
 	width: 50px;
 	height: 30px;
+}
+.divBackGround .divOptions .divGameForm
+{
+	float: left;
+	position: relative;
+	background-color : Orange;
+	font-family : Verdana;
+	color : Red;
+	text-align : center;
+	margin-top: 3px;
+	padding-top: 3px;
+	width: 240px;
+	height: 50px;	
+}
+.divBackGround .divOptions .divGameForm input
+{
+	position: relative;
+	top: 3px;
+	left : 60;
+	width: 120px;
+	background-color:#fff8c6;
+	text-align: center;
+	font-family: Verdana;
+	font-size: 15;	
 }
 .divBackGround .divMessageBoard
 {
