@@ -47,8 +47,8 @@ namespace MinesweeperHandler
                 case "CreateGame":
                     CreateGame();
                     break;
-                case "JoinPlayer":
-                    JoinPlayer();
+                case "AddPlayer":
+                    AddPlayer();
                     break;
                 case "StartGame":
                     StartGame();
@@ -122,13 +122,12 @@ namespace MinesweeperHandler
             Response.Write(CurrentGame.Start());
         }
 
-        protected void JoinPlayer()
+        protected void AddPlayer()
         {
             JSONPlayer player;
             player.GameName   = Request["gName"];
             player.PlayerName = Request["playerName"];
-            player.PlayerId   = CurrentGame.JoinPlayer(player.PlayerName);
-
+            player.PlayerId   = CurrentGame.AddPlayer(player.PlayerName);
 
             Response.Write(Utils.JSon.Serialize<JSONPlayer>(player));
         }
