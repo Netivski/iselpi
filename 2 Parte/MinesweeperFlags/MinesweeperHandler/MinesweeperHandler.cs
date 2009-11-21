@@ -95,9 +95,9 @@ namespace MinesweeperHandler
         }
 
         protected void RefreshPlayerBoard()
-        {
+        {            
             List<Player> rObj = CurrentGame.GetRefreshPlayer(Generic.GetInt(Request["playerId"]));
-            Response.Write(JSon.Serialize<List<Player>>(rObj));
+            Response.Write(JSon.Serialize<List<Player>>(rObj));         
         }
 
         protected void RefreshCell()
@@ -126,13 +126,25 @@ namespace MinesweeperHandler
 
         protected void AddPlayer()
         {
-            JSONPlayer player;
-            player.GameName   = Request["gName"];
-            player.PlayerName = Request["playerName"];
-            player.PlayerId   = CurrentGame.AddPlayer(player.PlayerName);
-            player.active = 1;
-            player.score = 0;
-            Response.Write(Utils.JSon.Serialize<JSONPlayer>(player));
+            //JSONPlayer player;
+            //player.GameName   = Request["gName"];
+            //player.PlayerName = Request["playerName"];
+            //player.PlayerId   = CurrentGame.AddPlayer(player.PlayerName);
+            //player.active = 1;
+            //player.score = 0;
+            //Response.Write(Utils.JSon.Serialize<JSONPlayer>(player));
+
+            //ALterado por NS
+
+            JSONGame game;
+            game.GameName = Request["gName"];
+            game.activePlayer = 0;
+            game.callingPlayer = CurrentGame.AddPlayer(Request["playerName"]);
+            game.minesLeft = CurrentGame.MinesLeft;
+            game.gStatus = GameStatus.WAITING_FOR_PLAYERS;
+
+            Response.Write(Utils.JSon.Serialize<JSONGame>(game));
+
         }
 
         protected void CreateGame()

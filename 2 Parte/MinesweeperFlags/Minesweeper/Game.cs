@@ -69,7 +69,7 @@ namespace Minesweeper
                     if (p != null)
                     {
                         p.RefreshAddPlayer(player);
-                        if (p.Id!=player.Id)
+                        if (p.Id != player.Id)
                             player.RefreshAddPlayer(p);
                     }
                 }
@@ -111,7 +111,7 @@ namespace Minesweeper
         {
             List<Player> d = players[playerId - 1].GetRefreshPlayer();
             players[playerId - 1].ResetRefreshPlayer();
-            return d;
+            return d;            
         }
 
         public bool Play(int playerId)
