@@ -7,19 +7,21 @@ namespace Minesweeper
     {
         int id;
         string name;
-        int    points;
-        Dictionary<int, Cell> refreshCell;
+        int points;
+        List<Cell> refreshCell;
+        List<Player> refreshPlayer;
 
-        public Player( int id, string name )
+        public Player(int id, string name)
         {
             this.id = id;
-            this.name   = name;
-            refreshCell = new Dictionary<int, Cell>();
+            this.name = name;
+            refreshCell = new List<Cell>();
+            refreshPlayer = new List<Player>();
         }
 
         public int Id
         {
-            get { return id;  }
+            get { return id; }
             set { id = value; }
         }
 
@@ -41,14 +43,29 @@ namespace Minesweeper
             set { points = value; }
         }
 
-        public Dictionary<int, Cell> GetRefreshCell()
+        public void RefreshAddPlayer(Player p)
+        {
+            refreshPlayer.Add(p);
+        }
+
+        public List<Player> GetRefreshPlayer()
+        {
+            return new List<Player>(refreshPlayer);
+        }
+
+        public void ResetRefreshPlayer()
+        {
+            refreshPlayer.Clear();
+        }
+
+        public List<Cell> GetRefreshCell()
         {
             return refreshCell;
         }
 
         public void ResetRefreshCell()
         {
-            refreshCell = new Dictionary<int, Cell>();
+            refreshCell = new List<Cell>();
         }
 
     }

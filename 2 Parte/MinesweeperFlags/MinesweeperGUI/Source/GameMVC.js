@@ -53,6 +53,7 @@ GameController.init = function() {
 
     Cell.init();
     Board.init();
+    Player.init();
 
     GameView.renderOptions();
 
@@ -63,21 +64,31 @@ GameController.init = function() {
     var poolingActive = false;
 
     var pooling = function() {
+        if (!poolingActive) return;
         try {
 
-            //<RefreshCell>        Get Cell 2 Refresh
-            //<RefreshPlayerBoard> Get Counters
-            //<RefreshGameOver> Get GameOver
+            var req = new HttpRequest("RefreshPlayerBoard", GameModel.getGameName(),
+                 GameModel.getPlayerName(), GameModel.getPlayerId());
+            req.Request();
+            var player = req.getJSonObject();
+            for (var i=0 ; i<player.length ; i++){
+                Player.renderNew(player[i].Id, player[i].Name);
+            }
+            poolingActive = false;
         }
-        finally { if (poolingActive) setTimeout("doWork()", 1000); }
+        finally { if (poolingActive) setTimeout("GameController.doWork()", 1000); }
     }
 
-    this.StartPooling = function() {
+    this.doWork = function() {
+        pooling();
+    }
+
+    this.startPooling = function() {
         poolingActive = true;
         pooling();
     }
 
-    this.StopPooling = function() {
+    this.stopPooling = function() {
         poolingActive = false;
     }
 
@@ -128,7 +139,7 @@ GameController.init = function() {
     this.evtProceedToGame = function() {
         if (!validateInputs()) return;
 
-        var handler = (GameView.isNewGame() ? "CreateGame" : "AddPlayer");
+        var handler = GameView.isNewGame() ? "CreateGame" : "AddPlayer";
         try {
             var req = new HttpRequest(handler, GameView.getGameName(), GameView.getPlayerName(), 0);
             req.Request();
@@ -142,6 +153,7 @@ GameController.init = function() {
             GameModel.setGameName(game.GameName);
             GameModel.setPlayerName(GameView.getPlayerName());
             GameModel.setPlayerId(game.callingPlayer);
+            GameController.sendMessage("Game '" + game.GameName + "' created!");
             Board.init(LINES, COLS);
 
             //Requisitos:
@@ -150,6 +162,8 @@ GameController.init = function() {
 
             GameView.hideOptions();
             GameView.renderBoard();
+            GameView.renderMinesLeft(game.minesLeft);
+            this.startPooling();
             if (GameModel.getPlayerId() == 1) {
                 //Neste caso mostra o botão de "Start Game"
 
@@ -263,7 +277,7 @@ GameView.init = function() {
 
     // --------------------------------
     // Player Form
-    
+
     this.renderPlayerForm = function() {
         var formDiv = $("<div/>").addClass("divInputName").attr("id", "addPlayerForm").css("display", "none").attr("valign", "middle");
         $("<input/>").attr("id", "playerNameInput").attr("maxLength", "10").appendTo(formDiv);
@@ -355,7 +369,7 @@ GameView.init = function() {
     // --------------------------------
     //State interrogations
 
-    this.isNewGame = function() { $(".divGamesForm").css("display") == "block"; }
+    this.isNewGame = function() { return ($(".divGamesList").css("display") == "none"); }
 
 
     // --------------------------------

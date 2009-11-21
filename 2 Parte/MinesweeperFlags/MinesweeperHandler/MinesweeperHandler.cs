@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Web;
 using System.IO;
 using MinesweeperHandler.Proxy;
+using MinesweeperHandler.Utils;
 using Minesweeper;
 
 namespace MinesweeperHandler
@@ -95,16 +96,16 @@ namespace MinesweeperHandler
 
         protected void RefreshPlayerBoard()
         {
-            throw new NotImplementedException();
+            List<Player> rObj = CurrentGame.GetRefreshPlayer(Generic.GetInt(Request["playerId"]));
+            Response.Write(JSon.Serialize<List<Player>>(rObj));
         }
 
         protected void RefreshCell()
         {
-            Dictionary<int, Cell>  rObj = CurrentGame.GetRefreshCell(Utils.Generic.GetInt(Request["playerId"]));
+            List<Cell>  rObj = CurrentGame.GetRefreshCell(Utils.Generic.GetInt(Request["playerId"]));
             Cell c = new CellMine(1,1);
             c.Owner = CurrentGame.GetPlayer( Utils.Generic.GetInt(Request["playerId"]) );
-            rObj.Add(1, c); 
-            Response.Write(Utils.JSon.Serialize<Dictionary<int, Cell>>(rObj));
+            Response.Write(Utils.JSon.Serialize<List<Cell>>(rObj));
         }
 
         protected void Play()
@@ -143,20 +144,14 @@ namespace MinesweeperHandler
             game.minesLeft = 0;
             game.gStatus = GameStatus.INVALID;
             
-            if (GameManager.Current.CreateGame(game.GameName, Request["playerName"]))
+            if (Minesweeper.GameManager.Current.CreateGame(game.GameName, Request["playerName"]))
             {
                 game.gStatus = GameStatus.WAITING_FOR_PLAYERS;
-                game.minesLeft = GameManager.Current[game.GameName].MinesLeft;
+                game.minesLeft = CurrentGame.MinesLeft;
                 game.callingPlayer = 1;
             }
 
             Response.Write(Utils.JSon.Serialize<JSONGame>(game));
-
-            //JSONPlayer player;
-            //player.GameName   = Request["gName"];
-            //player.PlayerName = Request["playerName"];
-            //player.PlayerId   = Minesweeper.GameManager.Current.CreateGame(player.GameName, player.PlayerName)? 1: ~0;
-            //Response.Write(Utils.JSon.Serialize<JSONPlayer>(player));
         }
     }
 }

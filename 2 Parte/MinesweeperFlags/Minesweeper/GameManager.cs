@@ -22,7 +22,15 @@ namespace Minesweeper
 
         public static GameManager Current;
 
-        public Game this[string name] { get { return games[name]; } }
+        public Game this[string name]
+        {
+            get
+            {
+                if (games.ContainsKey(name))
+                    return games[name];
+                return null;
+            }
+        }
 
         public bool CreateGame(string gameName, string playerName)
         {
