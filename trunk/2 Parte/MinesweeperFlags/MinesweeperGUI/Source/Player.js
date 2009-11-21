@@ -24,7 +24,7 @@ Player.init = function()
 				((playerDiv.append(picDiv)).append(flagDiv).append(scoreDiv));
 				(playerDiv.append(nameDiv)).append(quitDiv);
 				
-				jQuery(parentElem).append(playerDiv);
+				playerDiv.appendTo($("."+PL_CLASS));
 			}
 		
 		this.incScore = function(pNum) { setScore(pNum,this.getScore(pNum)*1+1); }
