@@ -51,11 +51,14 @@ namespace MinesweeperHandler
                 case "AddPlayer":
                     AddPlayer();
                     break;
+                case "RemovePlayer":
+                    RemovePlayer();
+                    break;
                 case "StartGame":
                     StartGame();
                     break;
-                case "RemovePlayer":
-                    RemovePlayer();
+                case "JoinGame":
+                    JoinGame();
                     break;
                 case "Play":
                     Play();
@@ -124,6 +127,18 @@ namespace MinesweeperHandler
                 //Response.Write("[{'A':2}]");
         }
 
+        private JSONGame GetJSONGame(String gName)
+        {
+            JSONGame game;
+            game.GameName = Request["gName"];
+            game.activePlayer = 0;
+            game.callingPlayer = 0;
+            game.minesLeft = 0;
+            game.gStatus = GameStatus.INVALID_NAME;
+
+            return game;
+        }
+
         protected void AddPlayer()
         {
             //JSONPlayer player;
@@ -147,22 +162,29 @@ namespace MinesweeperHandler
 
         }
 
+        protected void JoinGame()
+        {
+            JSONGame game = GetJSONGame(Request["gName"]);
+            if (CurrentGame != null)
+            {
+                game.callingPlayer = CurrentGame.AddPlayer(Request["playerName"]);
+                game.gStatus = (game.callingPlayer == ~0 ?
+                    GameStatus.CROWDED : CurrentGame.Status);
+                game.minesLeft = CurrentGame.MinesLeft;
+            }
+            Response.Write(Utils.JSon.Serialize<JSONGame>(game));
+        }
+
         protected void CreateGame()
         {
-            JSONGame game;
-            game.GameName = Request["gName"];
-            game.activePlayer = 0;
-            game.callingPlayer = 0;
-            game.minesLeft = 0;
-            game.gStatus = GameStatus.INVALID;
-            
+            JSONGame game = GetJSONGame(Request["gName"]);
+
             if (Minesweeper.GameManager.Current.CreateGame(game.GameName, Request["playerName"]))
             {
                 game.gStatus = GameStatus.WAITING_FOR_PLAYERS;
                 game.minesLeft = CurrentGame.MinesLeft;
                 game.callingPlayer = 1;
             }
-
             Response.Write(Utils.JSon.Serialize<JSONGame>(game));
         }
     }
