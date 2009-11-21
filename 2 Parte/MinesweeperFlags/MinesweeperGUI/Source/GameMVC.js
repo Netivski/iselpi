@@ -70,13 +70,12 @@ GameController.init = function() {
             var req = new HttpRequest("RefreshPlayerBoard", GameModel.getGameName(),
                  GameModel.getPlayerName(), GameModel.getPlayerId());
             req.Request();
-            alert(req);
-            var player = req.getJSonObject();            
-            for (var i=0 ; i<player.length ; i++){
-                Player.renderNew(player[i].Id, player[i].Name);
+            if (req != "") {
+                var player = req.getJSonObject();
+                for (var i = 0; i < player.length; i++) {
+                    Player.renderNew(player[i].Id, player[i].Name);
+                }
             }
-            
-            poolingActive = false;
         }
         finally { if (poolingActive) setTimeout("GameController.doWork()", 1000); }
     }
@@ -141,26 +140,31 @@ GameController.init = function() {
     this.evtProceedToGame = function() {
         if (!validateInputs()) return;
 
-        var handler = GameView.isNewGame() ? "CreateGame" : "AddPlayer";
+        var handler = GameView.isNewGame() ? "CreateGame" : "JoinGame";
+
         try {
             var req = new HttpRequest(handler, GameView.getGameName(), GameView.getPlayerName(), 0);
             req.Request();
             var game = req.getJSonObject();
         } catch (e) { alert(e); }
-        if (game.gStatus == GAME_INVALID) {
-            this.sendMessage("Game named '" + game.GameName + "' already exists!");
+
+        if (game.gStatus == INVALID_NAME) {
+            //this.sendMessage("Game named '" + game.GameName + "' alrerady exists!");
+            this.sendMessage("Game named '" + game.GameName + "' " +
+                        (handler == "CreateGame" ? "already exists!" : "doesn't exist!"));
             GameView.setFocusGameName();
+        }
+        else if (game.gStatus == CROWDED) {
+            this.sendMessage("Too many players on game '" + game.GameName + "' !");
+            GameView.setFocusPlayerName();
         }
         else {
             GameModel.setGameName(game.GameName);
             GameModel.setPlayerName(GameView.getPlayerName());
             GameModel.setPlayerId(game.callingPlayer);
-            GameController.sendMessage("Game '" + game.GameName + "' created!");
+            this.sendMessage("Game '" + game.GameName + "' " +
+                        (handler == "CreateGame" ? "created" : "joined") + "!");
             Board.init(LINES, COLS);
-
-            //Requisitos:
-            // JSon devolvido após criar um jogo tem que ter:
-            //      Cols, Lines, MinesLeft
 
             GameView.hideOptions();
             GameView.renderBoard();
@@ -173,11 +177,6 @@ GameController.init = function() {
             else {
                 //Neste caso mostra algo que indique "Waiting for game to start..."
             }
-
-            //            GameView.renderMinesLeft(BoardModel.getMinesLeft());
-            //            Player.start(GameModel.getRegisteredPlayers());
-            //            Player.activatePlayer(GameModel.getCurrPlayer(), GameModel.getRegisteredPlayers());
-            //            BoardController.start();
         }
     }
 

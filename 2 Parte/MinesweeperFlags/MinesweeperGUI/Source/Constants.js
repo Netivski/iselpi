@@ -7,7 +7,11 @@
 	var LINES = 20;
 	var TOTAL_MINES = 51;
 
-	var GAME_INVALID = 0x03;
+	var WAITING_FOR_PLAYERS = 0;
+	var WAITING_FOR_START = 1;
+	var STARTED = 2;
+	var INVALID_NAME = 3;
+	var CROWDED = 4;
 
 // CSS board
 // ---------------------------
