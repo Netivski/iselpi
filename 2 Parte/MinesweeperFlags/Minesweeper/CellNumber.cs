@@ -6,7 +6,7 @@ namespace Minesweeper
     {
         int value;
 
-        public CellNumber(): base( CellType.Number) 
+        public CellNumber(int posX, int posY): base(CellType.Number , posX , posY) 
         {
             value = 0;
         }

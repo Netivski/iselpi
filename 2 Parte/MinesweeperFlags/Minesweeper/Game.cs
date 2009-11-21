@@ -14,6 +14,8 @@ namespace Minesweeper
         Player[]                 players;
         int                      playersCount;
         Cell[,]                  cells;
+        int                      _lines;
+        int                      _cols;
         int                      currentPlayer;
         int                      totalMines;
         int                      minesLeft;
@@ -26,7 +28,7 @@ namespace Minesweeper
             cells         = new Cell[rows, cols];
             playersCount  = 0;
             currentPlayer = 0;
-            AddPlayer(playerName); //Owner
+            AddPlayer(playerName); //Owner (id = 1)
         }
 
         private int calcMines()
@@ -47,6 +49,11 @@ namespace Minesweeper
             get { return name;  }
         }
 
+        public int MinesLeft
+        {
+            get { return minesLeft; }
+        }
+
         public GameStatus Status
         {
             get { return sStatus; }
@@ -54,23 +61,34 @@ namespace Minesweeper
 
         public int AddPlayer( string name )
         {
-            Player player = new Player(playersCount, name);
-            players[ playersCount++ ] = player ;
-            return playersCount;
+            if (playersCount < MAX_PLAYERS)
+            {
+                Player player = new Player(playersCount, name);
+                players[ playersCount++ ] = player ;
+                return playersCount;
+            }
+            return ~0;
         }
 
         public void RemovePlayer( int id )
         {
-            //Falta o AI JASUS!!!
-
-            players[id] = null;
+            players[--id] = null;
         }
 
         public bool Start()
         {
             if ( playersCount  < 2 ) return false;
 
-            //Cria as cel
+            for (int i = 0; i < _cols; i++)
+            {
+                for (int j = 0; j < _lines; j++)
+                {
+                    if (cells[i, j] != null)
+                    {
+                        cells[i, j] = new CellNumber(i, j);
+                    }
+                }
+            }
             sStatus = GameStatus.STARTED;
 
             return true;
@@ -95,23 +113,23 @@ namespace Minesweeper
             return sRef;
         }
 
-        private bool[] genMinesPos()
+        private void genMinesPos()
         {
             int cont = 0;
-            bool[] _minesPos = new bool[totalMines];
 
-            Random rNum = new Random();
+            Random rLine = new Random();
+            Random rCol = new Random();
 
             while (cont < totalMines)
             {
-                int n = rNum.Next(cont, totalMines - 1);
-                if (!_minesPos[n])
+                int x = rCol.Next(0, _cols - 1);
+                int y = rLine.Next(0, _lines - 1);
+                if (cells[x,y] == null)
                 {
-                    _minesPos[n] = true;
+                    cells[x, y] = new CellMine(x, y);
                     cont++;
                 }
             }
-            return _minesPos;
         }
 
     }

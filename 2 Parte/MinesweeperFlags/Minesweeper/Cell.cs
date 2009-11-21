@@ -5,13 +5,17 @@ namespace Minesweeper
     public abstract class Cell
     {
         CellType type;
-        bool     hidden;
-        Player   owner  = null; 
+        bool hidden;
+        Player owner  = null;
+        int _posX;
+        int _posY;
 
-        public Cell(CellType type)
+        public Cell(CellType type, int posX, int posY)
         {
             this.type = type;
             hidden    = true;
+            _posX = posX;
+            _posY = posY;
         }
 
         public CellType Type
