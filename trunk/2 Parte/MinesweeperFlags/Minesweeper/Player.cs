@@ -50,12 +50,12 @@ namespace Minesweeper
 
         public List<Player> GetRefreshPlayer()
         {
-            return new List<Player>(refreshPlayer);
+            return new List<Player>(refreshPlayer);            
         }
 
         public void ResetRefreshPlayer()
         {
-            refreshPlayer.Clear();
+            refreshPlayer.Clear();            
         }
 
         public List<Cell> GetRefreshCell()

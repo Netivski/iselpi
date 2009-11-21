@@ -70,10 +70,12 @@ GameController.init = function() {
             var req = new HttpRequest("RefreshPlayerBoard", GameModel.getGameName(),
                  GameModel.getPlayerName(), GameModel.getPlayerId());
             req.Request();
-            var player = req.getJSonObject();
+            alert(req);
+            var player = req.getJSonObject();            
             for (var i=0 ; i<player.length ; i++){
                 Player.renderNew(player[i].Id, player[i].Name);
             }
+            
             poolingActive = false;
         }
         finally { if (poolingActive) setTimeout("GameController.doWork()", 1000); }
