@@ -128,20 +128,20 @@ GameController.init = function() {
     this.evtProceedToGame = function() {
         if (!validateInputs()) return;
 
-        var handler = (GameView.isNewGame() ? "CreateGame" : "JoinPlayer");
+        var handler = (GameView.isNewGame() ? "CreateGame" : "AddPlayer");
         try {
             var req = new HttpRequest(handler, GameView.getGameName(), GameView.getPlayerName(), 0);
             req.Request();
-            var result = req.getJSonObject();
+            var game = req.getJSonObject();
         } catch (e) { alert(e); }
-        if (result.PlayerId == -1) {
-            this.sendMessage("Game named '" + result.GameName + "' already exists!");
+        if (game.gStatus == GAME_INVALID) {
+            this.sendMessage("Game named '" + game.GameName + "' already exists!");
             GameView.setFocusGameName();
         }
         else {
-            GameModel.setGameName(result.GameName);
-            GameModel.setPlayerName(result.PlayerName);
-            GameModel.setPlayerId(result.PlayerId);
+            GameModel.setGameName(game.GameName);
+            GameModel.setPlayerName(GameView.getPlayerName());
+            GameModel.setPlayerId(game.callingPlayer);
             Board.init(LINES, COLS);
 
             //Requisitos:

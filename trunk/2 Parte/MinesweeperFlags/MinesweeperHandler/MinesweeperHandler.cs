@@ -101,7 +101,7 @@ namespace MinesweeperHandler
         protected void RefreshCell()
         {
             Dictionary<int, Cell>  rObj = CurrentGame.GetRefreshCell(Utils.Generic.GetInt(Request["playerId"]));
-            Cell c = new CellMine();
+            Cell c = new CellMine(1,1);
             c.Owner = CurrentGame.GetPlayer( Utils.Generic.GetInt(Request["playerId"]) );
             rObj.Add(1, c); 
             Response.Write(Utils.JSon.Serialize<Dictionary<int, Cell>>(rObj));
@@ -119,7 +119,8 @@ namespace MinesweeperHandler
 
         protected void StartGame()
         {
-            Response.Write(CurrentGame.Start());
+            //if (CurrentGame.Start())
+                //Response.Write("[{'A':2}]");
         }
 
         protected void AddPlayer()
@@ -128,18 +129,34 @@ namespace MinesweeperHandler
             player.GameName   = Request["gName"];
             player.PlayerName = Request["playerName"];
             player.PlayerId   = CurrentGame.AddPlayer(player.PlayerName);
-
+            player.active = 1;
+            player.score = 0;
             Response.Write(Utils.JSon.Serialize<JSONPlayer>(player));
         }
 
         protected void CreateGame()
         {
-            JSONPlayer player;
-            player.GameName   = Request["gName"];
-            player.PlayerName = Request["playerName"];
-            player.PlayerId   = Minesweeper.GameManager.Current.CreateGame(player.GameName, player.PlayerName)? 1: ~0;
+            JSONGame game;
+            game.GameName = Request["gName"];
+            game.activePlayer = 0;
+            game.callingPlayer = 0;
+            game.minesLeft = 0;
+            game.gStatus = GameStatus.INVALID;
+            
+            if (GameManager.Current.CreateGame(game.GameName, Request["playerName"]))
+            {
+                game.gStatus = GameStatus.WAITING_FOR_PLAYERS;
+                game.minesLeft = GameManager.Current[game.GameName].MinesLeft;
+                game.callingPlayer = 1;
+            }
 
-            Response.Write(Utils.JSon.Serialize<JSONPlayer>(player));
+            Response.Write(Utils.JSon.Serialize<JSONGame>(game));
+
+            //JSONPlayer player;
+            //player.GameName   = Request["gName"];
+            //player.PlayerName = Request["playerName"];
+            //player.PlayerId   = Minesweeper.GameManager.Current.CreateGame(player.GameName, player.PlayerName)? 1: ~0;
+            //Response.Write(Utils.JSon.Serialize<JSONPlayer>(player));
         }
     }
 }

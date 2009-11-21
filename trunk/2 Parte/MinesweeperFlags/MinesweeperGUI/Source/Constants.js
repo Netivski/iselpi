@@ -7,6 +7,8 @@
 	var LINES = 20;
 	var TOTAL_MINES = 51;
 
+	var GAME_INVALID = 0x03;
+
 // CSS board
 // ---------------------------
 
