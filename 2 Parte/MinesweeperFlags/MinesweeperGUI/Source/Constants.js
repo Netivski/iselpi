@@ -12,6 +12,7 @@
 	var STARTED = 2;
 	var INVALID_NAME = 3;
 	var CROWDED = 4;
+	var GAME_OVER = 5;
 
 // CSS board
 // ---------------------------

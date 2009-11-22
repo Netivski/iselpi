@@ -28,7 +28,6 @@ this.getLines = function() { return BoardModel.getLines(); }
 this.getCols = function() { return BoardModel.getCols(); }
 
 this.start = function() {
-        var minePos = this.genMinesPos();
         for (var i = 0; i < this.getLines(); i++) {
             for (var j = 0; j < this.getCols(); j++) {
                 var idx = (this.getCols() * i) + j;
@@ -55,7 +54,7 @@ BoardView.init = function() {
                 for (var j = 0; j < BoardController.getCols(); j++) {
                     var idx = (BoardController.getCols() * i) + j;
                     var newCell = Cell.create(undefined, j, i);
-                    parentElem.appendChild(newCell);
+                    jQuery(newCell).appendTo($("." + BOARD_CLASS));
                 }
             }
         }
@@ -64,6 +63,7 @@ BoardView.init = function() {
             if (posX >= BoardController.getCols() || posY >= BoardController.getLines() || posX < 0 || posY < 0)
                 return null;
             return document.getElementById("" + posX + "," + posY + "");
+            return $("#" + posX + "," + posY);
         }
     }
 }

@@ -8,7 +8,7 @@ using Minesweeper;
 
 namespace MinesweeperHandler
 {
-    public class MinesweeperHandler: IHttpHandler
+    public class MinesweeperHandler : IHttpHandler
     {
         HttpContext ctx = null;
 
@@ -17,9 +17,9 @@ namespace MinesweeperHandler
             get { return true; }
         }
 
-        protected HttpRequest       Request  { get { return ctx.Request; } }
-        protected HttpResponse      Response { get { return ctx.Response; } }
-        protected HttpServerUtility Server   { get { return ctx.Server; } }
+        protected HttpRequest Request { get { return ctx.Request; } }
+        protected HttpResponse Response { get { return ctx.Response; } }
+        protected HttpServerUtility Server { get { return ctx.Server; } }
 
 
         protected Game CurrentGame
@@ -30,7 +30,8 @@ namespace MinesweeperHandler
 
         public void ProcessRequest(HttpContext context)
         {
-            if (context == null) throw new ArgumentNullException("context");
+            if (context == null) 
+                throw new ArgumentNullException("context");
             ctx = context;
 
             //Virtual Resource
@@ -39,26 +40,17 @@ namespace MinesweeperHandler
                 case "ListActiveGames":
                     ListActiveGames();
                     break;
-                case "CreateGameForm":
-                    CreateGameForm();
-                    break;
-                case "JoinPlayerForm":
-                    JoinPlayerForm();
+                case "RemovePlayer":
+                    RemovePlayer();
                     break;
                 case "CreateGame":
                     CreateGame();
                     break;
-                case "AddPlayer":
-                    AddPlayer();
-                    break;
-                case "RemovePlayer":
-                    RemovePlayer();
+                case "JoinGame":
+                    JoinGame();
                     break;
                 case "StartGame":
                     StartGame();
-                    break;
-                case "JoinGame":
-                    JoinGame();
                     break;
                 case "Play":
                     Play();
@@ -69,25 +61,29 @@ namespace MinesweeperHandler
                 case "RefreshPlayerBoard":
                     RefreshPlayerBoard();
                     break;
-                case "RefreshGameOver":
-                    RefreshGameOver();
+                case "RefreshGameInfo":
+                    RefreshGameInfo();
                     break;
                 default:
                     throw new ApplicationException("Invalid Handler Name");
             }
         }
 
-        private void RefreshGameOver()
+        protected void RefreshPlayerBoard()
         {
-            throw new NotImplementedException();
+            List<Player> rObj = CurrentGame.GetRefreshPlayer(Generic.GetInt(Request["playerId"]));
+            Response.Write(JSon.Serialize<List<Player>>(rObj));
         }
 
-        protected void JoinPlayerForm()
+        protected void RefreshCell()
         {
-            throw new NotImplementedException();
+            List<Cell> rObj = CurrentGame.GetRefreshCell(Utils.Generic.GetInt(Request["playerId"]));
+            Cell c = new CellMine(1, 1);
+            c.Owner = CurrentGame.GetPlayer(Utils.Generic.GetInt(Request["playerId"]));
+            Response.Write(Utils.JSon.Serialize<List<Cell>>(rObj));
         }
 
-        protected void CreateGameForm()
+        private void RefreshGameInfo()
         {
             throw new NotImplementedException();
         }
@@ -97,69 +93,35 @@ namespace MinesweeperHandler
             Response.Write(Utils.JSon.Serialize<List<string>>(Minesweeper.GameManager.Current.GetActiveGames()));
         }
 
-        protected void RefreshPlayerBoard()
-        {            
-            List<Player> rObj = CurrentGame.GetRefreshPlayer(Generic.GetInt(Request["playerId"]));
-            Response.Write(JSon.Serialize<List<Player>>(rObj));         
-        }
-
-        protected void RefreshCell()
-        {
-            List<Cell>  rObj = CurrentGame.GetRefreshCell(Utils.Generic.GetInt(Request["playerId"]));
-            Cell c = new CellMine(1,1);
-            c.Owner = CurrentGame.GetPlayer( Utils.Generic.GetInt(Request["playerId"]) );
-            Response.Write(Utils.JSon.Serialize<List<Cell>>(rObj));
-        }
-
         protected void Play()
         {
-            throw new NotImplementedException();
+            //Play receives gameName, playerId, posX, posY
+            //CurrentGame.Play(Generic.GetInt(Request["playerId"]));
+                //, Generic.GetInt(Request["posX"]), Generic.GetInt(Request["posY"]));
         }
 
         protected void RemovePlayer()
         {
-            throw new NotImplementedException();
-        }
+            //Removes player from game
 
-        protected void StartGame()
-        {
-            //if (CurrentGame.Start())
-                //Response.Write("[{'A':2}]");
+            //Players must have a structure that keeps id's of removed players
+
+            //When pooling occurs on client-side information about who quit and
+            //game over are transmited
+
+            //CurrentGame.RemovePlayer(Generic.GetInt(Request["playerId"]));
         }
 
         private JSONGame GetJSONGame(String gName)
         {
             JSONGame game;
-            game.GameName = Request["gName"];
+            game.GameName = gName;
             game.activePlayer = 0;
             game.callingPlayer = 0;
             game.minesLeft = 0;
             game.gStatus = GameStatus.INVALID_NAME;
 
             return game;
-        }
-
-        protected void AddPlayer()
-        {
-            //JSONPlayer player;
-            //player.GameName   = Request["gName"];
-            //player.PlayerName = Request["playerName"];
-            //player.PlayerId   = CurrentGame.AddPlayer(player.PlayerName);
-            //player.active = 1;
-            //player.score = 0;
-            //Response.Write(Utils.JSon.Serialize<JSONPlayer>(player));
-
-            //ALterado por NS
-
-            JSONGame game;
-            game.GameName = Request["gName"];
-            game.activePlayer = 0;
-            game.callingPlayer = CurrentGame.AddPlayer(Request["playerName"]);
-            game.minesLeft = CurrentGame.MinesLeft;
-            game.gStatus = GameStatus.WAITING_FOR_PLAYERS;
-
-            Response.Write(Utils.JSon.Serialize<JSONGame>(game));
-
         }
 
         protected void JoinGame()
@@ -186,6 +148,24 @@ namespace MinesweeperHandler
                 game.callingPlayer = 1;
             }
             Response.Write(Utils.JSon.Serialize<JSONGame>(game));
+        }
+
+        protected void StartGame()
+        {
+            JSONGame game = GetJSONGame(Request["gName"]);
+            //if (CurrentGame.Start())
+            //{
+            //    game.gStatus = CurrentGame.Status;
+
+            //    //game.activePlayer = CurrentGame.getActivePlayer();
+            //    game.activePlayer = 1;
+
+            //    game.callingPlayer = Generic.GetInt(Request["playerId"]);
+            //}
+            game.gStatus = GameStatus.STARTED;
+            game.callingPlayer = Generic.GetInt(Request["playerId"]);
+
+            Response.Write(JSon.Serialize<JSONGame>(game));
         }
     }
 }
