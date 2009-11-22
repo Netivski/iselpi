@@ -17,15 +17,15 @@
 
 .divPlayerActive
 {
-	   -ms-filter rogid XImageTransform.Microsoft.Alpha(Opacity=30);
-	   opacity:1.0;/* CSS3 standard */
+	   -ms-filter:rogid XImageTransform.Microsoft.Alpha(Opacity=30);
+	   opacity:1.0;
 }
 
 .divPlayerInactive
         {
-	   /*-ms-filter rogid XImageTransform.Microsoft.Alpha(Opacity=30);*/
-	   opacity:0.0;/* CSS3 standard */
+	   opacity:0.0;
 	} 
+	
 
 .divBackGround
 {	
@@ -274,7 +274,6 @@
 
 .divBackGround .divOptions button
 {
-	background-image: url(../Images/btnBackGround.png);
 	border: 0px;
 	text-align: center;	
 	font-family: Verdana;
