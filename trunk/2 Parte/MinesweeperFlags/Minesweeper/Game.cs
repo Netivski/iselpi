@@ -18,7 +18,7 @@ namespace Minesweeper
         int _cols;
         int _currentPlayer;
         int _totalMines;
-        int _minesLeft;        
+        int _minesLeft;
 
         public Game(string name, string playerName, int cols, int rows)
         {
@@ -46,16 +46,18 @@ namespace Minesweeper
             get { return _sStatus; }
         }
         public int CurrentPlayer { get { return _currentPlayer; } }
+
         public List<Player> GetRefreshPlayer(int playerId)
         {
             List<Player> d = _players[playerId - 1].GetRefreshPlayer();
             _players[playerId - 1].ResetRefreshPlayer();
             return d;
         }
+
         public List<Cell> GetRefreshCell(int playerId)
         {
-            List<Cell> sRef = _players[playerId].GetRefreshCell(); //sRef = Strong Reference
-            _players[playerId].ResetRefreshCell();
+            List<Cell> sRef = _players[playerId - 1].GetRefreshCell(); //sRef = Strong Reference
+            _players[playerId - 1].ResetRefreshCell();
             return sRef;
         }
 
@@ -65,22 +67,24 @@ namespace Minesweeper
                 return TOTAL_MINES + 1;
             return TOTAL_MINES;
         }
+
         private void reCalcMines()
         {
             if (_minesLeft % _playersCount == 0)
                 _totalMines -= 1;
         }
+
         private void genMinesPos()
         {
-            int cont = 0;
+            int cont = 0, x = 0, y = 0, absPos = 0;
 
-            Random rLine = new Random();
-            Random rCol = new Random();
+            Random rNum = new Random();
 
             while (cont < _totalMines)
             {
-                int x = rCol.Next(0, _cols - 1);
-                int y = rLine.Next(0, _lines - 1);
+                absPos = rNum.Next(0, (_cols * _lines) - 1);
+                x = (int)(absPos / _cols);
+                y = (int)(absPos % _cols);
                 if (_cells[x, y] == null)
                 {
                     _cells[x, y] = new CellMine(x, y);
@@ -88,6 +92,7 @@ namespace Minesweeper
                 }
             }
         }
+
         private void CalcValueCells()
         {
             //Calculates the value of each cell according to the mines already puted in the board
@@ -107,6 +112,7 @@ namespace Minesweeper
                 }
             }
         }
+
         private List<Cell> GetAdjacentCells(Cell cell)
         {
             List<Cell> retList = new List<Cell>();
@@ -123,10 +129,12 @@ namespace Minesweeper
             }
             return retList;
         }
+
         private bool isInBounds(int x, int y)
         {
             return x >= 0 && x < _cols && y >= 0 && y < _lines;
         }
+
         private void SetCurrentPlayer()
         {
             if (_sStatus != GameStatus.STARTED)
@@ -143,6 +151,7 @@ namespace Minesweeper
             }
             _players[_currentPlayer].Active = true;
         }
+
         private void CheckGameOver()
         {
             Player[] scoreArr = (Player[])_players.Clone();
@@ -150,6 +159,7 @@ namespace Minesweeper
             if (MinesLeft + scoreArr[1].Points < scoreArr[0].Points)
                 _sStatus = GameStatus.GAME_OVER;
         }
+
         private bool ProcessCellClicked(int playerID, int posX, int posY)
         {
             if (isInBounds(posX, posY)) //Sanity check
@@ -210,7 +220,7 @@ namespace Minesweeper
         {
             if (_playersCount < MAX_PLAYERS)
             {
-                Player player = new Player(_playersCount+1, name);
+                Player player = new Player(_playersCount + 1, name);
                 _players[_playersCount++] = player;
                 foreach (Player p in _players)
                 {
@@ -225,10 +235,12 @@ namespace Minesweeper
             }
             return ~0;
         }
+
         public void RemovePlayer(int id)
         {
             _players[--id] = null;
         }
+
         public bool Start()
         {
             if (_playersCount < 2) return false;
@@ -253,26 +265,29 @@ namespace Minesweeper
             CalcValueCells();
 
             //Sets the player to start the game
-            SetCurrentPlayer();            
+            SetCurrentPlayer();
 
             //When starting all players must update players information
             //Who is active and who is not
-            foreach (Player p in _players)
-            {
-                foreach (Player pl in _players)
-                {
-                    p.RefreshAddPlayer(pl);
-                }
-            }
+
+            //foreach (Player p in _players)
+            //{
+            //    foreach (Player pl in _players)
+            //    {
+            //        p.RefreshAddPlayer(pl);
+            //    }
+            //}
 
             _sStatus = GameStatus.STARTED;
 
             return true;
         }
+
         public Player GetPlayer(int playerId)
         {
             return _players[playerId];
-        }        
+        }
+
         public void Play(int playerID, int posX, int posY)
         {
             //ProcessCellClicked returns false if the player didn't hit a mine
