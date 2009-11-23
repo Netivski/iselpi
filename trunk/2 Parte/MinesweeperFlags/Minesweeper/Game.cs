@@ -64,13 +64,6 @@ namespace Minesweeper
             return sRef;
         }
 
-        public List<Game> GetRefreshGame(int playerId)
-        {
-            List<Game> sRef = _players[playerId - 1].GetRefreshGame();
-            _players[playerId - 1].ResetRefreshGame();
-            return sRef;
-        }
-
         private int calcMines()
         {
             if (TOTAL_MINES % _playersCount == 0)
@@ -181,15 +174,6 @@ namespace Minesweeper
                 {
                     Cell cell = _cells[posX, posY];
 
-                    ////This cell will certainly be for update in all players no matter what
-                    foreach (Player player in _players)
-                    {
-                        if (player != null)
-                        {
-                            player.RefreshAddCell(cell);
-                        }
-                    }
-
                     if (cell.Type == CellType.Mine)
                     {
                         //If is Mine, decrement minesLeft, increment player Points puts player to update
@@ -224,6 +208,15 @@ namespace Minesweeper
                                         ProcessCellClicked(playerID, c.PosX, c.PosY);
                                 }
                             }
+                        }
+                    }
+
+                    ////This cell will certainly be for update in all players no matter what
+                    foreach (Player player in _players)
+                    {
+                        if (player != null)
+                        {
+                            player.RefreshAddCell(cell);
                         }
                     }
                 }

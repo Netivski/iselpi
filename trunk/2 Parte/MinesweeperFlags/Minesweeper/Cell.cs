@@ -18,9 +18,15 @@ namespace Minesweeper
             _posY = posY;
         }
 
-        public int PosX { get { return _posX; } }
+        public int PosX {
+            get { return _posX; }
+            set { } 
+        }
 
-        public int PosY { get { return _posY; } }
+        public int PosY { 
+            get { return _posY; }
+            set { } 
+        }
 
         public CellType Type
         {
