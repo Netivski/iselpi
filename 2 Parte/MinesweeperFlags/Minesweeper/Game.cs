@@ -7,6 +7,7 @@ namespace Minesweeper
     public class Game
     {
         const int MAX_PLAYERS = 4;
+        const int MIN_PLAYERS = 2;
         const int TOTAL_MINES = 51;
 
         string _name;
@@ -37,30 +38,25 @@ namespace Minesweeper
         {
             get { return _name; }
         }
-
         public int MinesLeft
         {
             get { return _minesLeft; }
         }
-
         public GameStatus Status
         {
             get { return _sStatus; }
         }
-
         public int CurrentPlayer { get { return _currentPlayer; } }
-
         public List<Player> GetRefreshPlayer(int playerId)
         {
-            List<Player> d = _players[playerId - 1].GetRefreshPlayer();
-            _players[playerId - 1].ResetRefreshPlayer();
+            List<Player> d = _players[playerId].GetRefreshPlayer();
+            _players[playerId].ResetRefreshPlayer();
             return d;
         }
-
         public List<Cell> GetRefreshCell(int playerId)
         {
-            List<Cell> sRef = _players[playerId - 1].GetRefreshCell();
-            _players[playerId - 1].ResetRefreshCell();
+            List<Cell> sRef = _players[playerId].GetRefreshCell();
+            _players[playerId].ResetRefreshCell();
             return sRef;
         }
 
@@ -70,13 +66,11 @@ namespace Minesweeper
                 return TOTAL_MINES + 1;
             return TOTAL_MINES;
         }
-
         private void reCalcMines()
         {
             if (_minesLeft % _playersCount == 0)
                 _totalMines -= 1;
         }
-
         private void genMinesPos()
         {
             int cont = 0, x = 0, y = 0, absPos = 0;
@@ -95,7 +89,6 @@ namespace Minesweeper
                 }
             }
         }
-
         private void CalcValueCells()
         {
             //Calculates the value of each cell according to the mines already puted in the board
@@ -115,7 +108,6 @@ namespace Minesweeper
                 }
             }
         }
-
         private List<Cell> GetAdjacentCells(Cell cell)
         {
             List<Cell> retList = new List<Cell>();
@@ -133,40 +125,45 @@ namespace Minesweeper
             }
             return retList;
         }
-
         private bool isInBounds(int x, int y)
         {
             return x >= 0 && x < _cols && y >= 0 && y < _lines;
         }
-
         private void SetCurrentPlayer()
         {
             if (_sStatus != GameStatus.STARTED)
             {
                 Random rPlayer = new Random();
-                _currentPlayer = rPlayer.Next(0, _playersCount);
+                _currentPlayer = rPlayer.Next(0, _playersCount - 1);
             }
             else
             {
                 do
                 {
                     _currentPlayer = (_currentPlayer + 1) % _players.Length;
-                } while (_players[_currentPlayer] == null);
-            }
-            _players[_currentPlayer].Active = true;
+                } while (_players[_currentPlayer] != null || _players[_currentPlayer].Active == false);
+            }            
         }
-
         private void CheckGameOver()
         {
             List<Player> scoreArr = new List<Player>(_players);
-            scoreArr.RemoveAll(p => p == null);
-            scoreArr.Sort((a, b) => a.Points.CompareTo(b.Points));
+            if (_playersCount < MIN_PLAYERS)
+            {
+                _sStatus = GameStatus.GAME_OVER;
+                _currentPlayer = scoreArr[0].Id;
+                return;
+            }
+            scoreArr.RemoveAll(p => p == null || !p.Active);            
+            scoreArr.Sort((a, b) => b.Points.CompareTo(a.Points));
 
             if (MinesLeft + scoreArr[1].Points < scoreArr[0].Points)
+            {
                 _sStatus = GameStatus.GAME_OVER;
+                _currentPlayer = scoreArr[0].Id;
+            }
         }
 
-        private bool ProcessCellClicked(int playerID, int posX, int posY)
+        public void Play(int playerID, int posX, int posY)
         {
             if (isInBounds(posX, posY)) //Sanity check
             {
@@ -179,16 +176,15 @@ namespace Minesweeper
                         //If is Mine, decrement minesLeft, increment player Points puts player to update
                         //and return true to indicate that this player continues to play
                         _minesLeft--;
-                        Player p = _players[playerID];
-                        p.Points++;
+                        _players[playerID].Points++;;
                         foreach (Player player in _players)
                         {
                             if (player != null)
                             {
-                                player.RefreshAddPlayer(p);
+                                player.RefreshAddPlayer(_players[playerID]);
                             }
                         }
-                        return true;
+                        CheckGameOver();                        
                     }
                     else
                     {
@@ -205,7 +201,7 @@ namespace Minesweeper
                                 if (c.Type != CellType.Mine)
                                 {
                                     if (cell.Hidden)
-                                        ProcessCellClicked(playerID, c.PosX, c.PosY);
+                                        Play(playerID, c.PosX, c.PosY);
                                 }
                             }
                         }
@@ -220,10 +216,8 @@ namespace Minesweeper
                         }
                     }
                 }
-            }
-            return false;
+            }            
         }
-
         public int AddPlayer(string name)
         {
             if (_playersCount < MAX_PLAYERS)
@@ -243,12 +237,16 @@ namespace Minesweeper
             }
             return ~0;
         }
-
         public void RemovePlayer(int id)
         {
-            _players[--id] = null;
+            _players[id].Active = false;
+            _playersCount--;
+            foreach (Player p in _players)
+            {
+                p.RefreshAddPlayer(_players[id]);
+            }
+            CheckGameOver();
         }
-
         public bool Start()
         {
             if (_playersCount < 2) return false;
@@ -290,38 +288,9 @@ namespace Minesweeper
 
             return true;
         }
-
         public Player GetPlayer(int playerId)
         {
             return _players[playerId];
-        }
-
-        public void Play(int playerID, int posX, int posY)
-        {
-            //ProcessCellClicked returns false if the player didn't hit a mine
-            //and so, next player must be set
-            if (!ProcessCellClicked(playerID, posX, posY))
-            {
-                _players[_currentPlayer].Active = false;
-                //Keeps the reference for the actual player playing
-                Player old = _players[_currentPlayer];
-                SetCurrentPlayer();
-                foreach (Player p in _players)
-                {
-                    //Adds both old player (Now inactive) and current Player (Now Active)
-                    //to all players Refresh list
-                    if (p != null)
-                    {
-                        p.RefreshAddPlayer(old);
-                        p.RefreshAddPlayer(_players[_currentPlayer]);
-                    }
-                }
-            }
-            else
-            {
-                //If the player hit a mine GameOver must be checked
-                CheckGameOver();
-            }
         }
     }
 }

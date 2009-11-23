@@ -17,7 +17,7 @@ namespace Minesweeper
         {
             _id = id;
             _name = name;
-            _active = false;
+            _active = true;
             _points = 0;
             _refreshCell = new List<Cell>();
             _refreshPlayer = new List<Player>();

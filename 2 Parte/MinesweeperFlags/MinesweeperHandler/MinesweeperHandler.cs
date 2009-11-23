@@ -21,12 +21,10 @@ namespace MinesweeperHandler
         protected HttpResponse Response { get { return ctx.Response; } }
         protected HttpServerUtility Server { get { return ctx.Server; } }
 
-
         protected Game CurrentGame
         {
             get { return Minesweeper.GameManager.Current[Request["gName"]]; }
         }
-
 
         public void ProcessRequest(HttpContext context)
         {
@@ -71,16 +69,14 @@ namespace MinesweeperHandler
 
         protected void RefreshPlayerBoard()
         {
-            List<Player> rObj = CurrentGame.GetRefreshPlayer(Generic.GetInt(Request["playerId"]));
+            List<Player> rObj = CurrentGame.GetRefreshPlayer(Generic.GetInt(Request["playerId"]) - 1);
             Response.Write(JSon.Serialize<List<Player>>(rObj));
         }
-
         protected void RefreshCell()
         {
-            List<Cell> rObj = CurrentGame.GetRefreshCell(Utils.Generic.GetInt(Request["playerId"]));
+            List<Cell> rObj = CurrentGame.GetRefreshCell(Utils.Generic.GetInt(Request["playerId"]) - 1);
             Response.Write(JSon.Serialize<List<Cell>>(rObj));
         }
-
         protected void RefreshGameInfo()
         {
             JSONGame game = new JSONGame(Request["gName"]);
@@ -89,33 +85,24 @@ namespace MinesweeperHandler
             game.gStatus = CurrentGame.Status;
             Response.Write(JSon.Serialize<JSONGame>(game));
         }
-
         protected void ListActiveGames()
         {
             Response.Write(Utils.JSon.Serialize<List<string>>(Minesweeper.GameManager.Current.GetActiveGames()));
         }
-
         protected void Play()
         {
             //Play receives gameName, playerId, posX, posY
-            CurrentGame.Play(Generic.GetInt(Request["playerId"])
-                , Generic.GetInt(Request["posX"]), Generic.GetInt(Request["posY"]));
-            JSONGame game = new JSONGame("XPTO");
-            Response.Write(JSon.Serialize<JSONGame>(game));
+            int playerId = Generic.GetInt(Request["playerId"]) - 1;
+            if(playerId == CurrentGame.CurrentPlayer)
+            {
+                CurrentGame.Play(playerId, Generic.GetInt(Request["posX"]), Generic.GetInt(Request["posY"]));
+            }            
+            Response.Write("");
         }
-
         protected void RemovePlayer()
         {
-            //Removes player from game
-
-            //Players must have a structure that keeps id's of removed players
-
-            //When pooling occurs on client-side information about who quit and
-            //game over are transmited
-
-            //CurrentGame.RemovePlayer(Generic.GetInt(Request["playerId"]));
+            CurrentGame.RemovePlayer(Generic.GetInt(Request["playerID"]) - 1);            
         }
-
         protected void JoinGame()
         {
             JSONGame game = new JSONGame(Request["gName"]);
@@ -128,7 +115,6 @@ namespace MinesweeperHandler
             }
             Response.Write(Utils.JSon.Serialize<JSONGame>(game));
         }
-
         protected void CreateGame()
         {
             JSONGame game = new JSONGame(Request["gName"]);
@@ -141,7 +127,6 @@ namespace MinesweeperHandler
             }
             Response.Write(Utils.JSon.Serialize<JSONGame>(game));
         }
-
         protected void StartGame()
         {
             JSONGame game = new JSONGame(Request["gName"]);
