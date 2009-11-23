@@ -12,6 +12,7 @@ namespace Minesweeper
         bool _active;
         List<Cell> _refreshCell;
         List<Player> _refreshPlayer;
+        List<Game> _refreshGame;
 
         public Player(int id, string name)
         {
@@ -21,6 +22,7 @@ namespace Minesweeper
             _points = 0;
             _refreshCell = new List<Cell>();
             _refreshPlayer = new List<Player>();
+            _refreshGame = new List<Game>();
         }
 
         public int Id
@@ -97,6 +99,29 @@ namespace Minesweeper
             Monitor.Enter(_refreshCell);
             _refreshCell.Clear();
             Monitor.Exit(_refreshCell);
+        }
+
+        public void RefreshAddGame(Game g)
+        {
+            Monitor.Enter(_refreshGame);
+            _refreshGame.Add(g);
+            Monitor.Exit(_refreshGame);
+        }
+
+        public List<Game> GetRefreshGame()
+        {
+            List<Game> retList;
+            Monitor.Enter(_refreshGame);
+            retList = new List<Game>(_refreshGame);
+            Monitor.Exit(_refreshGame);
+            return retList;
+        }
+
+        public void ResetRefreshGame()
+        {
+            Monitor.Enter(_refreshGame);
+            _refreshGame.Clear();
+            Monitor.Exit(_refreshGame);
         }
 
     }

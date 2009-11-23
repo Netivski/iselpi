@@ -75,8 +75,8 @@ GameController.init = function() {
         try {
             poolPlayerRefresh();
             poolCellRefresh();
-            /*poolGameRefresh();
-            poolMessageRefresh();*/
+            //poolGameRefresh();
+            //poolMessageRefresh();
             //poolingActive = false;
         }
         finally { if (poolingActive) setTimeout("GameController.doWork()", 1000); }
@@ -121,13 +121,12 @@ GameController.init = function() {
     var poolCellRefresh = function() {
         var req = new HttpRequest("RefreshCell", GameModel.getGameName(), GameModel.getPlayerId());
         req.Request();
-//        if (req != "") {
-//            var game = req.getJSonObject();
-//            Game.renderMinesLeft(game.minesLeft);
-//            if (game.gStatus == GAME_OVER) {
-//                GameView.renderGameOver("Game over! Player [NAME_MISSING] won!");
-//            }
-//        }
+        if (req != "") {
+            var cell = req.getJSonObject();
+            for (var i = 0; i < cell.length; i++) {
+//                Cell.update(cell[
+            }
+        }
 
     }
 
@@ -228,7 +227,7 @@ GameController.init = function() {
             req.Request();
             var game = req.getJSonObject();
         } catch (e) { alert(e); }
-        
+
         if (game.gStatus == STARTED) {
             BoardController.start();
             Player.activatePlayer(game.activePlayer);
