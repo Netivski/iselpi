@@ -72,24 +72,22 @@ namespace MinesweeperHandler
         protected void RefreshPlayerBoard()
         {
             List<Player> rObj = CurrentGame.GetRefreshPlayer(Generic.GetInt(Request["playerId"]));
-            if (rObj != null)
-                Response.Write(JSon.Serialize<List<Player>>(rObj));
+            Response.Write(JSon.Serialize<List<Player>>(rObj));
         }
 
         protected void RefreshCell()
         {
             List<Cell> rObj = CurrentGame.GetRefreshCell(Utils.Generic.GetInt(Request["playerId"]));
-            if (rObj != null && rObj.Count>0)
-            {
-                Response.Write(Generic.GetJSon<Cell>(rObj));
-            }
+            Response.Write(JSon.Serialize<List<Cell>>(rObj));
         }
 
-        private void RefreshGameInfo()
+        protected void RefreshGameInfo()
         {
-            List<Game> rObj = CurrentGame.GetRefreshGame(Utils.Generic.GetInt(Request["playerId"]));
-            if (rObj != null)
-                Response.Write(Utils.JSon.Serialize<List<Game>>(rObj));
+            JSONGame game = new JSONGame(Request["gName"]);
+            game.minesLeft = CurrentGame.MinesLeft;
+            game.activePlayer = CurrentGame.CurrentPlayer;
+            game.gStatus = CurrentGame.Status;
+            Response.Write(JSon.Serialize<JSONGame>(game));
         }
 
         protected void ListActiveGames()
@@ -102,7 +100,7 @@ namespace MinesweeperHandler
             //Play receives gameName, playerId, posX, posY
             CurrentGame.Play(Generic.GetInt(Request["playerId"])
                 , Generic.GetInt(Request["posX"]), Generic.GetInt(Request["posY"]));
-            JSONGame game = GetJSONGame("XPTO");
+            JSONGame game = new JSONGame("XPTO");
             Response.Write(JSon.Serialize<JSONGame>(game));
         }
 
@@ -118,21 +116,9 @@ namespace MinesweeperHandler
             //CurrentGame.RemovePlayer(Generic.GetInt(Request["playerId"]));
         }
 
-        private JSONGame GetJSONGame(String gName)
-        {
-            JSONGame game;
-            game.GameName = gName;
-            game.activePlayer = 0;
-            game.callingPlayer = 0;
-            game.minesLeft = 0;
-            game.gStatus = GameStatus.INVALID_NAME;
-
-            return game;
-        }
-
         protected void JoinGame()
         {
-            JSONGame game = GetJSONGame(Request["gName"]);
+            JSONGame game = new JSONGame(Request["gName"]);
             if (CurrentGame != null)
             {
                 game.callingPlayer = CurrentGame.AddPlayer(Request["playerName"]);
@@ -145,7 +131,7 @@ namespace MinesweeperHandler
 
         protected void CreateGame()
         {
-            JSONGame game = GetJSONGame(Request["gName"]);
+            JSONGame game = new JSONGame(Request["gName"]);
 
             if (Minesweeper.GameManager.Current.CreateGame(game.GameName, Request["playerName"]))
             {
@@ -158,7 +144,7 @@ namespace MinesweeperHandler
 
         protected void StartGame()
         {
-            JSONGame game = GetJSONGame(Request["gName"]);
+            JSONGame game = new JSONGame(Request["gName"]);
 
             CurrentGame.Start();
             game.activePlayer = CurrentGame.CurrentPlayer;
