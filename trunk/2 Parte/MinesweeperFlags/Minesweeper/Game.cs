@@ -37,14 +37,17 @@ namespace Minesweeper
         {
             get { return _name; }
         }
+
         public int MinesLeft
         {
             get { return _minesLeft; }
         }
+
         public GameStatus Status
         {
             get { return _sStatus; }
         }
+
         public int CurrentPlayer { get { return _currentPlayer; } }
 
         public List<Player> GetRefreshPlayer(int playerId)
@@ -58,6 +61,13 @@ namespace Minesweeper
         {
             List<Cell> sRef = _players[playerId - 1].GetRefreshCell(); //sRef = Strong Reference
             _players[playerId - 1].ResetRefreshCell();
+            return sRef;
+        }
+
+        public List<Game> GetRefreshGame(int playerId)
+        {
+            List<Game> sRef = _players[playerId - 1].GetRefreshGame(); //sRef = Strong Reference
+            _players[playerId - 1].ResetRefreshGame();
             return sRef;
         }
 
@@ -116,6 +126,7 @@ namespace Minesweeper
         private List<Cell> GetAdjacentCells(Cell cell)
         {
             List<Cell> retList = new List<Cell>();
+
             for (int i = -1; i < 2; i++)
             {
                 for (int j = -1; j < 2; j++)
@@ -146,8 +157,8 @@ namespace Minesweeper
             {
                 do
                 {
-                    _currentPlayer = (_currentPlayer + 1) % _playersCount;
-                } while (_players[_currentPlayer] != null);
+                    _currentPlayer = (_currentPlayer + 1) % _players.Length;
+                } while (_players[_currentPlayer] == null);
             }
             _players[_currentPlayer].Active = true;
         }
@@ -155,7 +166,13 @@ namespace Minesweeper
         private void CheckGameOver()
         {
             Player[] scoreArr = (Player[])_players.Clone();
-            Array.Sort(scoreArr, delegate(Player a, Player b) { return b.Points - a.Points; });
+            Array.Sort(scoreArr, delegate(Player a, Player b)
+                                {
+                                    if (b == null) return -1;
+                                    if (a == null) return 1;
+                                    if ((a == null) && (b == null)) return 0;
+                                    return b.Points - a.Points;
+                                });
             if (MinesLeft + scoreArr[1].Points < scoreArr[0].Points)
                 _sStatus = GameStatus.GAME_OVER;
         }
@@ -168,7 +185,7 @@ namespace Minesweeper
                 {
                     Cell cell = _cells[posX, posY];
 
-                    //This cell will certainly be for update in all players no matter what
+                    ////This cell will certainly be for update in all players no matter what
                     foreach (Player player in _players)
                     {
                         if (player != null)
@@ -198,15 +215,17 @@ namespace Minesweeper
                         //If is Number and value equals 0 then chainReaction
                         //If is Number and is not 0, nothing has to be done because the cell has already
                         //been added to the update cells of all players
-                        CellNumber NumberCell = (CellNumber)cell;
-                        if (NumberCell.Value == 0)
+                        
+                        if (((CellNumber)cell).Value == 0)
                         {
+                            cell.Hidden = false;
                             List<Cell> adjCell = GetAdjacentCells(cell);
                             foreach (Cell c in adjCell)
                             {
                                 if (c.Type != CellType.Mine)
                                 {
-                                    ProcessCellClicked(playerID, c.PosX, c.PosY);
+                                    if (cell.Hidden)
+                                        ProcessCellClicked(playerID, c.PosX, c.PosY);
                                 }
                             }
                         }
@@ -302,8 +321,11 @@ namespace Minesweeper
                 {
                     //Adds both old player (Now inactive) and current Player (Now Active)
                     //to all players Refresh list
-                    p.RefreshAddPlayer(old);
-                    p.RefreshAddPlayer(_players[_currentPlayer]);
+                    if (p != null)
+                    {
+                        p.RefreshAddPlayer(old);
+                        p.RefreshAddPlayer(_players[_currentPlayer]);
+                    }
                 }
             }
             else

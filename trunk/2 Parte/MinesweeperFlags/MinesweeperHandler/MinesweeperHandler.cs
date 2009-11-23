@@ -85,7 +85,9 @@ namespace MinesweeperHandler
 
         private void RefreshGameInfo()
         {
-            throw new NotImplementedException();
+            List<Game> rObj = CurrentGame.GetRefreshGame(Utils.Generic.GetInt(Request["playerId"]));
+            if (rObj != null)
+                Response.Write(Utils.JSon.Serialize<List<Game>>(rObj));
         }
 
         protected void ListActiveGames()
@@ -98,6 +100,8 @@ namespace MinesweeperHandler
             //Play receives gameName, playerId, posX, posY
             CurrentGame.Play(Generic.GetInt(Request["playerId"])
                 , Generic.GetInt(Request["posX"]), Generic.GetInt(Request["posY"]));
+            JSONGame game = GetJSONGame("XPTO");
+            Response.Write(JSon.Serialize<JSONGame>(game));
         }
 
         protected void RemovePlayer()
