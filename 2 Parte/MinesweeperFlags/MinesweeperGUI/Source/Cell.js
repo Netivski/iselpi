@@ -18,6 +18,23 @@ Cell.init = function() {
         if (type == TYPE_MINE) cell.removeAttr("value");
     }
 
+    this.update = function(cell, type, owner, value) {
+        cell = jQuery(cell);
+        this.setType(cell, type);
+        if (type == TYPE_MINE) {
+            setClass(cell, MINE_CELL);
+        }
+        else {
+            if (this.getValue(cell) > 0) {
+                setValue(this.getValue(cell));
+                setClass(cell, NUMBER_CELL);
+            }
+            else {
+                setClass(cell, EMPTY_CELL);
+            }
+        }
+    }
+
     this.addEventListener = function(cell) {
         jQuery(cell).click(function() { GameController.evtCellClicked(cell); });
     }

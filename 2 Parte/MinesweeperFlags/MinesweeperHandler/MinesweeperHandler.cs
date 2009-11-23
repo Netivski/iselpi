@@ -79,8 +79,10 @@ namespace MinesweeperHandler
         protected void RefreshCell()
         {
             List<Cell> rObj = CurrentGame.GetRefreshCell(Utils.Generic.GetInt(Request["playerId"]));
-            if (rObj != null)
-                Response.Write(Utils.JSon.Serialize<List<Cell>>(rObj));
+            if (rObj != null && rObj.Count>0)
+            {
+                Response.Write(Generic.GetJSon<Cell>(rObj));
+            }
         }
 
         private void RefreshGameInfo()
@@ -157,17 +159,6 @@ namespace MinesweeperHandler
         protected void StartGame()
         {
             JSONGame game = GetJSONGame(Request["gName"]);
-            //if (CurrentGame.Start())
-            //{
-            //    game.gStatus = CurrentGame.Status;
-            //    game.activePlayer = CurrentGame.CurrentPlayer;
-            //    game.minesLeft = CurrentGame.MinesLeft;
-            //}
-            //game.callingPlayer = Generic.GetInt(Request["playerId"]);
-
-            //Response.Write(JSon.Serialize<JSONGame>(game));
-
-            //JSONGame game = new JSONGame();
 
             CurrentGame.Start();
             game.activePlayer = CurrentGame.CurrentPlayer;

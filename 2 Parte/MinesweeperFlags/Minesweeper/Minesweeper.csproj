@@ -49,6 +49,7 @@
     <Compile Include="CellMine.cs" />
     <Compile Include="CellNumber.cs" />
     <Compile Include="CellType.cs" />
+    <Compile Include="IToJSon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GameManager.cs" />

@@ -59,14 +59,14 @@ namespace Minesweeper
 
         public List<Cell> GetRefreshCell(int playerId)
         {
-            List<Cell> sRef = _players[playerId - 1].GetRefreshCell(); //sRef = Strong Reference
+            List<Cell> sRef = _players[playerId - 1].GetRefreshCell();
             _players[playerId - 1].ResetRefreshCell();
             return sRef;
         }
 
         public List<Game> GetRefreshGame(int playerId)
         {
-            List<Game> sRef = _players[playerId - 1].GetRefreshGame(); //sRef = Strong Reference
+            List<Game> sRef = _players[playerId - 1].GetRefreshGame();
             _players[playerId - 1].ResetRefreshGame();
             return sRef;
         }
@@ -165,14 +165,10 @@ namespace Minesweeper
 
         private void CheckGameOver()
         {
-            Player[] scoreArr = (Player[])_players.Clone();
-            Array.Sort(scoreArr, delegate(Player a, Player b)
-                                {
-                                    if (b == null) return -1;
-                                    if (a == null) return 1;
-                                    if ((a == null) && (b == null)) return 0;
-                                    return b.Points - a.Points;
-                                });
+            List<Player> scoreArr = new List<Player>(_players);
+            scoreArr.RemoveAll(p => p == null);
+            scoreArr.Sort((a, b) => a.Points.CompareTo(b.Points));
+
             if (MinesLeft + scoreArr[1].Points < scoreArr[0].Points)
                 _sStatus = GameStatus.GAME_OVER;
         }
@@ -215,7 +211,7 @@ namespace Minesweeper
                         //If is Number and value equals 0 then chainReaction
                         //If is Number and is not 0, nothing has to be done because the cell has already
                         //been added to the update cells of all players
-                        
+
                         if (((CellNumber)cell).Value == 0)
                         {
                             cell.Hidden = false;
