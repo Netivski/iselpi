@@ -34,3 +34,15 @@ C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositó
 C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\iselpi\2 Parte\MinesweeperFlags\MinesweeperGUI\obj\Debug\ResolveAssemblyReference.cache
 C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\iselpi\2 Parte\MinesweeperFlags\MinesweeperGUI\obj\Debug\MinesweeperGUI.dll
 C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\iselpi\2 Parte\MinesweeperFlags\MinesweeperGUI\obj\Debug\MinesweeperGUI.pdb
+C:\ISEL\PI\Parte 2\trunk\2 Parte\MinesweeperFlags\MinesweeperGUI\bin\MinesweeperGUI.dll
+C:\ISEL\PI\Parte 2\trunk\2 Parte\MinesweeperFlags\MinesweeperGUI\bin\MinesweeperGUI.pdb
+C:\ISEL\PI\Parte 2\trunk\2 Parte\MinesweeperFlags\MinesweeperGUI\bin\Minesweeper.dll
+C:\ISEL\PI\Parte 2\trunk\2 Parte\MinesweeperFlags\MinesweeperGUI\bin\MinesweeperHandler.dll
+C:\ISEL\PI\Parte 2\trunk\2 Parte\MinesweeperFlags\MinesweeperGUI\bin\JsonExSerializer.dll
+C:\ISEL\PI\Parte 2\trunk\2 Parte\MinesweeperFlags\MinesweeperGUI\bin\Minesweeper.pdb
+C:\ISEL\PI\Parte 2\trunk\2 Parte\MinesweeperFlags\MinesweeperGUI\bin\MinesweeperHandler.pdb
+C:\ISEL\PI\Parte 2\trunk\2 Parte\MinesweeperFlags\MinesweeperGUI\bin\JsonExSerializer.pdb
+C:\ISEL\PI\Parte 2\trunk\2 Parte\MinesweeperFlags\MinesweeperGUI\bin\JsonExSerializer.xml
+C:\ISEL\PI\Parte 2\trunk\2 Parte\MinesweeperFlags\MinesweeperGUI\obj\Debug\ResolveAssemblyReference.cache
+C:\ISEL\PI\Parte 2\trunk\2 Parte\MinesweeperFlags\MinesweeperGUI\obj\Debug\MinesweeperGUI.dll
+C:\ISEL\PI\Parte 2\trunk\2 Parte\MinesweeperFlags\MinesweeperGUI\obj\Debug\MinesweeperGUI.pdb
