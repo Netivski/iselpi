@@ -8,7 +8,7 @@ namespace Minesweeper
         bool hidden;
         Player owner  = null;
         int _posX;
-        int _posY;
+        int _posY;        
 
         public Cell(CellType type, int posX, int posY)
         {
@@ -17,6 +17,10 @@ namespace Minesweeper
             _posX = posX;
             _posY = posY;
         }
+
+        public int PosX { get { return _posX; } }
+
+        public int PosY { get { return _posY; } }
 
         public CellType Type
         {

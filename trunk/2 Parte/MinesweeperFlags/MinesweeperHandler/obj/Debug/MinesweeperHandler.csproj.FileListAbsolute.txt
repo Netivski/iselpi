@@ -28,3 +28,13 @@ C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositó
 C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\iselpi\2 Parte\MinesweeperFlags\MinesweeperHandler\obj\Debug\ResolveAssemblyReference.cache
 C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\iselpi\2 Parte\MinesweeperFlags\MinesweeperHandler\obj\Debug\MinesweeperHandler.dll
 C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\iselpi\2 Parte\MinesweeperFlags\MinesweeperHandler\obj\Debug\MinesweeperHandler.pdb
+C:\ISEL\PI\Parte 2\trunk\2 Parte\MinesweeperFlags\MinesweeperHandler\bin\Debug\MinesweeperHandler.dll
+C:\ISEL\PI\Parte 2\trunk\2 Parte\MinesweeperFlags\MinesweeperHandler\bin\Debug\MinesweeperHandler.pdb
+C:\ISEL\PI\Parte 2\trunk\2 Parte\MinesweeperFlags\MinesweeperHandler\bin\Debug\JsonExSerializer.dll
+C:\ISEL\PI\Parte 2\trunk\2 Parte\MinesweeperFlags\MinesweeperHandler\bin\Debug\Minesweeper.dll
+C:\ISEL\PI\Parte 2\trunk\2 Parte\MinesweeperFlags\MinesweeperHandler\bin\Debug\Minesweeper.pdb
+C:\ISEL\PI\Parte 2\trunk\2 Parte\MinesweeperFlags\MinesweeperHandler\bin\Debug\JsonExSerializer.pdb
+C:\ISEL\PI\Parte 2\trunk\2 Parte\MinesweeperFlags\MinesweeperHandler\bin\Debug\JsonExSerializer.xml
+C:\ISEL\PI\Parte 2\trunk\2 Parte\MinesweeperFlags\MinesweeperHandler\obj\Debug\ResolveAssemblyReference.cache
+C:\ISEL\PI\Parte 2\trunk\2 Parte\MinesweeperFlags\MinesweeperHandler\obj\Debug\MinesweeperHandler.dll
+C:\ISEL\PI\Parte 2\trunk\2 Parte\MinesweeperFlags\MinesweeperHandler\obj\Debug\MinesweeperHandler.pdb

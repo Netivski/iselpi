@@ -18,7 +18,7 @@ namespace Minesweeper
 
         public void IncValue()
         {
-            value += 1;
+            value ++;
         }
     }
 }
