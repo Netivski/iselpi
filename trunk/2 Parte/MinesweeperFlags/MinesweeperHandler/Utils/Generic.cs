@@ -15,14 +15,14 @@ namespace MinesweeperHandler.Utils
             return rValue;
         }
 
-        public static String GetJSon<T>(List<T> list) where T : IToJSon
-        {
-            String retJSon = "";
-            list.ForEach(x => retJSon += x.ToJSon() + ";");
-            if (retJSon.Length > 0)
-                retJSon = "(" + retJSon.Substring(0, retJSon.Length - 1) + ")";
+        //public static String GetJSon<T>(List<T> list) where T : IToJSon
+        //{
+        //    String retJSon = "";
+        //    list.ForEach(x => retJSon += x.ToJSon() + ";");
+        //    if (retJSon.Length > 0)
+        //        retJSon = "(" + retJSon.Substring(0, retJSon.Length - 1) + ")";
 
-            return retJSon;
-        }
+        //    return retJSon;
+        //}
     }
 }
