@@ -58,12 +58,9 @@ BoardView.init = function() {
         }
 
         this.getCellByPos = function(posX, posY) {
-            if (posX >= BoardController.getCols() || posY >= BoardController.getLines() || posX < 0 || posY < 0) {
-                alert($("#" + ("" + posX + "," + posY + "").substr(0, 2)).length);
+            if (posX >= BoardController.getCols() || posY >= BoardController.getLines() || posX < 0 || posY < 0)
                 return null;
-            }
             return document.getElementById("" + posX + "," + posY + "");
-
         }
     }
 }

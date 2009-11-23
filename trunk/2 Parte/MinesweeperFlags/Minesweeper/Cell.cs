@@ -2,18 +2,18 @@
 
 namespace Minesweeper
 {
-    public abstract class Cell
+    public abstract class Cell : IToJSon
     {
-        CellType type;
-        bool hidden;
-        Player owner  = null;
-        int _posX;
-        int _posY;        
+        protected CellType type;
+        protected bool hidden;
+        protected int ownerId = ~0;
+        protected int _posX;
+        protected int _posY;
 
         public Cell(CellType type, int posX, int posY)
         {
             this.type = type;
-            hidden    = true;
+            hidden = true;
             _posX = posX;
             _posY = posY;
         }
@@ -33,11 +33,16 @@ namespace Minesweeper
             set { hidden = value; }
         }
 
-        public Player Owner
+        public int Owner
         {
-            get { return owner; }
-            set { owner = value; }
+            get { return ownerId; }
+            set { ownerId = value; }
         }
 
+        public virtual String ToJSon()
+        {
+            return "{\"type\":\"" + type + "\", \"hidden\":" + (hidden?1:0) + ", \"posX\":" + _posX 
+                + ", \"posY\":" + _posY + ", \"owner\":" + ownerId + "}";
+        }
     }
 }

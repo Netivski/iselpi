@@ -20,5 +20,12 @@ namespace Minesweeper
         {
             value ++;
         }
+
+        public override String ToJSon()
+        {
+            return "{\"type\":\"" + type + "\", \"hidden\":" + (hidden ? 1 : 0) + ", \"posX\":" + _posX
+                + ", \"posY\":" + _posY + ", \"owner\":" + ownerId + ", \"value\":" + value + "}";
+        }
+
     }
 }
