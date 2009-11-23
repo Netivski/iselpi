@@ -77,7 +77,7 @@ GameController.init = function() {
             /*poolGameRefresh();
             poolCellRefresh();
             poolMessageRefresh();*/
-            poolingActive = false;
+            //poolingActive = false;
         }
         finally { if (poolingActive) setTimeout("GameController.doWork()", 1000); }
     }

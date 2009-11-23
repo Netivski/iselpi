@@ -152,7 +152,7 @@ namespace MinesweeperHandler
 
         protected void StartGame()
         {
-            JSONGame game = GetJSONGame(Request["gName"]);
+            //JSONGame game = GetJSONGame(Request["gName"]);
             //if (CurrentGame.Start())
             //{
             //    game.gStatus = CurrentGame.Status;
@@ -162,8 +162,17 @@ namespace MinesweeperHandler
 
             //    game.callingPlayer = Generic.GetInt(Request["playerId"]);
             //}
-            game.gStatus = GameStatus.STARTED;
-            game.callingPlayer = Generic.GetInt(Request["playerId"]);
+            //game.gStatus = GameStatus.STARTED;
+            //game.callingPlayer = Generic.GetInt(Request["playerId"]);
+
+            //Response.Write(JSon.Serialize<JSONGame>(game));
+
+            JSONGame game = new JSONGame();
+            CurrentGame.Start();
+            game.GameName = CurrentGame.Name;
+            game.activePlayer = CurrentGame.CurrentPlayer;
+            game.minesLeft = CurrentGame.MinesLeft;
+            game.gStatus = CurrentGame.Status;
 
             Response.Write(JSon.Serialize<JSONGame>(game));
         }

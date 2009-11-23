@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Minesweeper
 {
@@ -44,6 +45,7 @@ namespace Minesweeper
         {
             get { return _sStatus; }
         }
+        public int CurrentPlayer { get { return _currentPlayer; } }
         public List<Player> GetRefreshPlayer(int playerId)
         {
             List<Player> d = _players[playerId - 1].GetRefreshPlayer();
@@ -123,7 +125,7 @@ namespace Minesweeper
         }
         private bool isInBounds(int x, int y)
         {
-            return x > 0 && x < _cols && y > 0 && y < _lines;
+            return x >= 0 && x < _cols && y >= 0 && y < _lines;
         }
         private void SetCurrentPlayer()
         {

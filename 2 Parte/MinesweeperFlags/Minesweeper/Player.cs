@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Minesweeper
 {
@@ -27,7 +28,6 @@ namespace Minesweeper
             get { return _id; }
             set { _id = value; }
         }
-
         public string Name
         {
             get
@@ -39,13 +39,11 @@ namespace Minesweeper
                 _name = value;
             }
         }
-
         public int Points
         {
             get { return _points; }
             set { _points = value; }
         }
-
         public bool Active
         {
             get { return _active; }
@@ -54,31 +52,44 @@ namespace Minesweeper
 
         public void RefreshAddPlayer(Player p)
         {
+            Monitor.Enter(_refreshPlayer);
             _refreshPlayer.Add(p);
+            Monitor.Exit(_refreshPlayer);
         }
-        public void RefreshAddCell(Cell c)
-        {
-            _refreshCell.Add(c);
-        }
-
         public List<Player> GetRefreshPlayer()
         {
-            return new List<Player>(_refreshPlayer);            
+            List<Player> retList;
+            Monitor.Enter(_refreshPlayer);
+            retList = new List<Player>(_refreshPlayer);
+            Monitor.Exit(_refreshPlayer);
+            return retList;
         }
-
         public void ResetRefreshPlayer()
         {
-            _refreshPlayer.Clear();            
+            Monitor.Enter(_refreshPlayer);
+            _refreshPlayer.Clear();
+            Monitor.Exit(_refreshPlayer);
         }
-
+   
+        public void RefreshAddCell(Cell c)
+        {
+            Monitor.Enter(_refreshCell);
+            _refreshCell.Add(c);
+            Monitor.Exit(_refreshCell);
+        }
         public List<Cell> GetRefreshCell()
         {
-            return _refreshCell;
+            List<Cell> retList;
+            Monitor.Enter(_refreshCell);
+            retList = new List<Cell>(_refreshCell);
+            Monitor.Exit(_refreshCell);
+            return retList;
         }
-
         public void ResetRefreshCell()
         {
-            _refreshCell = new List<Cell>();
+            Monitor.Enter(_refreshCell);
+            _refreshCell.Clear();
+            Monitor.Exit(_refreshCell);
         }
 
     }
