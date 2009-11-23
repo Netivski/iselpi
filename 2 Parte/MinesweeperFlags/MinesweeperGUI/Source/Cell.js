@@ -22,7 +22,7 @@ Cell.init = function() {
         cell = jQuery(cell);
         this.setType(cell, type);
         if (type == TYPE_MINE) {
-            setClass(cell, MINE_CELL);
+            setClass(cell, MINE_CELL + owner);
         }
         else {
             if (this.getValue(cell) > 0) {
