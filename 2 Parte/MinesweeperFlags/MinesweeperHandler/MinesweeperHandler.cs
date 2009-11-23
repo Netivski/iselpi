@@ -30,7 +30,7 @@ namespace MinesweeperHandler
 
         public void ProcessRequest(HttpContext context)
         {
-            if (context == null) 
+            if (context == null)
                 throw new ArgumentNullException("context");
             ctx = context;
 
@@ -72,15 +72,15 @@ namespace MinesweeperHandler
         protected void RefreshPlayerBoard()
         {
             List<Player> rObj = CurrentGame.GetRefreshPlayer(Generic.GetInt(Request["playerId"]));
-            Response.Write(JSon.Serialize<List<Player>>(rObj));
+            if (rObj != null)
+                Response.Write(JSon.Serialize<List<Player>>(rObj));
         }
 
         protected void RefreshCell()
         {
             List<Cell> rObj = CurrentGame.GetRefreshCell(Utils.Generic.GetInt(Request["playerId"]));
-            Cell c = new CellMine(1, 1);
-            c.Owner = CurrentGame.GetPlayer(Utils.Generic.GetInt(Request["playerId"]));
-            Response.Write(Utils.JSon.Serialize<List<Cell>>(rObj));
+            if (rObj != null)
+                Response.Write(Utils.JSon.Serialize<List<Cell>>(rObj));
         }
 
         private void RefreshGameInfo()
@@ -96,8 +96,8 @@ namespace MinesweeperHandler
         protected void Play()
         {
             //Play receives gameName, playerId, posX, posY
-            //CurrentGame.Play(Generic.GetInt(Request["playerId"]));
-                //, Generic.GetInt(Request["posX"]), Generic.GetInt(Request["posY"]));
+            CurrentGame.Play(Generic.GetInt(Request["playerId"])
+                , Generic.GetInt(Request["posX"]), Generic.GetInt(Request["posY"]));
         }
 
         protected void RemovePlayer()
@@ -152,25 +152,22 @@ namespace MinesweeperHandler
 
         protected void StartGame()
         {
-            //JSONGame game = GetJSONGame(Request["gName"]);
+            JSONGame game = GetJSONGame(Request["gName"]);
             //if (CurrentGame.Start())
             //{
             //    game.gStatus = CurrentGame.Status;
-
-            //    //game.activePlayer = CurrentGame.getActivePlayer();
-            //    game.activePlayer = 1;
-
-            //    game.callingPlayer = Generic.GetInt(Request["playerId"]);
+            //    game.activePlayer = CurrentGame.CurrentPlayer;
+            //    game.minesLeft = CurrentGame.MinesLeft;
             //}
-            //game.gStatus = GameStatus.STARTED;
             //game.callingPlayer = Generic.GetInt(Request["playerId"]);
 
             //Response.Write(JSon.Serialize<JSONGame>(game));
 
-            JSONGame game = new JSONGame();
+            //JSONGame game = new JSONGame();
+
             CurrentGame.Start();
-            game.GameName = CurrentGame.Name;
             game.activePlayer = CurrentGame.CurrentPlayer;
+            game.callingPlayer = Generic.GetInt(Request["playerId"]);
             game.minesLeft = CurrentGame.MinesLeft;
             game.gStatus = CurrentGame.Status;
 

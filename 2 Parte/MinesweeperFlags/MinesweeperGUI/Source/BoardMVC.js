@@ -1,20 +1,20 @@
 // Board MVC initializer
 
 var Board = new Object();
-Board.init = function(lines, cols){
-		BoardModel.init(lines, cols);
-		BoardController.init();
-		BoardView.init();
-	}
+Board.init = function(lines, cols) {
+    BoardModel.init(lines, cols);
+    BoardController.init();
+    BoardView.init();
+}
 
-	
+
 // Board Model --------------------------------------------------------------------------------------
 
 var BoardModel = new Object();
-BoardModel.init = function(lines, cols){
+BoardModel.init = function(lines, cols) {
 
-		this.getLines = function() { return lines; }
-		this.getCols = function() { return cols; }
+    this.getLines = function() { return lines; }
+    this.getCols = function() { return cols; }
 }
 
 
@@ -24,13 +24,12 @@ var BoardController = new Object();
 BoardController.init = function() {
 
 
-this.getLines = function() { return BoardModel.getLines(); }
-this.getCols = function() { return BoardModel.getCols(); }
+    this.getLines = function() { return BoardModel.getLines(); }
+    this.getCols = function() { return BoardModel.getCols(); }
 
-this.start = function() {
+    this.start = function() {
         for (var i = 0; i < this.getLines(); i++) {
             for (var j = 0; j < this.getCols(); j++) {
-                var idx = (this.getCols() * i) + j;
                 var currCell = BoardView.getCellByPos(j, i);
                 Cell.addEventListener(currCell);
             }
@@ -52,18 +51,19 @@ BoardView.init = function() {
 
             for (var i = 0; i < BoardController.getLines(); i++) {
                 for (var j = 0; j < BoardController.getCols(); j++) {
-                    var idx = (BoardController.getCols() * i) + j;
                     var newCell = Cell.create(undefined, j, i);
-                    jQuery(newCell).appendTo($("." + BOARD_CLASS));
+                    newCell.appendTo($("." + BOARD_CLASS));
                 }
             }
         }
 
         this.getCellByPos = function(posX, posY) {
-            if (posX >= BoardController.getCols() || posY >= BoardController.getLines() || posX < 0 || posY < 0)
+            if (posX >= BoardController.getCols() || posY >= BoardController.getLines() || posX < 0 || posY < 0) {
+                alert($("#" + ("" + posX + "," + posY + "").substr(0, 2)).length);
                 return null;
+            }
             return document.getElementById("" + posX + "," + posY + "");
-            return $("#" + posX + "," + posY);
+
         }
     }
 }

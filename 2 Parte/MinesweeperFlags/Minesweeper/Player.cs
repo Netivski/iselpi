@@ -28,6 +28,7 @@ namespace Minesweeper
             get { return _id; }
             set { _id = value; }
         }
+
         public string Name
         {
             get
@@ -39,11 +40,13 @@ namespace Minesweeper
                 _name = value;
             }
         }
+
         public int Points
         {
             get { return _points; }
             set { _points = value; }
         }
+
         public bool Active
         {
             get { return _active; }
@@ -56,6 +59,7 @@ namespace Minesweeper
             _refreshPlayer.Add(p);
             Monitor.Exit(_refreshPlayer);
         }
+
         public List<Player> GetRefreshPlayer()
         {
             List<Player> retList;
@@ -64,19 +68,21 @@ namespace Minesweeper
             Monitor.Exit(_refreshPlayer);
             return retList;
         }
+
         public void ResetRefreshPlayer()
         {
             Monitor.Enter(_refreshPlayer);
             _refreshPlayer.Clear();
             Monitor.Exit(_refreshPlayer);
         }
-   
+
         public void RefreshAddCell(Cell c)
         {
             Monitor.Enter(_refreshCell);
             _refreshCell.Add(c);
             Monitor.Exit(_refreshCell);
         }
+
         public List<Cell> GetRefreshCell()
         {
             List<Cell> retList;
@@ -85,6 +91,7 @@ namespace Minesweeper
             Monitor.Exit(_refreshCell);
             return retList;
         }
+
         public void ResetRefreshCell()
         {
             Monitor.Enter(_refreshCell);

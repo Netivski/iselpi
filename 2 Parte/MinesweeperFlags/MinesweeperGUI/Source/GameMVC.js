@@ -74,8 +74,8 @@ GameController.init = function() {
         if (!poolingActive) return;
         try {
             poolPlayerRefresh();
-            /*poolGameRefresh();
             poolCellRefresh();
+            /*poolGameRefresh();
             poolMessageRefresh();*/
             //poolingActive = false;
         }
@@ -119,6 +119,15 @@ GameController.init = function() {
     }
 
     var poolCellRefresh = function() {
+        var req = new HttpRequest("RefreshCell", GameModel.getGameName(), GameModel.getPlayerId());
+        req.Request();
+//        if (req != "") {
+//            var game = req.getJSonObject();
+//            Game.renderMinesLeft(game.minesLeft);
+//            if (game.gStatus == GAME_OVER) {
+//                GameView.renderGameOver("Game over! Player [NAME_MISSING] won!");
+//            }
+//        }
 
     }
 
@@ -208,8 +217,9 @@ GameController.init = function() {
                 GameView.showMsgButton("Waiting on other players....");
             }
 
-            this.startPooling();
         }
+
+        this.startPooling();
     }
 
     this.evtStartGame = function() {
@@ -218,11 +228,11 @@ GameController.init = function() {
             req.Request();
             var game = req.getJSonObject();
         } catch (e) { alert(e); }
-
+        
         if (game.gStatus == STARTED) {
+            BoardController.start();
             Player.activatePlayer(game.activePlayer);
             GameView.hideStartButton();
-            BoardController.start();
         }
     }
 
@@ -236,7 +246,7 @@ GameController.init = function() {
     }
 
     this.evtCellClicked = function(cell) {
-        var pos = Cell.getPos(cell);
+        var pos = Cell.getPos(jQuery(cell));
 
         try {
             var req = new HttpRequest("Play", GameModel.getGameName(), GameModel.getPlayerId()
