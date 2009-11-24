@@ -27,8 +27,8 @@
 	var EMPTY_CELL = "divCell_Number";
 	var MINE_CELL = "divCell_Flag_P";
 	var BOMB_CELL = "divCell_Bomb";
-	var TYPE_MINE = 1;
-	var TYPE_NUMBER = 0;
+	var TYPE_MINE = "Mine";
+	var TYPE_NUMBER = "Number";
 
 // CSS score board
 // ---------------------------	

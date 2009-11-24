@@ -6,13 +6,6 @@
     this.Request = function() {
         xhr = new XMLHttpRequest();
 
-        //        xhr.onreadystatechange = function() {
-        //            if (xhr.readyState == 4 && xhr.status == 200) {
-        //                //alert(xhr.responseText);
-        //            }
-        //        }
-
-
         var data = "";
         
         for (var i = 3; i < _args.length; i += 2) {
@@ -36,10 +29,8 @@
     }
 
     this.getJSonObject = function() {
-        try {
-            var jSon = "(" + xhr.responseText + ")";
-            return eval(jSon);
-        } catch (e) { "***" + alert(e); }
+        var jSon = "(" + xhr.responseText + ")";
+        return eval(jSon);
     }
 
     this.getResponseText = function() { return xhr.responseText; }

@@ -10,11 +10,11 @@ Game.init = function() {
         $("<script/>").attr("type", "text/javascript").attr("src", filename).appendTo($("head"));
     }
 
-    addJsFile("Source/Constants.js");
-    addJsFile("Source/HttpRequest.js");
-    addJsFile("Source/BoardMVC.js");
-    addJsFile("Source/Cell.js");
-    addJsFile("Source/Player.js");
+//    addJsFile("Source/Constants.js");
+//    addJsFile("Source/HttpRequest.js");
+//    addJsFile("Source/BoardMVC.js");
+//    addJsFile("Source/Cell.js");
+//    addJsFile("Source/Player.js");
 
     GameModel.init();
     GameView.init();
@@ -112,6 +112,7 @@ GameController.init = function() {
         if (req != "") {
             var game = req.getJSonObject();
             GameView.renderMinesLeft(game.minesLeft);
+            Player.activatePlayer(game.activePlayer);
             if (game.gStatus == GAME_OVER) {
                 GameView.renderGameOver("Game over! Player [NAME_MISSING] won!");
             }
@@ -122,11 +123,9 @@ GameController.init = function() {
         var req = new HttpRequest("RefreshCell", GameModel.getGameName(), GameModel.getPlayerId());
         req.Request();
         if (req != "") {
-
             var cell = req.getJSonObject();
-
             for (var i = 0; i < cell.length; i++) {
-                Cell.update(BoardView.getCellByPos(cell[i].posX, cel[i].posY), cell[i].type, cell[i].owner, cell[i].value);
+                Cell.update(BoardView.getCellByPos(cell[i].posX, cell[i].posY), cell[i].type, cell[i].owner, cell[i].value);
             }
         }
 

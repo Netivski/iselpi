@@ -22,7 +22,7 @@ namespace MinesweeperHandler.Utils
                 return retJSon;
             list.ForEach(x => retJSon += x.ToJSon() + ",");
             if (retJSon.Length > 0)
-                retJSon = "(" + retJSon.Substring(0, retJSon.Length - 1) + ")";
+                retJSon = "[" + retJSon.Substring(0, retJSon.Length - 1) + "]";
             return retJSon;
         }
     }
