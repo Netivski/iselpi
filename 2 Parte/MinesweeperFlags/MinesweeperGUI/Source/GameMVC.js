@@ -10,11 +10,11 @@ Game.init = function() {
         $("<script/>").attr("type", "text/javascript").attr("src", filename).appendTo($("head"));
     }
 
-    //    addJsFile("Source/Constants.js");
-    //    addJsFile("Source/HttpRequest.js");
-    //    addJsFile("Source/BoardMVC.js");
-    //    addJsFile("Source/Cell.js");
-    //    addJsFile("Source/Player.js");
+//    addJsFile("Source/Constants.js");
+//    addJsFile("Source/HttpRequest.js");
+//    addJsFile("Source/BoardMVC.js");
+//    addJsFile("Source/Cell.js");
+//    addJsFile("Source/Player.js");
 
     GameModel.init();
     GameView.init();
@@ -109,18 +109,19 @@ GameController.init = function() {
     var poolGameRefresh = function() {
         var req = new HttpRequest("RefreshGameInfo", GameModel.getGameName(), GameModel.getPlayerId());
         req.Request();
-        if (req != "") {            
+        if (req != "") {
             var game = req.getJSonObject();
-            if (GameModel.getGameStatus == WAITING_FOR_PLAYERS && game.gStatus == STARTED)
-                GameView.hideStartButton();              
-            GameView.renderMinesLeft(game.minesLeft);
             Player.activatePlayer(game.activePlayer);
+            GameView.renderMinesLeft(game.minesLeft);
+
             if (GameModel.getGameStatus() == WAITING_FOR_PLAYERS && game.gStatus == STARTED) {
+                GameView.hideStartButton();
                 GameView.hideOptions();
                 GameModel.setGameStatus();
                 BoardController.start();
             }
             else if (game.gStatus == GAME_OVER) {
+                this.stopPooling();
                 GameView.renderGameOver("Game over! Player '" + game.activePlayer + "' won!");
             }
         }
@@ -265,6 +266,8 @@ GameController.init = function() {
                 //No response required
             } catch (e) { alert(e); }
         }
+        else
+            this.sendMessage("Wait for your turn to play!");
     }
 
     // --------------------------------

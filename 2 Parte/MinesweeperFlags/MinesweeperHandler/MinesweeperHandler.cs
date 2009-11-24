@@ -75,14 +75,13 @@ namespace MinesweeperHandler
         protected void RefreshCell()
         {
             List<Cell> rObj = CurrentGame.GetRefreshCell(Utils.Generic.GetInt(Request["playerId"]) - 1);
-            rObj.ForEach(c => c.Owner++);
             Response.Write(Generic.GetJSon(rObj));
         }
         protected void RefreshGameInfo()
         {
             JSONGame game = new JSONGame(Request["gName"]);
             game.minesLeft = CurrentGame.MinesLeft;
-            game.activePlayer = CurrentGame.CurrentPlayer + 1;
+            game.activePlayer = CurrentGame.CurrentPlayer;
             game.gStatus = CurrentGame.Status;
             Response.Write(JSon.Serialize<JSONGame>(game));
         }
