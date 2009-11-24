@@ -5,8 +5,6 @@ Player.init = function() {
     this.update = function(pNum, pName, pScore, myId) {
         if ($("#Player" + pNum).length == 0)
             renderNew(pNum, pName, myId);
-        if (pNum == myId)
-            this.addEventListener(pNum);
         setScore(pNum, pScore);
     }
 
@@ -25,22 +23,27 @@ Player.init = function() {
 
         var quitButton = $("<button/>").addClass(BTN_QUIT_CLASS).text("Quit");
         var quitDiv = $("<div/>").addClass(PL_QUIT_CLASS);
-        if (pNum == myId)
+        if (pNum == myId) {
             quitButton.appendTo(quitDiv);
+            quitButton.click(function() { GameController.evtRemovePlayer(); });
+        }
 
         ((playerDiv.append(picDiv)).append(flagDiv).append(scoreDiv));
         (playerDiv.append(nameDiv)).append(quitDiv);
 
         playerDiv.appendTo($("." + PL_CLASS));
+
+        //        if (pNum == myId)
+        //            this.addEventListener(pNum);
     }
 
     this.incScore = function(pNum) { setScore(pNum, this.getScore(pNum) * 1 + 1); }
 
-    this.getScore = function(pNum) { return $("." + PL_SCORE_CLASS + ":eq(" + pNum + ")").text(); }
+    this.getScore = function(pNum) { return $("." + PL_SCORE_CLASS + ":eq(" + (pNum * 1 - 1) + ")").text(); }
 
-    var setScore = function(pNum, val) { $("." + PL_SCORE_CLASS + ":eq(" + pNum + ")").text(val); }
+    var setScore = function(pNum, val) { $("." + PL_SCORE_CLASS + ":eq(" + (pNum * 1 - 1) + ")").text(val); }
 
-    this.getName = function(pNum) { return $("." + PL_NAME_CLASS + ":eq(" + pNum + ")").text(); }
+    this.getName = function(pNum) { return $("." + PL_NAME_CLASS + ":eq(" + (pNum * 1 - 1) + ")").text(); }
 
     this.activatePlayer = function(idPlayer) {
         idPlayer = parseInt(idPlayer);

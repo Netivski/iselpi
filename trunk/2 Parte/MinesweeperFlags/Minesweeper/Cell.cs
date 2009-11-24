@@ -31,6 +31,7 @@ namespace Minesweeper
         public CellType Type
         {
             get { return type; }
+            set { type = value; }
         }
 
         public bool Hidden

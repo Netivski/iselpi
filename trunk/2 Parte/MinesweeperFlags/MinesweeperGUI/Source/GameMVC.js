@@ -10,11 +10,11 @@ Game.init = function() {
         $("<script/>").attr("type", "text/javascript").attr("src", filename).appendTo($("head"));
     }
 
-//    addJsFile("Source/Constants.js");
-//    addJsFile("Source/HttpRequest.js");
-//    addJsFile("Source/BoardMVC.js");
-//    addJsFile("Source/Cell.js");
-//    addJsFile("Source/Player.js");
+    //    addJsFile("Source/Constants.js");
+    //    addJsFile("Source/HttpRequest.js");
+    //    addJsFile("Source/BoardMVC.js");
+    //    addJsFile("Source/Cell.js");
+    //    addJsFile("Source/Player.js");
 
     GameModel.init();
     GameView.init();
@@ -69,6 +69,9 @@ GameController.init = function() {
     // Pooling
 
     var poolingActive = false;
+    var poolPlayerActive = true;
+    var poolCellActive = true;
+    var poolGameActive = true;
 
     var pooling = function() {
         if (!poolingActive) return;
@@ -77,7 +80,6 @@ GameController.init = function() {
             poolCellRefresh();
             poolGameRefresh();
             //poolMessageRefresh();
-            //poolingActive = false;
         }
         finally { if (poolingActive) setTimeout("GameController.doWork()", 1000); }
     }
@@ -96,6 +98,7 @@ GameController.init = function() {
     }
 
     var poolPlayerRefresh = function() {
+        if (!poolPlayerActive) return;
         var req = new HttpRequest("RefreshPlayerBoard", GameModel.getGameName(), GameModel.getPlayerId());
         req.Request();
         if (req != "") {
@@ -107,6 +110,7 @@ GameController.init = function() {
     }
 
     var poolGameRefresh = function() {
+        if (!poolGameActive) return;
         var req = new HttpRequest("RefreshGameInfo", GameModel.getGameName(), GameModel.getPlayerId());
         req.Request();
         if (req != "") {
@@ -121,13 +125,14 @@ GameController.init = function() {
                 BoardController.start();
             }
             else if (game.gStatus == GAME_OVER) {
-                this.stopPooling();
+                GameController.stopPooling();
                 GameView.renderGameOver("Game over! Player '" + game.activePlayer + "' won!");
             }
         }
     }
 
     var poolCellRefresh = function() {
+        if (!poolCellActive) return;
         var req = new HttpRequest("RefreshCell", GameModel.getGameName(), GameModel.getPlayerId());
         req.Request();
         if (req != "") {
@@ -136,10 +141,12 @@ GameController.init = function() {
                 Cell.update(BoardView.getCellByPos(cell[i].posX, cell[i].posY), cell[i].type, cell[i].owner, cell[i].value);
             }
         }
-
     }
 
+    //To implement...
+    // Message handling server-side. Provides message log functions.
     var poolMessageRefresh = function() {
+
     }
 
 
@@ -147,7 +154,6 @@ GameController.init = function() {
     // Validators
 
     var validateInputs = function() {
-
         if (GameView.getPlayerName().length == 0) {
             GameController.sendMessage("Player name must be at least 1 char long!");
             GameView.setFocusPlayerName();
@@ -270,6 +276,12 @@ GameController.init = function() {
             this.sendMessage("Wait for your turn to play!");
     }
 
+
+    this.revealBoard = function() {
+        GameView.hideOptions();
+        BoardController.revealBoard();
+    }
+
     // --------------------------------
     // Messages
 
@@ -282,10 +294,6 @@ GameController.init = function() {
     // The rest...
 
 
-    this.revealBoard = function() {
-        GameView.hideOptions();
-        BoardController.revealBoard();
-    }
 }
 
 
@@ -329,7 +337,7 @@ GameView.init = function() {
         this.hideListButton();
         this.showRestartButton();
         this.showRevealButton();
-        this.showWaitButton(msg);
+        this.showMsgButton(msg);
         optionsDiv.show("slow");
     }
 
