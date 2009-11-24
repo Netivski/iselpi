@@ -152,7 +152,10 @@ GameController.init = function() {
             return false;
         }
         else if (GameView.getGameName().length == 0) {
-            GameController.sendMessage("Game name must be at least 1 char long!");
+            if (GameView.isNewGame())
+                GameController.sendMessage("Game name must be at least 1 char long!");
+            else
+                GameController.sendMessage("No available games to play!");
             GameView.setFocusGameName();
             return false;
         }
@@ -273,7 +276,7 @@ GameController.init = function() {
                 for (var i = 0; i < cell.length; i++) {
                     Cell.update(BoardView.getCellByPos(cell[i].posX, cell[i].posY), cell[i].type, cell[i].owner, cell[i].value);
                 }
-            } 
+            }
         } catch (e) { alert(e); }
 
         GameView.hideOptions();
@@ -382,8 +385,8 @@ GameView.init = function() {
     this.renderPlayerForm = function() {
         var formDiv = $("<div/>").addClass("divInputName").attr("id", "addPlayerForm").css("display", "none").attr("valign", "middle");
         $("<input/>").attr("id", "playerNameInput").attr("maxLength", "10").appendTo(formDiv);
-        $("<button/>").click(function() { GameController.evtProceedToGame(); }).text("Ok").attr("align", "center").appendTo(formDiv);
-        $("<button/>").click(function() { GameView.showMainOptions(); }).text("Back").attr("align", "center").appendTo(formDiv);
+        $("<button/>").click(function() { GameController.evtProceedToGame(); }).text("Ok").attr({ align: "center", id: "btnProceed" }).appendTo(formDiv);
+        $("<button/>").click(function() { GameView.showMainOptions(); }).text("Back").attr({ align: "center", id: "btnBack" }).appendTo(formDiv);
         formDiv.appendTo($(".divOptions"));
     }
 
@@ -468,6 +471,15 @@ GameView.init = function() {
 
 
     // --------------------------------
+    //Mines Left
+
+    this.renderMinesLeft = function(minesLeft) {
+        $("." + SCORE_LABEL).text("Mines Left");
+        $("." + SCORE_VALUE).text(minesLeft);
+    }
+
+
+    // --------------------------------
     //State interrogations
 
     this.isNewGame = function() { return ($(".divGamesList").css("display") == "none"); }
@@ -479,15 +491,4 @@ GameView.init = function() {
 
 
 
-    // --------------------------------
-    //The rest...
-
-    this.renderPlayer = function(pNum) {
-        Player.renderNew(pNum, this.getPlayerName(), pBoard[0]);
-    }
-
-    this.renderMinesLeft = function(minesLeft) {
-        $("." + SCORE_LABEL).text("Mines Left");
-        $("." + SCORE_VALUE).text(minesLeft);
-    }
 }
