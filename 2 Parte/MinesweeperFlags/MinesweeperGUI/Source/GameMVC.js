@@ -62,7 +62,8 @@ GameController.init = function() {
     Board.init();
     Player.init();
 
-    GameView.renderOptions();
+    //GameView.renderOptions();
+    GameView.showMainOptions();
 
 
     // --------------------------------
@@ -100,7 +101,9 @@ GameController.init = function() {
         if (req != "") {
             var player = req.getJSonObject();
             for (var i = 0; i < player.length; i++) {
-                Player.update(player[i].Id, player[i].Name, player[i].Points, GameModel.getPlayerId());
+                if (player[i].active == 0)
+                    Player.removePlayer(player[i].id);
+                Player.update(player[i].id, player[i].name, player[i].points, GameModel.getPlayerId());
             }
         }
     }
@@ -138,7 +141,8 @@ GameController.init = function() {
     }
 
     //To implement...
-    // Message handling server-side. Provides message log functions.
+    // Message handling server-side.
+    // Should provide message log functions.
     var poolMessageRefresh = function() { }
 
 
@@ -321,8 +325,8 @@ GameView.init = function() {
     this.renderOptions = function() {
         var optionsDiv = $(".divOptions");
         $("<button/>").attr("id", "MsgButton").appendTo(optionsDiv).css("display", "none");
-        $("<button/>").click(function() { GameController.evtListGames(); }).attr("id", "ListButton").text("List Available Games").appendTo(optionsDiv);
-        $("<button/>").click(function() { GameController.evtNewGame(); }).attr("id", "CreateButton").text("Start New Game").appendTo(optionsDiv);
+        $("<button/>").click(function() { GameController.evtListGames(); }).attr("id", "ListButton").text("List Available Games").appendTo(optionsDiv).css("display", "none");
+        $("<button/>").click(function() { GameController.evtNewGame(); }).attr("id", "CreateButton").text("Start New Game").appendTo(optionsDiv).css("display", "none");
         $("<button/>").click(function() { GameController.evtStartGame(); }).attr("id", "StartButton").text("Start Game").appendTo(optionsDiv).css("display", "none");
         $("<button/>").click(function() { GameController.evtRevealBoard() }).attr("id", "RevealButton").text("Reveal game board").appendTo(optionsDiv).css("display", "none");
         $("<button/>").click(function() { location.reload(true) }).attr("id", "RestartButton").text("Back to Lobby").appendTo(optionsDiv).css("display", "none");
@@ -341,11 +345,12 @@ GameView.init = function() {
         this.showMsgButton(msg);
     }
 
-    this.hideOptions = function() { $(".divOptions").hide("slow"); setTimeout("$('.divOptions').empty();", 1000); }
+    this.hideOptions = function() { $(".divOptions").hide("slow"); setTimeout("$('.divOptions').empty();", 300); }
 
     this.showMainOptions = function() {
-        GameView.hideOptions();
-        setTimeout("GameView.renderOptions();", 1000);
+        this.hideOptions();
+        setTimeout("GameView.renderOptions();"
+            + "GameView.showListButton();GameView.showCreateButton();", 1000);
     }
 
     this.hideCreateButton = function() { $("#CreateButton").hide("slow"); }

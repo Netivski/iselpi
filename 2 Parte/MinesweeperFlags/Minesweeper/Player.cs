@@ -4,7 +4,7 @@ using System.Threading;
 
 namespace Minesweeper
 {
-    public class Player
+    public class Player : IToJSon
     {
         int _id;
         string _name;
@@ -99,7 +99,10 @@ namespace Minesweeper
             }
         }
 
-
-
+        public string ToJSon()
+        {
+            return "{\"id\":\"" + _id + "\", \"name\":\"" + _name + "\", \"points\":" + _points
+                + ", \"active\":" + (_active?1:0) + "}";
+        }
     }
 }

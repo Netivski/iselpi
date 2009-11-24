@@ -79,7 +79,8 @@ namespace MinesweeperHandler
         protected void RefreshPlayerBoard()
         {
             List<Player> rObj = CurrentGame.GetRefreshPlayer(Generic.GetInt(Request["playerId"]) - 1);
-            Response.Write(JSon.Serialize<List<Player>>(rObj));
+            //Response.Write(JSon.Serialize<List<Player>>(rObj));
+            Response.Write(Generic.GetJSon(rObj));
         }
         protected void RefreshCell()
         {
