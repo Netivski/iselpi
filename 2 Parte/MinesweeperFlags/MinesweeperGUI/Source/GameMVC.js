@@ -113,13 +113,13 @@ GameController.init = function() {
         req.Request();
         if (req != "") {
             var game = req.getJSonObject();
+            GameModel.setActivePlayer(game.activePlayer);
             Player.activatePlayer(game.activePlayer);
             GameView.renderMinesLeft(game.minesLeft);
 
             if (GameModel.getGameStatus() == WAITING_FOR_PLAYERS && game.gStatus == STARTED) {
-                GameView.hideStartButton();
                 GameView.hideOptions();
-                GameModel.setGameStatus();
+                GameModel.setGameStatus(game.gStatus);
                 BoardController.start();
             }
             else if (game.gStatus == GAME_OVER) {
@@ -258,9 +258,8 @@ GameController.init = function() {
     }
 
     this.evtCellClicked = function(cell) {
-        if (GameModel.getActivePlayer() != GameModel.getPlayerId()) {
+        if ((parseInt(GameModel.getActivePlayer()) + 1) == parseInt(GameModel.getPlayerId())) {
             var pos = Cell.getPos(jQuery(cell));
-
             try {
                 var req = new HttpRequest("Play", GameModel.getGameName(), GameModel.getPlayerId()
                     , "posX", pos[0], "posY", pos[1]);
@@ -438,13 +437,7 @@ GameView.init = function() {
     // Games List
 
     this.renderGamesList = function() {
-        var listDiv = $("<div/>").addClass("divGamesList").attr("id", "gamesList").attr("valign", "middle");
-        listDiv.css({ "display": "none",
-            "background-color": "yellow",
-            "color": "red",
-            "font-family": "Verdana",
-            "text-align": "center"
-        });
+        var listDiv = $("<div/>").addClass("divGamesList").attr({ id: "gamesList", valign: "middle" }).css("display", "none");
         listDiv.appendTo($(".divOptions"));
     }
 

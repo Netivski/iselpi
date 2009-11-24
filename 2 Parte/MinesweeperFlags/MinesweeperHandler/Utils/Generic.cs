@@ -15,6 +15,13 @@ namespace MinesweeperHandler.Utils
             return rValue;
         }
 
+        public static String GetJSon<T>(T obj) where T : IToJSon
+        {
+            if (obj == null)
+                return "[]";
+            return ("[" + obj.ToJSon() + "]");
+        }
+
         public static String GetJSon<T>(List<T> list) where T : IToJSon
         {
             if (list == null || list.Count == 0)
