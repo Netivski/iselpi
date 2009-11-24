@@ -17,12 +17,11 @@ namespace MinesweeperHandler.Utils
 
         public static String GetJSon<T>(List<T> list) where T : IToJSon
         {
+            if (list == null || list.Count == 0)
+                return "[]";
             String retJSon = "";
-            if (list == null)
-                return retJSon;
             list.ForEach(x => retJSon += x.ToJSon() + ",");
-            if (retJSon.Length > 0)
-                retJSon = "[" + retJSon.Substring(0, retJSon.Length - 1) + "]";
+            retJSon = "[" + retJSon.Substring(0, retJSon.Length - 1) + "]";
             return retJSon;
         }
     }

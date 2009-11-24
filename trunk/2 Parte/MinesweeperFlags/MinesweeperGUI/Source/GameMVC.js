@@ -10,11 +10,11 @@ Game.init = function() {
         $("<script/>").attr("type", "text/javascript").attr("src", filename).appendTo($("head"));
     }
 
-//    addJsFile("Source/Constants.js");
-//    addJsFile("Source/HttpRequest.js");
-//    addJsFile("Source/BoardMVC.js");
-//    addJsFile("Source/Cell.js");
-//    addJsFile("Source/Player.js");
+    //    addJsFile("Source/Constants.js");
+    //    addJsFile("Source/HttpRequest.js");
+    //    addJsFile("Source/BoardMVC.js");
+    //    addJsFile("Source/Cell.js");
+    //    addJsFile("Source/Player.js");
 
     GameModel.init();
     GameView.init();
@@ -113,8 +113,13 @@ GameController.init = function() {
             var game = req.getJSonObject();
             GameView.renderMinesLeft(game.minesLeft);
             Player.activatePlayer(game.activePlayer);
-            if (game.gStatus == GAME_OVER) {
-                GameView.renderGameOver("Game over! Player [NAME_MISSING] won!");
+            if (GameModel.getGameStatus() == WAITING_FOR_PLAYERS && game.gStatus == STARTED) {
+                GameView.hideOptions();
+                GameModel.setGameStatus();
+                BoardController.start();
+            }
+            else if (game.gStatus == GAME_OVER) {
+                GameView.renderGameOver("Game over! Player '" + game.activePlayer + "' won!");
             }
         }
     }
@@ -200,6 +205,7 @@ GameController.init = function() {
             GameView.setFocusPlayerName();
         }
         else {
+            GameModel.setGameStatus(game.gStatus);
             GameModel.setGameName(game.GameName);
             GameModel.setPlayerName(GameView.getPlayerName());
             GameModel.setPlayerId(game.callingPlayer);
@@ -230,9 +236,10 @@ GameController.init = function() {
         } catch (e) { alert(e); }
 
         if (game.gStatus == STARTED) {
+            GameModel.setGameStatus(STARTED);
             BoardController.start();
             Player.activatePlayer(game.activePlayer);
-            GameView.hideStartButton();
+            GameView.hideOptions();
         }
     }
 
@@ -246,14 +253,16 @@ GameController.init = function() {
     }
 
     this.evtCellClicked = function(cell) {
-        var pos = Cell.getPos(jQuery(cell));
+        if (GameModel.getActivePlayer() != GameModel.getPlayerId()) {
+            var pos = Cell.getPos(jQuery(cell));
 
-        try {
-            var req = new HttpRequest("Play", GameModel.getGameName(), GameModel.getPlayerId()
+            try {
+                var req = new HttpRequest("Play", GameModel.getGameName(), GameModel.getPlayerId()
                     , "posX", pos[0], "posY", pos[1]);
-            req.Request();
-            //No response required
-        } catch (e) { alert(e); }
+                req.Request();
+                //No response required
+            } catch (e) { alert(e); }
+        }
     }
 
     // --------------------------------
@@ -310,7 +319,7 @@ GameView.init = function() {
     }
 
     this.renderGameOver = function(msg) {
-        var optionsDiv = $(".divOptions");
+        this.renderOptions();
         this.hideCreateButton();
         this.hideListButton();
         this.showRestartButton();

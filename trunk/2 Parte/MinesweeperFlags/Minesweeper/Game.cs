@@ -152,7 +152,7 @@ namespace Minesweeper
                 do
                 {
                     _currentPlayer = (_currentPlayer + 1) % _players.Length;
-                } while (_players[_currentPlayer] != null || _players[_currentPlayer].Active == false);
+                } while (_players[_currentPlayer] == null || _players[_currentPlayer].Active == false);
             }            
         }
         private bool CheckGameOver()
@@ -222,6 +222,7 @@ namespace Minesweeper
                 }
             }            
         }
+
         public int AddPlayer(string name)
         {
             if (_playersCount < MAX_PLAYERS)

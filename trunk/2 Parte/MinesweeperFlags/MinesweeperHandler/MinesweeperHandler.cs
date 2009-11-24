@@ -92,7 +92,6 @@ namespace MinesweeperHandler
         }
         protected void Play()
         {
-            //Play receives gameName, playerId, posX, posY
             int playerId = Generic.GetInt(Request["playerId"]) - 1;
             if (playerId == CurrentGame.CurrentPlayer)
             {
