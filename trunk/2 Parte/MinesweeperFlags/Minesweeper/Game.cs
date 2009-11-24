@@ -168,7 +168,7 @@ namespace Minesweeper
         private bool ProcessCell(int playerID, int posX, int posY)
         {
             Cell cell = _cells[posX, posY];
-            cell.Owner = playerID;
+            cell.Owner = _players[playerID].Id;
             cell.Hidden = false;
             foreach (Player p in _players)
             {

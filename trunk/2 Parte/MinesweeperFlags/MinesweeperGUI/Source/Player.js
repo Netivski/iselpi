@@ -44,7 +44,7 @@ Player.init = function() {
 
     this.activatePlayer = function(idPlayer) {
         idPlayer = parseInt(idPlayer);
-        for (var i = 0; i < $("." + PL_CLASS).length; i++) {
+        for (var i = 0; i < $("." + PL_BOARD_CLASS).length; i++) {
             $("." + PL_PIC_CLASS + ":eq(" + i + ")").toggleClass(PL_INACTIVE, i != idPlayer).toggleClass(PL_ACTIVE, i == idPlayer);
             $("." + PL_FLAG_CLASS + ":eq(" + i + ")").toggleClass(PL_INACTIVE, i != idPlayer).toggleClass(PL_ACTIVE, i == idPlayer);
             $("." + PL_NAME_CLASS + ":eq(" + i + ")").toggleClass(PL_INACTIVE, i != idPlayer).toggleClass(PL_ACTIVE, i == idPlayer);

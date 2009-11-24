@@ -15,17 +15,6 @@
 	opacity: 0.5;
 }
 
-.divPlayerActive
-{
-	   -ms-filter:rogid XImageTransform.Microsoft.Alpha(Opacity=30);
-	   opacity:1.0;
-}
-
-.divPlayerInactive
-        {
-	   opacity:0.0;
-	} 
-	
 
 .divBackGround
 {	
