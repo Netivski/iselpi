@@ -73,9 +73,9 @@ GameController.init = function() {
     var pooling = function() {
         if (!poolingActive) return;
         try {
-            //poolPlayerRefresh();
+            poolPlayerRefresh();
             poolCellRefresh();
-            //poolGameRefresh();
+            poolGameRefresh();
             //poolMessageRefresh();
             //poolingActive = false;
         }
@@ -111,7 +111,7 @@ GameController.init = function() {
         req.Request();
         if (req != "") {
             var game = req.getJSonObject();
-            Game.renderMinesLeft(game.minesLeft);
+            GameView.renderMinesLeft(game.minesLeft);
             if (game.gStatus == GAME_OVER) {
                 GameView.renderGameOver("Game over! Player [NAME_MISSING] won!");
             }
@@ -122,14 +122,11 @@ GameController.init = function() {
         var req = new HttpRequest("RefreshCell", GameModel.getGameName(), GameModel.getPlayerId());
         req.Request();
         if (req != "") {
+
             var cell = req.getJSonObject();
 
-            //Cell needs on update
-            // Number - Class, Value
-            // Mine - Class, Owner
-
             for (var i = 0; i < cell.length; i++) {
-                cell.update(BoardView.getCellByPos(cell[i].posX,cel[i].posY), cell[i].type, cell[i].owner, cell[i].value);
+                Cell.update(BoardView.getCellByPos(cell[i].posX, cel[i].posY), cell[i].type, cell[i].owner, cell[i].value);
             }
         }
 

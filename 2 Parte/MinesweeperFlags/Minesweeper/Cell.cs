@@ -18,14 +18,14 @@ namespace Minesweeper
             _posY = posY;
         }
 
-        public int PosX {
+        public int PosX
+        {
             get { return _posX; }
-            set { } 
         }
 
-        public int PosY { 
+        public int PosY
+        {
             get { return _posY; }
-            set { } 
         }
 
         public CellType Type
@@ -47,7 +47,7 @@ namespace Minesweeper
 
         public virtual String ToJSon()
         {
-            return "{\"type\":\"" + type + "\", \"hidden\":" + (hidden?1:0) + ", \"posX\":" + _posX 
+            return "{\"type\":\"" + type + "\", \"hidden\":" + (hidden ? 1 : 0) + ", \"posX\":" + _posX
                 + ", \"posY\":" + _posY + ", \"owner\":" + ownerId + "}";
         }
     }

@@ -14,6 +14,7 @@ namespace Minesweeper
         public int Value
         {
             get { return value; }
+            set { }
         }
 
         public void IncValue()
