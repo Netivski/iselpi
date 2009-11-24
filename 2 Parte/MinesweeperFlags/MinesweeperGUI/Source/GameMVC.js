@@ -69,9 +69,6 @@ GameController.init = function() {
     // Pooling
 
     var poolingActive = false;
-    var poolPlayerActive = true;
-    var poolCellActive = true;
-    var poolGameActive = true;
 
     var pooling = function() {
         if (!poolingActive) return;
@@ -79,7 +76,7 @@ GameController.init = function() {
             poolPlayerRefresh();
             poolCellRefresh();
             poolGameRefresh();
-            //poolMessageRefresh();
+            //poolMessageRefresh(); - not implemented
         }
         finally { if (poolingActive) setTimeout("GameController.doWork()", 1000); }
     }
@@ -98,7 +95,6 @@ GameController.init = function() {
     }
 
     var poolPlayerRefresh = function() {
-        if (!poolPlayerActive) return;
         var req = new HttpRequest("RefreshPlayerBoard", GameModel.getGameName(), GameModel.getPlayerId());
         req.Request();
         if (req != "") {
@@ -110,7 +106,6 @@ GameController.init = function() {
     }
 
     var poolGameRefresh = function() {
-        if (!poolGameActive) return;
         var req = new HttpRequest("RefreshGameInfo", GameModel.getGameName(), GameModel.getPlayerId());
         req.Request();
         if (req != "") {
@@ -132,7 +127,6 @@ GameController.init = function() {
     }
 
     var poolCellRefresh = function() {
-        if (!poolCellActive) return;
         var req = new HttpRequest("RefreshCell", GameModel.getGameName(), GameModel.getPlayerId());
         req.Request();
         if (req != "") {
@@ -145,9 +139,7 @@ GameController.init = function() {
 
     //To implement...
     // Message handling server-side. Provides message log functions.
-    var poolMessageRefresh = function() {
-
-    }
+    var poolMessageRefresh = function() { }
 
 
     // --------------------------------
@@ -231,9 +223,7 @@ GameController.init = function() {
             else {
                 GameView.showMsgButton("Waiting on other players....");
             }
-
         }
-
         this.startPooling();
     }
 
@@ -256,7 +246,6 @@ GameController.init = function() {
         try {
             var req = new HttpRequest("RemovePlayer", GameModel.getGameName(), GameModel.getPlayerId());
             req.Request();
-            //No response required
         } catch (e) { alert(e); }
         location.reload(true);
     }
@@ -269,15 +258,24 @@ GameController.init = function() {
                 var req = new HttpRequest("Play", GameModel.getGameName(), GameModel.getPlayerId()
                     , "posX", pos[0], "posY", pos[1]);
                 req.Request();
-                //No response required
             } catch (e) { alert(e); }
         }
         else
             this.sendMessage("Wait for your turn to play!");
     }
 
+    this.evtRevealBoard = function() {
+        try {
+            var req = new HttpRequest("RevealBoard", GameModel.getGameName(), GameModel.getPlayerId());
+            req.Request();
+            if (req != "") {
+                var cell = req.getJSonObject();
+                for (var i = 0; i < cell.length; i++) {
+                    Cell.update(BoardView.getCellByPos(cell[i].posX, cell[i].posY), cell[i].type, cell[i].owner, cell[i].value);
+                }
+            } 
+        } catch (e) { alert(e); }
 
-    this.revealBoard = function() {
         GameView.hideOptions();
         BoardController.revealBoard();
     }
@@ -323,7 +321,7 @@ GameView.init = function() {
         $("<button/>").click(function() { GameController.evtListGames(); }).attr("id", "ListButton").text("List Available Games").appendTo(optionsDiv);
         $("<button/>").click(function() { GameController.evtNewGame(); }).attr("id", "CreateButton").text("Start New Game").appendTo(optionsDiv);
         $("<button/>").click(function() { GameController.evtStartGame(); }).attr("id", "StartButton").text("Start Game").appendTo(optionsDiv).css("display", "none");
-        $("<button/>").click(function() { GameController.revealBoard() }).attr("id", "RevealButton").text("Reveal game board").appendTo(optionsDiv).css("display", "none");
+        $("<button/>").click(function() { GameController.evtRevealBoard() }).attr("id", "RevealButton").text("Reveal game board").appendTo(optionsDiv).css("display", "none");
         $("<button/>").click(function() { location.reload(true) }).attr("id", "RestartButton").text("Back to Lobby").appendTo(optionsDiv).css("display", "none");
         optionsDiv.css("display", "block");
         this.renderGamesList();
@@ -338,7 +336,6 @@ GameView.init = function() {
         this.showRestartButton();
         this.showRevealButton();
         this.showMsgButton(msg);
-        optionsDiv.show("slow");
     }
 
     this.hideOptions = function() { $(".divOptions").hide("slow"); setTimeout("$('.divOptions').empty();", 1000); }

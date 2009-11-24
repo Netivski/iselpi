@@ -62,9 +62,18 @@ namespace MinesweeperHandler
                 case "RefreshGameInfo":
                     RefreshGameInfo();
                     break;
+                case "RevealBoard":
+                    RevealBoard();
+                    break;
                 default:
                     throw new ApplicationException("Invalid Handler Name");
             }
+        }
+
+        private void RevealBoard()
+        {
+            CurrentGame.RevealBoard(Generic.GetInt(Request["playerId"]) - 1);
+            RefreshCell();
         }
 
         protected void RefreshPlayerBoard()

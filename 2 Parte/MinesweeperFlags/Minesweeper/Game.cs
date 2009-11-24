@@ -233,7 +233,7 @@ namespace Minesweeper
             {
                 foreach (Cell c in _cells)
                 {
-                    if (c.Type == CellType.Mine || c.Type == CellType.Bomd)
+                    if (c.Type == CellType.Mine || c.Type == CellType.Bomb)
                     {
                         c.Type = CellType.Bomb;
                         _players[playerId].RefreshAddCell(c);
