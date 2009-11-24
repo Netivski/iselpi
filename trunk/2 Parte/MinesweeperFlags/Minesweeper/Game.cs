@@ -170,6 +170,11 @@ namespace Minesweeper
             Cell cell = _cells[posX, posY];
             cell.Owner = playerID;
             cell.Hidden = false;
+            foreach (Player p in _players)
+            {
+                if (p != null)
+                    p.RefreshAddCell(cell);
+            }
             if (cell.Type == CellType.Mine)
             {               
                 _minesLeft--;
