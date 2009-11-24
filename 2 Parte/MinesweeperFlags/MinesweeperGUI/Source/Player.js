@@ -32,9 +32,6 @@ Player.init = function() {
         (playerDiv.append(nameDiv)).append(quitDiv);
 
         playerDiv.appendTo($("." + PL_CLASS));
-
-        //        if (pNum == myId)
-        //            this.addEventListener(pNum);
     }
 
     this.incScore = function(pNum) { setScore(pNum, this.getScore(pNum) * 1 + 1); }
@@ -58,10 +55,4 @@ Player.init = function() {
     this.removePlayer = function(pNum) {
         $("#Player" + pNum).css("display", "none");
     }
-
-    this.addEventListener = function(pNum) {
-        var num = parseInt(pNum) - 1;
-        $("." + BTN_QUIT_CLASS).click(function() { GameController.evtRemovePlayer(); });
-    }
-
 }

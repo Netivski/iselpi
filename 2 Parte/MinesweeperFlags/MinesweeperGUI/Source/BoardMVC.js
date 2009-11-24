@@ -45,7 +45,7 @@ BoardView.init = function() {
 
     if (this.render == undefined) {
 
-        this.render = function(parentElem) {
+        this.render = function() {
             var cellWidth = $("." + HIDDEN_CELL).css("width");
             var width = (cellWidth * BoardController.getCols());
 
