@@ -47,6 +47,16 @@ namespace Minesweeper
             get { return _sStatus; }
         }
         public int CurrentPlayer { get { return _currentPlayer; } }
+        private List<Player> ScoreList
+        {
+            get
+            {
+                List<Player> scoreArr = new List<Player>(_players);
+                scoreArr.RemoveAll(p => p == null || !p.Active);
+                scoreArr.Sort((a, b) => b.Points.CompareTo(a.Points));
+                return scoreArr;
+            }
+        }
         public List<Player> GetRefreshPlayer(int playerId)
         {
             List<Player> d = _players[playerId].GetRefreshPlayer();
@@ -59,6 +69,7 @@ namespace Minesweeper
             _players[playerId].ResetRefreshCell();
             return sRef;
         }
+        
 
         private int calcMines()
         {
@@ -144,24 +155,16 @@ namespace Minesweeper
                 } while (_players[_currentPlayer] != null || _players[_currentPlayer].Active == false);
             }            
         }
-        private void CheckGameOver()
+        private bool CheckGameOver()
         {
-            List<Player> scoreArr = new List<Player>(_players);
-            if (_playersCount < MIN_PLAYERS)
+            if ((_playersCount < 2) || (MinesLeft + ScoreList[1].Points < ScoreList[0].Points))
             {
                 _sStatus = GameStatus.GAME_OVER;
-                _currentPlayer = scoreArr[0].Id;
-                return;
+                _currentPlayer = ScoreList[0].Id;
+                return true;
             }
-            scoreArr.RemoveAll(p => p == null || !p.Active);            
-            scoreArr.Sort((a, b) => b.Points.CompareTo(a.Points));
-
-            if (MinesLeft + scoreArr[1].Points < scoreArr[0].Points)
-            {
-                _sStatus = GameStatus.GAME_OVER;
-                _currentPlayer = scoreArr[0].Id;
-            }
-        }
+            return false;
+        }        
 
         public void Play(int playerID, int posX, int posY)
         {
@@ -189,18 +192,17 @@ namespace Minesweeper
                         _players[playerID].Points++;;
                         foreach (Player player in _players)
                         {
-                            if (player != null)
+                            if (player != null && player.Active == true)
                             {
                                 player.RefreshAddPlayer(_players[playerID]);
                             }
                         }
-                        CheckGameOver();                        
+                        CheckGameOver();
                     }
                     else
                     {
                         //If is Number and value equals 0 then chainReaction
-                        //If is Number and is not 0, nothing has to be done because the cell has already
-                        //been added to the update cells of all players
+                        //If is Number and is not 0, nothing has to be done
 
                         if (((CellNumber)cell).Value == 0)
                         {
@@ -243,11 +245,18 @@ namespace Minesweeper
         {
             _players[id].Active = false;
             _playersCount--;
-            foreach (Player p in _players)
+
+            if (!CheckGameOver())
             {
-                p.RefreshAddPlayer(_players[id]);
+                reCalcMines();
+                foreach (Player p in _players)
+                {
+                    if (p != null)
+                        p.RefreshAddPlayer(_players[id]);
+                }
+                if (_players[_currentPlayer].Id == id)
+                    SetCurrentPlayer();
             }
-            CheckGameOver();
         }
         public bool Start()
         {
@@ -273,19 +282,7 @@ namespace Minesweeper
             CalcValueCells();
 
             //Sets the player to start the game
-            SetCurrentPlayer();
-
-            //When starting all players must update players information
-            //Who is active and who is not
-
-            //foreach (Player p in _players)
-            //{
-            //    foreach (Player pl in _players)
-            //    {
-            //        p.RefreshAddPlayer(pl);
-            //    }
-            //}
-
+            SetCurrentPlayer();            
             _sStatus = GameStatus.STARTED;
 
             return true;
