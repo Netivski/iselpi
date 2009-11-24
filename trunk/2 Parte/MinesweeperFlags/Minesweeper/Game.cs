@@ -80,7 +80,7 @@ namespace Minesweeper
         private void ReCalcMines()
         {
             if (_minesLeft % _playersCount == 0)
-                _totalMines -= 1;
+                _minesLeft -= 1;
         }
         private void GenMinesPos()
         {
@@ -160,7 +160,7 @@ namespace Minesweeper
             if ((_playersCount < 2) || (MinesLeft + ScoreList[1].Points < ScoreList[0].Points))
             {
                 _sStatus = GameStatus.GAME_OVER;
-                _currentPlayer = ScoreList[0].Id;
+                _currentPlayer = (ScoreList.Count==0?0:ScoreList[0].Id);
                 return true;
             }
             return false;
@@ -233,7 +233,7 @@ namespace Minesweeper
             {
                 foreach (Cell c in _cells)
                 {
-                    if (c.Type == CellType.Mine || c.Type == CellType.Bomb)
+                    if (c.Hidden && (c.Type == CellType.Mine || c.Type == CellType.Bomb))
                     {
                         c.Type = CellType.Bomb;
                         _players[playerId].RefreshAddCell(c);
