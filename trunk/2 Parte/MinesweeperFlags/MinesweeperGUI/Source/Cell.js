@@ -20,6 +20,7 @@ Cell.init = function() {
 
     this.update = function(cell, type, owner, value) {
         cell = jQuery(cell);
+        alert("type=" + type);
         this.setType(cell, type);
         if (type == TYPE_MINE) {
             setClass(cell, MINE_CELL + owner);

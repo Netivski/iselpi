@@ -36,7 +36,10 @@
     }
 
     this.getJSonObject = function() {
-      return eval( "(" + xhr.responseText + ")" );
+        try {
+            var jSon = "(" + xhr.responseText + ")";
+            return eval(jSon);
+        } catch (e) { "***" + alert(e); }
     }
 
     this.getResponseText = function() { return xhr.responseText; }
