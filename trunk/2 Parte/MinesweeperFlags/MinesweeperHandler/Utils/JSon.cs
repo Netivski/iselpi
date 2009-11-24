@@ -9,7 +9,13 @@ namespace MinesweeperHandler.Utils
 
         public static string Serialize<T>(T obj)
         {
-            return new Serializer(typeof(T)).Serialize(obj);
+            JsonExSerializer.Serializer serializer = new JsonExSerializer.Serializer(typeof(T));
+            serializer.Context.IsCompact = true;
+            serializer.Context.OutputTypeComment = false;
+            serializer.Context.OutputTypeInformation = false;
+            serializer.Context.SetJsonStrictOptions();
+
+            return serializer.Serialize(obj);
         }
     }
 }
