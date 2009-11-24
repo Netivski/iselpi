@@ -170,6 +170,16 @@ namespace Minesweeper
                 if (_cells[posX, posY].Hidden) //Another Sanity check
                 {
                     Cell cell = _cells[posX, posY];
+                    cell.Owner = playerID;
+
+                    ////This cell will certainly be for update in all players no matter what
+                    foreach (Player player in _players)
+                    {
+                        if (player != null)
+                        {
+                            player.RefreshAddCell(cell);
+                        }
+                    }
 
                     if (cell.Type == CellType.Mine)
                     {
@@ -200,21 +210,13 @@ namespace Minesweeper
                             {
                                 if (c.Type != CellType.Mine)
                                 {
-                                    if (cell.Hidden)
+                                    if (c.Hidden)
                                         Play(playerID, c.PosX, c.PosY);
                                 }
                             }
                         }
                     }
-
-                    ////This cell will certainly be for update in all players no matter what
-                    foreach (Player player in _players)
-                    {
-                        if (player != null)
-                        {
-                            player.RefreshAddCell(cell);
-                        }
-                    }
+                    cell.Hidden = false;
                 }
             }            
         }
