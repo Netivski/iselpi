@@ -6,7 +6,7 @@ using Minesweeper;
 
 namespace MinesweeperHandler.Proxy
 {
-    internal struct JSONGame
+    internal struct JSONGame : IToJSon
     {
         public string GameName;
         public int activePlayer;
@@ -21,6 +21,14 @@ namespace MinesweeperHandler.Proxy
             callingPlayer = 0;
             minesLeft = 0;
             gStatus = GameStatus.INVALID_NAME;
+        }
+
+        public string ToJSon()
+        {
+            return "{\"GameName\":\"" + GameName + "\", \"activePlayer\":\"" + activePlayer
+                + "\", \"callingPlayer\":\"" + callingPlayer + "\", \"minesLeft\":\"" + minesLeft
+                + "\", \"gStatus\":\"" + (int)gStatus + "\"}";
+
         }
     }
 }

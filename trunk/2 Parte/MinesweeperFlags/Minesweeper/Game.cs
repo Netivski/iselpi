@@ -47,6 +47,7 @@ namespace Minesweeper
             get { return _sStatus; }
         }
         public int CurrentPlayer { get { return _currentPlayer; } }
+
         private List<Player> ScoreList
         {
             get

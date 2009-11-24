@@ -93,7 +93,8 @@ namespace MinesweeperHandler
             game.minesLeft = CurrentGame.MinesLeft;
             game.activePlayer = CurrentGame.CurrentPlayer;
             game.gStatus = CurrentGame.Status;
-            Response.Write(JSon.Serialize<JSONGame>(game));
+            //Response.Write(JSon.Serialize<JSONGame>(game));
+            Response.Write(game.ToJSon());
         }
         protected void ListActiveGames()
         {
@@ -122,7 +123,8 @@ namespace MinesweeperHandler
                     GameStatus.CROWDED : CurrentGame.Status);
                 game.minesLeft = CurrentGame.MinesLeft;
             }
-            Response.Write(Utils.JSon.Serialize<JSONGame>(game));
+            Response.Write(game.ToJSon());
+            //Response.Write(Utils.JSon.Serialize<JSONGame>(game));
         }
         protected void CreateGame()
         {
@@ -134,7 +136,8 @@ namespace MinesweeperHandler
                 game.minesLeft = CurrentGame.MinesLeft;
                 game.callingPlayer = 1;
             }
-            Response.Write(Utils.JSon.Serialize<JSONGame>(game));
+            Response.Write(game.ToJSon());
+            //Response.Write(Utils.JSon.Serialize<JSONGame>(game));
         }
         protected void StartGame()
         {
@@ -146,7 +149,8 @@ namespace MinesweeperHandler
             game.minesLeft = CurrentGame.MinesLeft;
             game.gStatus = CurrentGame.Status;
 
-            Response.Write(JSon.Serialize<JSONGame>(game));
+            Response.Write(game.ToJSon());
+            //Response.Write(JSon.Serialize<JSONGame>(game));
         }
     }
 }
