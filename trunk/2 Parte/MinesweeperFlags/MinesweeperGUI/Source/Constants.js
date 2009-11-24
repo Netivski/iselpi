@@ -29,6 +29,7 @@
 	var BOMB_CELL = "divCell_Bomb";
 	var TYPE_MINE = "Mine";
 	var TYPE_NUMBER = "Number";
+	var TYPE_BOMB = "Bomb";
 
 // CSS score board
 // ---------------------------	

@@ -24,6 +24,9 @@ Cell.init = function() {
         if (type == TYPE_MINE) {
             setClass(cell, MINE_CELL + ("" + owner + ""));
         }
+        else if (type == TYPE_BOMB) {
+            setClass(cell, BOMB_CELL);
+        }
         else {
             if (value > 0) {
                 setValue(cell, value);
