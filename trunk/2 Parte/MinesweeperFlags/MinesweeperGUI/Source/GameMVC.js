@@ -10,11 +10,11 @@ Game.init = function() {
         $("<script/>").attr("type", "text/javascript").attr("src", filename).appendTo($("head"));
     }
 
-    //    addJsFile("Source/Constants.js");
-    //    addJsFile("Source/HttpRequest.js");
-    //    addJsFile("Source/BoardMVC.js");
-    //    addJsFile("Source/Cell.js");
-    //    addJsFile("Source/Player.js");
+    addJsFile("Source/Constants.js");
+    addJsFile("Source/HttpRequest.js");
+    addJsFile("Source/BoardMVC.js");
+    addJsFile("Source/Cell.js");
+    addJsFile("Source/Player.js");
 
     GameModel.init();
     GameView.init();
@@ -292,12 +292,6 @@ GameController.init = function() {
     this.sendMessage = function(msg) {
         GameView.renderMessage(msg);
     }
-
-
-    // --------------------------------
-    // The rest...
-
-
 }
 
 
@@ -307,14 +301,15 @@ GameController.init = function() {
 var GameView = new Object();
 GameView.init = function() {
 
-    if (this.renderBoard != undefined) return;
 
-    var dArena = $("." + BOARD_CLASS);
-    var pBoard = $("." + PL_CLASS);
+    // --------------------------------
+    // Game Board
+
+    if (this.renderBoard != undefined) return;
 
     this.renderBoard = function() {
         $("." + BOARD_CLASS).empty();
-        BoardView.render(dArena[0]);
+        BoardView.render();
     }
 
 
@@ -461,7 +456,7 @@ GameView.init = function() {
 
 
     // --------------------------------
-    //Messages
+    // Messages
 
     this.renderMessage = function(msg) {
         $("." + MSGBOARD_CLASS + " ." + MSG_CLASS).text(msg);
@@ -469,7 +464,7 @@ GameView.init = function() {
 
 
     // --------------------------------
-    //Mines Left
+    // Mines Left
 
     this.renderMinesLeft = function(minesLeft) {
         $("." + SCORE_LABEL).text("Mines Left");
@@ -478,15 +473,8 @@ GameView.init = function() {
 
 
     // --------------------------------
-    //State interrogations
+    // State interrogations
 
     this.isNewGame = function() { return ($(".divGamesList").css("display") == "none"); }
-
-
-    // --------------------------------
-    //
-
-
-
 
 }

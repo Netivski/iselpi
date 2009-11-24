@@ -2,7 +2,8 @@ var Cell = new Object();
 
 Cell.init = function() {
 
-    // Internal members ---------------------------------------------------
+
+// Private Members --------------------------------------------------------------------------------------
 
     var setValue = function(cell, val) { $(cell).attr("value", "" + val + ""); }
     var setClass = function(cell, cellClass) { $(cell).attr("class", cellClass); }
@@ -12,7 +13,7 @@ Cell.init = function() {
         $(cell).append(Cell.getValue(cell));
     }
 
-    // Public members ---------------------------------------------------
+// Public Members ---------------------------------------------------------------------------------------
 
     this.setType = function(cell, type) {
         $(cell).attr("type", type);

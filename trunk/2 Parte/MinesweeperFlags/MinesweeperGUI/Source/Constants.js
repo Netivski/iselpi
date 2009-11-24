@@ -1,11 +1,8 @@
 // Game defaults
 // ---------------------------
 
-	var MAX_PLAYERS = 4;
-	var MIN_PLAYERS = 2;
 	var COLS = 20;
 	var LINES = 20;
-	var TOTAL_MINES = 51;
 
 	var WAITING_FOR_PLAYERS = 0;
 	var WAITING_FOR_START = 1;
@@ -27,6 +24,8 @@
 	var EMPTY_CELL = "divCell_Number";
 	var MINE_CELL = "divCell_Flag_P";
 	var BOMB_CELL = "divCell_Bomb";
+	
+	//Server Enumerate
 	var TYPE_MINE = "Mine";
 	var TYPE_NUMBER = "Number";
 	var TYPE_BOMB = "Bomb";
