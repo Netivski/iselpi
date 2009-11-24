@@ -109,8 +109,10 @@ GameController.init = function() {
     var poolGameRefresh = function() {
         var req = new HttpRequest("RefreshGameInfo", GameModel.getGameName(), GameModel.getPlayerId());
         req.Request();
-        if (req != "") {
+        if (req != "") {            
             var game = req.getJSonObject();
+            if (GameModel.getGameStatus == WAITING_FOR_PLAYERS && game.gStatus == STARTED)
+                GameView.hideStartButton();              
             GameView.renderMinesLeft(game.minesLeft);
             Player.activatePlayer(game.activePlayer);
             if (GameModel.getGameStatus() == WAITING_FOR_PLAYERS && game.gStatus == STARTED) {

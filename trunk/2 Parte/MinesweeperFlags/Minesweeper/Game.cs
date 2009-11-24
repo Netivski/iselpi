@@ -164,7 +164,37 @@ namespace Minesweeper
                 return true;
             }
             return false;
-        }        
+        }
+        private bool ProcessCell(int playerID, int posX, int posY)
+        {
+            Cell cell = _cells[posX, posY];
+            cell.Owner = playerID;
+            cell.Hidden = false;
+            if (cell.Type == CellType.Mine)
+            {               
+                _minesLeft--;
+                return true;
+            }
+            else
+            {
+                //If is Number and value equals 0 then chainReaction
+                //If is Number and is not 0, nothing has to be done
+
+                if (((CellNumber)cell).Value == 0)
+                {
+                    List<Cell> adjCell = GetAdjacentCells(cell);
+                    foreach (Cell c in adjCell)
+                    {
+                        if (c.Type != CellType.Mine)
+                        {
+                            if (c.Hidden)
+                                ProcessCell(playerID, c.PosX, c.PosY);
+                        }
+                    }
+                }
+                return false;
+            }
+        }
 
         public void Play(int playerID, int posX, int posY)
         {
@@ -172,24 +202,11 @@ namespace Minesweeper
             {
                 if (_cells[posX, posY].Hidden) //Another Sanity check
                 {
-                    Cell cell = _cells[posX, posY];
-                    cell.Owner = playerID;
-
-                    ////This cell will certainly be for update in all players no matter what
-                    foreach (Player player in _players)
+                    if (ProcessCell(playerID, posX, posY))
                     {
-                        if (player != null)
-                        {
-                            player.RefreshAddCell(cell);
-                        }
-                    }
-
-                    if (cell.Type == CellType.Mine)
-                    {
-                        //If is Mine, decrement minesLeft, increment player Points puts player to update
-                        //and return true to indicate that this player continues to play
-                        _minesLeft--;
-                        _players[playerID].Points++;;
+                        _players[playerID].Points++;
+                        if (CheckGameOver())
+                            return;
                         foreach (Player player in _players)
                         {
                             if (player != null && player.Active == true)
@@ -197,28 +214,10 @@ namespace Minesweeper
                                 player.RefreshAddPlayer(_players[playerID]);
                             }
                         }
-                        CheckGameOver();
                     }
                     else
-                    {
-                        //If is Number and value equals 0 then chainReaction
-                        //If is Number and is not 0, nothing has to be done
-
-                        if (((CellNumber)cell).Value == 0)
-                        {
-                            cell.Hidden = false;
-                            List<Cell> adjCell = GetAdjacentCells(cell);
-                            foreach (Cell c in adjCell)
-                            {
-                                if (c.Type != CellType.Mine)
-                                {
-                                    if (c.Hidden)
-                                        Play(playerID, c.PosX, c.PosY);
-                                }
-                            }
-                        }
-                    }
-                    cell.Hidden = false;
+                        SetCurrentPlayer();
+                    
                 }
             }            
         }
