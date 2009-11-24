@@ -92,7 +92,7 @@ namespace MinesweeperHandler
         protected void Play()
         {
             int playerId = Generic.GetInt(Request["playerId"]) - 1;
-            if (playerId == CurrentGame.CurrentPlayer)
+            if (playerId == CurrentGame.CurrentPlayer && CurrentGame.Status != GameStatus.GAME_OVER)
             {
                 CurrentGame.Play(playerId, Generic.GetInt(Request["posX"]), Generic.GetInt(Request["posY"]));
             }

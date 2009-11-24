@@ -69,20 +69,20 @@ namespace Minesweeper
             _players[playerId].ResetRefreshCell();
             return sRef;
         }
-        
 
-        private int calcMines()
+
+        private int CalcMines()
         {
             if (TOTAL_MINES % _playersCount == 0)
                 return TOTAL_MINES + 1;
             return TOTAL_MINES;
         }
-        private void reCalcMines()
+        private void ReCalcMines()
         {
             if (_minesLeft % _playersCount == 0)
                 _totalMines -= 1;
         }
-        private void genMinesPos()
+        private void GenMinesPos()
         {
             int cont = 0, x = 0, y = 0, absPos = 0;
 
@@ -153,7 +153,7 @@ namespace Minesweeper
                 {
                     _currentPlayer = (_currentPlayer + 1) % _players.Length;
                 } while (_players[_currentPlayer] == null || _players[_currentPlayer].Active == false);
-            }            
+            }
         }
         private bool CheckGameOver()
         {
@@ -176,7 +176,7 @@ namespace Minesweeper
                     p.RefreshAddCell(cell);
             }
             if (cell.Type == CellType.Mine)
-            {               
+            {
                 _minesLeft--;
                 return true;
             }
@@ -222,9 +222,24 @@ namespace Minesweeper
                     }
                     else
                         SetCurrentPlayer();
-                    
+
                 }
-            }            
+            }
+        }
+
+        public void RevealBoard(int playerId)
+        {
+            if (_sStatus == GameStatus.GAME_OVER)
+            {
+                foreach (Cell c in _cells)
+                {
+                    if (c.Type == CellType.Mine || c.Type == CellType.Bomd)
+                    {
+                        c.Type = CellType.Bomb;
+                        _players[playerId].RefreshAddCell(c);
+                    }
+                }
+            }
         }
 
         public int AddPlayer(string name)
@@ -253,7 +268,7 @@ namespace Minesweeper
 
             if (!CheckGameOver())
             {
-                reCalcMines();
+                ReCalcMines();
                 foreach (Player p in _players)
                 {
                     if (p != null)
@@ -267,10 +282,10 @@ namespace Minesweeper
         {
             if (_playersCount < 2) return false;
 
-            _minesLeft = _totalMines = calcMines();
+            _minesLeft = _totalMines = CalcMines();
 
             //Generate mines e puts them into the cell[,]
-            genMinesPos();
+            GenMinesPos();
 
             //Fills the rest of cell[,] with CellNumber
             for (int i = 0; i < _cols; i++)
@@ -287,7 +302,7 @@ namespace Minesweeper
             CalcValueCells();
 
             //Sets the player to start the game
-            SetCurrentPlayer();            
+            SetCurrentPlayer();
             _sStatus = GameStatus.STARTED;
 
             return true;
