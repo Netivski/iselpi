@@ -1,0 +1,35 @@
+- Formulário para inserção/edição dos dados do perfil;
+
+	View que possibilita optar entre inserir e escolher dados (entre outros, nomeadamente Goto Lobby...)
+	A View de inserção e edição será a mesma, a diferença é que a primeira estará vazia e a segunda não
+	Os dados são gravados/lidos da uma BD SQL (LINQ to SQL)
+
+- Visualização dos dados do perfil;
+
+	Existe a possibilidade de utilizar a mesma View que edição de dados com bloqueio de edição
+
+- Suportar o envio de desafios e aceitação de desafios.
+
+	Criar View do tipo IRC em que é possível trocar mensagens (públicas ou privadas) com os jogadores logados
+	Além dos jogadores logados podem também	ser listados os jogos disponíveis
+	Nesta janela irá ser feita a criação de um novo jogo ou o join a um disponível
+	
+	Um jogador cria um jogo privado, ocupando de imediato a posição 0 desse jogo (owner)
+	Não vai de imediato para o jogo pois vai querer convidar jogadores, ficando no Lobby
+	Terá que escolher pelo menos um jogador para o jogo enviando uma mensagem "especial"
+	Cada jogador que aceita o convite é direccionado automaticamente para o jogo ficando a aguardar
+	O owner poderá começar o jogo assim que o mesmo tiver pelo menos 2 jogadores a aguardar (ele inclusivé)
+	A iniciar o seu jogo privado, o owner é direccionado para o jogo, ficando a faltar apenas "Start Game"
+
+- Modo online/offline para aceitar desafios. No modo offline o jogador não consta na lista de jogadores disponíveis para desafios.
+
+	A lista de jogadores é actualizada cada vez que um jogador faz login ou logout
+	Existe também a possibilidade de um jogador definir-se como offline, correspondendo a remover-se dessa lista
+
+- Apresentação da lista de amigos disponíveis para jogar, através da qual são realizados os desafios.
+
+	Repetição da alínea anterior
+
+- Jogo entre dois ou mais utilizadores, com possibilidade de desistência.
+
+	Já implementado
