@@ -45,7 +45,7 @@
 // CSS player
 // ---------------------------	
 
-	var IMAGES_PATH = "Images/"
+	var IMAGES_PATH = "../Images/"
 
 	var PL_CLASS = "divPlayerBoard"
 	var PL_BOARD_CLASS = "divPlayer"
