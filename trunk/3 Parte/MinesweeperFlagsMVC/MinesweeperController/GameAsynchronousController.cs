@@ -20,14 +20,14 @@ namespace MinesweeperControllers
         public ActionResult RefreshPlayerBoard(int playerId)
         {
             List<Player> rObj = CurrentGame.GetRefreshPlayer(playerId - 1);
-            return new ContentResult() { Content = Generic.GetJSon(rObj), ContentType = "ContentType" };
+            return new ContentResult() { Content = Generic.GetJSon(rObj), ContentType = "text/x-json" };
         }
         
         public ActionResult RefreshCell(int playerId)
         {
             List<Cell> rObj = CurrentGame.GetRefreshCell(playerId - 1);
 
-            return new ContentResult() { Content = Generic.GetJSon(rObj), ContentType = "ContentType" };
+            return new ContentResult() { Content = Generic.GetJSon(rObj), ContentType = "text/x-json" };
         }
 
         public ActionResult RefreshGameInfo(string gName)
@@ -37,12 +37,12 @@ namespace MinesweeperControllers
             game.activePlayer = CurrentGame.CurrentPlayer;
             game.gStatus = CurrentGame.Status;
 
-            return new ContentResult() { Content = game.ToJSon(), ContentType = "ContentType" };
+            return new ContentResult() { Content = game.ToJSon(), ContentType = "text/x-json" };
         }
 
         public ActionResult ListActiveGames()
         {
-            return new ContentResult() { Content = Utils.JSon.Serialize<List<string>>(Minesweeper.GameManager.Current.GetActiveGames()), ContentType = "ContentType" };
+            return new ContentResult() { Content = Utils.JSon.Serialize<List<string>>(Minesweeper.GameManager.Current.GetActiveGames()), ContentType = "text/x-json" };
         }
 
         public ActionResult Play(int playerId, int posX, int posY)
@@ -72,7 +72,7 @@ namespace MinesweeperControllers
                 game.minesLeft = CurrentGame.MinesLeft;
             }
 
-            return new ContentResult() { Content = game.ToJSon(), ContentType = "ContentType" };
+            return new ContentResult() { Content = game.ToJSon(), ContentType = "text/x-json" };
         }
 
         public ActionResult CreateGame(string gName, string playerName)
@@ -86,7 +86,7 @@ namespace MinesweeperControllers
                 game.callingPlayer = 1;
             }
 
-            return new ContentResult() { Content = game.ToJSon(), ContentType = "ContentType" };
+            return new ContentResult() { Content = game.ToJSon(), ContentType = "text/x-json" };
         }
 
         public ActionResult StartGame(string gName, int playerId)
@@ -99,7 +99,7 @@ namespace MinesweeperControllers
             game.minesLeft = CurrentGame.MinesLeft;
             game.gStatus = CurrentGame.Status;
 
-            return new ContentResult() { Content = game.ToJSon(), ContentType = "ContentType" };
+            return new ContentResult() { Content = game.ToJSon(), ContentType = "text/x-json" };
         }
     }
 }
