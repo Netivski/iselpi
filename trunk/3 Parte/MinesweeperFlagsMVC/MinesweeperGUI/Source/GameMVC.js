@@ -10,11 +10,11 @@ Game.init = function() {
         $("<script/>").attr("type", "text/javascript").attr("src", filename).appendTo($("head"));
     }
 
-    addJsFile("Source/Constants.js");
-    addJsFile("Source/HttpRequest.js");
-    addJsFile("Source/BoardMVC.js");
-    addJsFile("Source/Cell.js");
-    addJsFile("Source/Player.js");
+    addJsFile("../Source/Constants.js");
+    addJsFile("../Source/HttpRequest.js");
+    addJsFile("../Source/BoardMVC.js");
+    addJsFile("../Source/Cell.js");
+    addJsFile("../Source/Player.js");
 
     GameModel.init();
     GameView.init();
