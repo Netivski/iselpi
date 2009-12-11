@@ -10,7 +10,7 @@ namespace Minesweeper
         string _name;
         int _points;
         bool _active;
-        string _eMail;
+        string _eMail = string.Empty;
         byte[] _photo; 
         List<Cell> _refreshCell;
         List<Player> _refreshPlayer;
@@ -127,7 +127,7 @@ namespace Minesweeper
         public string ToJSon()
         {
             return "{\"id\":\"" + _id + "\", \"name\":\"" + _name + "\", \"points\":" + _points
-                + ", \"active\":" + (_active?1:0) + ", \"eMail\":" + _eMail + "}";
+                + ", \"active\":" + (_active ? 1 : 0) + ", \"email\":\"" + _eMail + "\"}";
         }
     }
 }
