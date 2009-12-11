@@ -10,8 +10,12 @@ namespace Minesweeper
         string _name;
         int _points;
         bool _active;
+        string _eMail;
+        byte[] _photo; 
         List<Cell> _refreshCell;
         List<Player> _refreshPlayer;
+
+        public Player(): this( int.MinValue, string.Empty ){ }
 
         public Player(int id, string name)
         {
@@ -22,6 +26,15 @@ namespace Minesweeper
             _refreshCell = new List<Cell>();
             _refreshPlayer = new List<Player>();
         }
+
+        public Player(int id, string name, string eMail, byte[] photo): this( id, name )
+        {
+            _eMail = eMail;
+            _photo = photo;
+        }
+
+        public Player(string name, string eMail, byte[] photo): this( int.MinValue, name, eMail, photo ) { }
+
 
         public int Id
         {
@@ -45,6 +58,18 @@ namespace Minesweeper
         {
             get { return _active; }
             set { _active = value; }
+        }
+
+        public string EMail
+        {
+            get { return _eMail; }
+            set { _eMail = value; }
+        }
+
+        public byte[] Photo
+        {
+            get { return _photo; }
+            set { _photo = value; }
         }
 
         public void RefreshAddPlayer(Player p)
@@ -102,7 +127,7 @@ namespace Minesweeper
         public string ToJSon()
         {
             return "{\"id\":\"" + _id + "\", \"name\":\"" + _name + "\", \"points\":" + _points
-                + ", \"active\":" + (_active?1:0) + "}";
+                + ", \"active\":" + (_active?1:0) + ", \"eMail\":" + _eMail + "}";
         }
     }
 }
