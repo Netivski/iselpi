@@ -2,7 +2,7 @@
 
 var Game = new Object();
 
-Game.init = function() {
+Game.init = function(vd) { // vd == Virtual Directory
 
     if (addJsFile != undefined) return;
 

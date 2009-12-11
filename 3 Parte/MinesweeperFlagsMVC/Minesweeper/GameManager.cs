@@ -26,8 +26,8 @@ namespace Minesweeper
         {
             get
             {
-                if (games.ContainsKey(name))
-                    return games[name];
+                if (games.ContainsKey(name)) return games[name];
+
                 return null;
             }
         }
@@ -52,6 +52,16 @@ namespace Minesweeper
                 }
             }
             return rObj;
+        }
+
+        public Player LoadPlayer(string eMail)
+        {
+            // Implementar depois de definir a forma de persistir os dados
+
+            //Trevial case
+            if (eMail == null) return new Minesweeper.Player();
+
+            return new Player();
         }
 
     }
