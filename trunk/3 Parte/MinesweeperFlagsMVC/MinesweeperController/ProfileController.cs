@@ -2,7 +2,7 @@
 
 namespace MinesweeperControllers
 {
-    public class GameProfileController : GameBaseController
+    public class ProfileController : GameBaseController
     {
         [AcceptVerbs(HttpVerbs.Get)]  
         public ActionResult Create()
