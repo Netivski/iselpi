@@ -6,7 +6,7 @@ using Minesweeper;
 
 namespace MinesweeperControllers
 {
-    public class GameAsynchronousController : MinesweeperBaseController
+    public class GameAsynchronousController : GameBaseController
     {
         public GameAsynchronousController() { }
 
