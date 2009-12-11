@@ -2,7 +2,7 @@
 
 namespace MinesweeperControllers
 {
-    public class GameController : MinesweeperBaseController
+    public class GameController : GameBaseController
     {
         public ActionResult Show()
         {
