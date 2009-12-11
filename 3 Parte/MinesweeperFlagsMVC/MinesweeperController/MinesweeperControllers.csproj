@@ -60,9 +60,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MineSweeperAsynchronousController.cs" />
+    <Compile Include="GameAsynchronousController.cs" />
     <Compile Include="MinesweeperBaseController.cs" />
-    <Compile Include="MinesweeperController.cs" />
+    <Compile Include="GameController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Proxy\JSONCell.cs" />
     <Compile Include="Proxy\JSONGame.cs" />
