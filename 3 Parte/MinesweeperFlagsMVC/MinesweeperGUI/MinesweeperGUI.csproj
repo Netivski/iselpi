@@ -93,7 +93,7 @@
     <Content Include="Source\jquery-1.3.2.js" />
     <Content Include="Source\mineSweeper.css" />
     <Content Include="Source\Player.js" />
-    <Content Include="Views\MineSweeper2000AndHalf.aspx" />
+    <Content Include="Views\Minesweeper.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
