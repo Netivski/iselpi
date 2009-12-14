@@ -17,9 +17,8 @@
     <br />
     Name:
     <input type="text" name="name" value="<%=Model.Name%>" />
-    <br />
-    Online:    
-    <input type="checkbox" name="online" <%# Model.Online ? "checked=\"checked\"": "" %> />
+    <br />   
+    Online:    <%= Html.CheckBox("Online", Model.Online)%>    
     <br />
     Photo:
     <input type="file" name="photo" />

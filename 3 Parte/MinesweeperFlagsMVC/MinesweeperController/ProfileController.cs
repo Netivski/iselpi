@@ -17,7 +17,7 @@ namespace MinesweeperControllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Create(string eMail, string name, HttpPostedFileBase photo, string online)
+        public ActionResult Create(string eMail, string name, HttpPostedFileBase photo, bool online)
         {
             Player nPlayer; // nPlayer == New Player
             if ((nPlayer = GameManager.Current.LoadPlayer(eMail)) == null)
@@ -26,7 +26,7 @@ namespace MinesweeperControllers
             }
 
             nPlayer.Name   = name;
-            nPlayer.Status = (string.Compare(online, "on", true) == 0 ? PlayerStatus.Online : PlayerStatus.Offline);
+            nPlayer.Status = ( online ? PlayerStatus.Online : PlayerStatus.Offline);
             if (photo != null) nPlayer.AddPhoto(new Photo() { Name = photo.FileName, ContentType = photo.ContentType, Image = photo.InputStream });
 
             GameManager.Current.AddPlayer(nPlayer);
