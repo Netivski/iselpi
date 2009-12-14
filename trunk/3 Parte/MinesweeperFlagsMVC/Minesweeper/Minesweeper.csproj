@@ -50,6 +50,7 @@
     <Compile Include="CellNumber.cs" />
     <Compile Include="CellType.cs" />
     <Compile Include="GamePlayer.cs" />
+    <Compile Include="Invite.cs" />
     <Compile Include="IToJSon.cs" />
     <Compile Include="Photo.cs" />
     <Compile Include="PlayerStatus.cs" />

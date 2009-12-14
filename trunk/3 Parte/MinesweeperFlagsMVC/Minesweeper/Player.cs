@@ -11,7 +11,9 @@ namespace Minesweeper
         string       _name;
         string       _eMail;
         PlayerStatus _status;
-        Dictionary<string, Photo> _photos;        
+        Dictionary<string, Photo>  _photos;
+        Dictionary<string, Invite> _invite;
+        Dictionary<string, Player> _friends;
 
         public Player() : this(string.Empty) { }
 
@@ -21,6 +23,8 @@ namespace Minesweeper
             _name    = name;
             _status  = PlayerStatus.Online; 
             _photos  = new Dictionary<string, Photo>();
+            _invite  = new Dictionary<string, Invite>();
+            _friends = new Dictionary<string, Player>();
         }
 
         public Player(string name, string eMail): this( name )
@@ -84,6 +88,36 @@ namespace Minesweeper
             return null;
         }
 
+        public bool AddInvite(string gName, string eMail)
+        {
+            if (_invite.ContainsKey(gName)) return false;
+
+            _invite.Add(gName, new Invite() { GameName = gName, Player = GameManager.Current.LoadPlayer( eMail ) });
+
+            return true;
+        }
+
+        public bool AcceptInvite( string gName )
+        {            
+            if (!_invite.ContainsKey(gName)) throw new ApplicationException( "Invalid Invite!" );
+
+            return _invite.Remove(gName);
+        }
+
+        public bool AddFriend(string eMail)
+        {
+            if (_friends.ContainsKey(eMail)) return false;
+
+            _friends[eMail] = GameManager.Current.LoadPlayer(eMail);
+            return true;
+        }
+
+        public bool RemoveFriend(string eMail)
+        {
+            if (!_friends.ContainsKey(eMail)) return false;
+
+            return _friends.Remove(eMail); 
+        }
 
         public virtual string ToJSon()
         {
