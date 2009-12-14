@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web;
+using System.Web.Mvc;
 using System.IO;
 using Minesweeper;
 
@@ -11,21 +13,54 @@ namespace MinesweeperControllers
         public ActionResult Create( string eMail )
         {
             ViewData.Model = GameManager.Current.LoadPlayer( eMail );
-            return new ViewResult() { ViewData = ViewData };
+            return new ViewResult() { ViewData = ViewData };            
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Create( string eMail, string name, byte[] photo )
+        public ActionResult Create(string eMail, string name, HttpPostedFileBase photo)
         {
-            // A Foto vem na propriedade Request.Files[0]
-
-            // Para remover - Teste
-            if (Request.Files.Count > 0)
+            Player nPlayer; // nPlayer == New Player
+            if ((nPlayer = GameManager.Current.LoadPlayer(eMail)) == null)
             {
-                Request.Files[0].SaveAs( Path.Combine( @"c:\temp\", Request.Files[0].FileName ));
+                nPlayer = new Player(name, eMail);
             }
 
-            ViewData.Model = new Player(name, eMail, photo); 
+            nPlayer.Name = name;
+            if (photo != null) nPlayer.AddPhoto(new Photo() { Name = photo.FileName, ContentType = photo.ContentType, Image = photo.InputStream });
+
+            GameManager.Current.AddPlayer(nPlayer);
+            ViewData.Model = nPlayer;
+            return new ViewResult() { ViewData = ViewData };            
+        }
+
+        public ActionResult GetPlayerPhoto(string eMail)
+        {
+            Player player;
+            if ((player = GameManager.Current.LoadPlayer(eMail)) != null)
+            {
+                Photo dPhoto; //dPhoto = Default Photo
+                if ((dPhoto = player.GetDefaultPhoto()) != null)
+                {
+                    dPhoto.Image.Seek(0, SeekOrigin.Begin);
+                    Response.ClearContent();
+                    Response.ClearHeaders();
+                    Response.BufferOutput = true;
+                    Response.ContentType  = dPhoto.ContentType;
+                    byte[] buffer = new byte[512];
+
+                    while( (dPhoto.Image.Read(buffer, 0, buffer.Length)) > 0 )
+                    {
+                        Response.BinaryWrite(buffer);
+                    }
+                }                                      
+            }
+
+            return new EmptyResult();
+        }
+
+        public ActionResult Show( string eMail )
+        {
+            ViewData.Model = GameManager.Current.LoadPlayer(eMail); 
             return new ViewResult() { ViewData = ViewData };
         }
 

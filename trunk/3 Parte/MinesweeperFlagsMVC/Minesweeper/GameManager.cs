@@ -6,13 +6,14 @@ namespace Minesweeper
     public class GameManager
     {
         const int COLS = 20;
-        const int ROWS = 20;
- 
-        Dictionary<string, Game> games;
+        const int ROWS = 20; 
+        Dictionary<string, Game>   games;
+        Dictionary<string, Player> players;
 
         GameManager() 
         {
-            games = new Dictionary<string, Game>();
+            games   = new Dictionary<string, Game>();
+            players = new Dictionary<string, Player>();
         }
 
         static GameManager()
@@ -56,12 +57,20 @@ namespace Minesweeper
 
         public Player LoadPlayer(string eMail)
         {
-            // Implementar depois de definir a forma de persistir os dados
+            if (eMail == null) return new Player();
 
-            //Trevial case
-            if (eMail == null) return new Minesweeper.Player();
+            try { return players[eMail]; }
+            catch (KeyNotFoundException) { return null; }
+        }
 
-            return new Player();
+        public bool AddPlayer(Player player) 
+        {
+            if (players == null) return false;
+
+            if (players.ContainsKey(player.EMail)) players[player.EMail] = player;
+            else players.Add(player.EMail, player);
+
+            return true;
         }
 
     }

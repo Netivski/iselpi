@@ -96,6 +96,7 @@
     <Content Include="Source\mineSweeper.css" />
     <Content Include="Source\Player.js" />
     <Content Include="Views\Game\Show.aspx" />
+    <Content Include="Views\Profile\Show.aspx" />
     <Content Include="Views\Profile\Create.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>

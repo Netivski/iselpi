@@ -12,7 +12,7 @@ namespace Minesweeper
 
         string _name;
         GameStatus _sStatus;
-        Player[] _players;
+        GamePlayer[] _players;
         int _playersCount;
         Cell[,] _cells;
         int _lines;
@@ -25,7 +25,7 @@ namespace Minesweeper
         {
             this._name = name;
             _sStatus = GameStatus.WAITING_FOR_PLAYERS;
-            _players = new Player[MAX_PLAYERS];
+            _players = new GamePlayer[MAX_PLAYERS];
             _lines = rows;
             _cols = cols;
             _cells = new Cell[rows, cols];
@@ -48,19 +48,19 @@ namespace Minesweeper
         }
         public int CurrentPlayer { get { return _currentPlayer; } }
 
-        private List<Player> ScoreList
+        private List<GamePlayer> ScoreList
         {
             get
             {
-                List<Player> scoreArr = new List<Player>(_players);
+                List<GamePlayer> scoreArr = new List<GamePlayer>(_players);
                 scoreArr.RemoveAll(p => p == null || !p.Active);
                 scoreArr.Sort((a, b) => b.Points.CompareTo(a.Points));
                 return scoreArr;
             }
         }
-        public List<Player> GetRefreshPlayer(int playerId)
+        public List<GamePlayer> GetRefreshPlayer(int playerId)
         {
-            List<Player> d = _players[playerId].GetRefreshPlayer();
+            List<GamePlayer> d = _players[playerId].GetRefreshPlayer();
             _players[playerId].ResetRefreshPlayer();
             return d;
         }
@@ -171,7 +171,7 @@ namespace Minesweeper
             Cell cell = _cells[posX, posY];
             cell.Owner = _players[playerID].Id;
             cell.Hidden = false;
-            foreach (Player p in _players)
+            foreach (GamePlayer p in _players)
             {
                 if (p != null)
                     p.RefreshAddCell(cell);
@@ -213,7 +213,7 @@ namespace Minesweeper
                         _players[playerID].Points++;
                         if (CheckGameOver())
                             return;
-                        foreach (Player player in _players)
+                        foreach (GamePlayer player in _players)
                         {
                             if (player != null && player.Active == true)
                             {
@@ -247,9 +247,9 @@ namespace Minesweeper
         {
             if (_playersCount < MAX_PLAYERS)
             {
-                Player player = new Player(_playersCount + 1, name);
+                GamePlayer player = new GamePlayer(_playersCount + 1, name);
                 _players[_playersCount++] = player;
-                foreach (Player p in _players)
+                foreach (GamePlayer p in _players)
                 {
                     if (p != null)
                     {
@@ -270,7 +270,7 @@ namespace Minesweeper
             if (!CheckGameOver())
             {
                 ReCalcMines();
-                foreach (Player p in _players)
+                foreach (GamePlayer p in _players)
                 {
                     if (p != null)
                         p.RefreshAddPlayer(_players[id]);
@@ -308,7 +308,7 @@ namespace Minesweeper
 
             return true;
         }
-        public Player GetPlayer(int playerId)
+        public GamePlayer GetPlayer(int playerId)
         {
             return _players[playerId];
         }

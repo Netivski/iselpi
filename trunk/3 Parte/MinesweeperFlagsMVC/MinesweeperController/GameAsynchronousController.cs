@@ -19,7 +19,7 @@ namespace MinesweeperControllers
 
         public ActionResult RefreshPlayerBoard(int playerId)
         {
-            List<Player> rObj = CurrentGame.GetRefreshPlayer(playerId - 1);
+            List<GamePlayer> rObj = CurrentGame.GetRefreshPlayer(playerId - 1);
             return new ContentResult() { Content = Generic.GetJSon(rObj), ContentType = "text/x-json" };
         }
         

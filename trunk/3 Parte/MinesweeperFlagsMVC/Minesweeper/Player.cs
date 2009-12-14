@@ -1,63 +1,41 @@
 ﻿using System;
+using System.IO;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 
 namespace Minesweeper
 {
     public class Player : IToJSon
-    {
-        int _id;
+    {        
         string _name;
-        int _points;
-        bool _active;
-        string _eMail = string.Empty;
-        byte[] _photo; 
-        List<Cell> _refreshCell;
-        List<Player> _refreshPlayer;
+        string _eMail;
+        Dictionary<string, Photo> _photos;
 
-        public Player(): this( int.MinValue, string.Empty ){ }
+        public Player() : this(string.Empty) { }
 
-        public Player(int id, string name)
-        {
-            _id = id;
-            _name = name;
-            _active = true;
-            _points = 0;
-            _refreshCell = new List<Cell>();
-            _refreshPlayer = new List<Player>();
+        
+        public Player(string name)
+        {            
+            _name    = name;
+            _photos  = new Dictionary<string, Photo>();
         }
 
-        public Player(int id, string name, string eMail, byte[] photo): this( id, name )
+        public Player(string name, string eMail): this( name )
         {
             _eMail = eMail;
-            _photo = photo;
         }
 
-        public Player(string name, string eMail, byte[] photo): this( int.MinValue, name, eMail, photo ) { }
-
-
-        public int Id
-        {
-            get { return _id; }
-            set { _id = value; }
+        public Player(string name, string eMail, Photo photo): this( name, eMail ) 
+        {    
+            if( photo != null ) AddPhoto(photo);
         }
+
 
         public string Name
         {
             get { return _name; }
             set { _name = value; }
-        }
-
-        public int Points
-        {
-            get { return _points; }
-            set { _points = value; }
-        }
-
-        public bool Active
-        {
-            get { return _active; }
-            set { _active = value; }
         }
 
         public string EMail
@@ -66,68 +44,39 @@ namespace Minesweeper
             set { _eMail = value; }
         }
 
-        public byte[] Photo
+        public void AddPhoto(Photo photo)
         {
-            get { return _photo; }
-            set { _photo = value; }
+            if( photo      == null ) throw new ArgumentNullException( "photo" );
+            if( photo.Name == null ) throw new ArgumentNullException( "photo.Name" );
+
+            _photos = new Dictionary<string, Photo>();
+            _photos.Add(photo.Name, photo);
+            
         }
 
-        public void RefreshAddPlayer(Player p)
+        public void AddPhoto(string name, string contentType, Stream image)
         {
-            lock (_refreshPlayer)
+            AddPhoto( new Photo() { Name = name, ContentType = contentType, Image = image } );
+        }
+
+        public Photo GetDefaultPhoto()
+        {
+            if (_photos.Count > 0)
             {
-                _refreshPlayer.Add(p);
+                Dictionary<string, Photo>.KeyCollection.Enumerator photosEnum = _photos.Keys.GetEnumerator();
+                if (photosEnum.MoveNext())
+                {
+                    return _photos[photosEnum.Current];
+                }                
             }
+
+            return null;
         }
 
-        public List<Player> GetRefreshPlayer()
-        {
-            List<Player> retList;
-            lock (_refreshPlayer)
-            {
-                retList = new List<Player>(_refreshPlayer);
-            }
-            return retList;
-        }
 
-        public void ResetRefreshPlayer()
+        public virtual string ToJSon()
         {
-            lock (_refreshPlayer)
-            {
-                _refreshPlayer.Clear();
-            }
-        }
-
-        public void RefreshAddCell(Cell c)
-        {
-            lock (_refreshCell)
-            {
-                _refreshCell.Add(c);
-            }
-        }
-
-        public List<Cell> GetRefreshCell()
-        {
-            List<Cell> retList;
-            lock (_refreshCell)
-            {
-                retList = new List<Cell>(_refreshCell);
-            }
-            return retList;
-        }
-
-        public void ResetRefreshCell()
-        {
-            lock (_refreshCell)
-            {
-                _refreshCell.Clear();
-            }
-        }
-
-        public string ToJSon()
-        {
-            return "{\"id\":\"" + _id + "\", \"name\":\"" + _name + "\", \"points\":" + _points
-                + ", \"active\":" + (_active ? 1 : 0) + ", \"email\":\"" + _eMail + "\"}";
+            return "{\"name\":\"" + _name + ", \"email\":\"" + _eMail + "\"}";
         }
     }
 }
