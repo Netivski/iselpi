@@ -52,6 +52,7 @@
     <Compile Include="GamePlayer.cs" />
     <Compile Include="IToJSon.cs" />
     <Compile Include="Photo.cs" />
+    <Compile Include="PlayerStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GameManager.cs" />
