@@ -16,7 +16,10 @@
     <input type="text" name="eMail" value="<%=Model.EMail%>" />
     <br />
     Name:
-    <input type="text" name="Name" value="<%=Model.Name%>" />
+    <input type="text" name="name" value="<%=Model.Name%>" />
+    <br />
+    Online:    
+    <input type="checkbox" name="online" <%# Model.Online ? "checked=\"checked\"": "" %> />
     <br />
     Photo:
     <input type="file" name="photo" />

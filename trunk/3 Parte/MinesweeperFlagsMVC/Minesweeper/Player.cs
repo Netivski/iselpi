@@ -8,9 +8,10 @@ namespace Minesweeper
 {
     public class Player : IToJSon
     {        
-        string _name;
-        string _eMail;
-        Dictionary<string, Photo> _photos;
+        string       _name;
+        string       _eMail;
+        PlayerStatus _status;
+        Dictionary<string, Photo> _photos;        
 
         public Player() : this(string.Empty) { }
 
@@ -18,6 +19,7 @@ namespace Minesweeper
         public Player(string name)
         {            
             _name    = name;
+            _status  = PlayerStatus.Online; 
             _photos  = new Dictionary<string, Photo>();
         }
 
@@ -43,6 +45,15 @@ namespace Minesweeper
             get { return _eMail; }
             set { _eMail = value; }
         }
+
+        public PlayerStatus Status
+        {
+            get { return _status; }
+            set { _status = value; }
+        }
+
+        public bool Online  { get { return _status == PlayerStatus.Online; } }
+        public bool Offline { get { return !Online; } }
 
         public void AddPhoto(Photo photo)
         {

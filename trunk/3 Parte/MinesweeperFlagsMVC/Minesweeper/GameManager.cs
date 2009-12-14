@@ -57,10 +57,15 @@ namespace Minesweeper
 
         public Player LoadPlayer(string eMail)
         {
-            if (eMail == null) return new Player();
+            Player rObj = null;
 
-            try { return players[eMail]; }
-            catch (KeyNotFoundException) { return null; }
+            if (eMail != null)
+            {
+                try { rObj = players[eMail]; }
+                catch (KeyNotFoundException) { }
+            }
+
+            return rObj == null ? new Player(string.Empty, eMail) : rObj;
         }
 
         public bool AddPlayer(Player player) 
