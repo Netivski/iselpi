@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Minesweeper
 {
@@ -78,5 +79,52 @@ namespace Minesweeper
             return true;
         }
 
+
+        public bool Invite(string gName, string eMailFrom, string eMailTo)
+        {
+            if (gName     == null) throw new ArgumentNullException("gName");
+            if (eMailFrom == null) throw new ArgumentNullException("eMailFrom");
+            if (eMailTo   == null) throw new ArgumentNullException("eMailTo");
+
+            if (!games.ContainsKey(gName))       throw new ApplicationException("Invalid Game!");
+            if (!players.ContainsKey(eMailFrom)) throw new ApplicationException("Invalid Source Plyer!");
+            if (!players.ContainsKey(eMailTo))   throw new ApplicationException("Invalid Destination Plyer!");
+
+
+            return players[eMailTo].AddInvite(gName, eMailFrom);            
+        }
+
+        public bool AcceptInvite(string gName, string eMail)
+        {
+            if (gName == null) throw new ArgumentNullException("gName");
+            if (eMail == null) throw new ArgumentNullException("eMail");
+
+            if (!players.ContainsKey(eMail)) throw new ApplicationException("Invalid Player e-Mail");
+
+            return players[eMail].AcceptInvite(gName);
+        }
+
+        public IEnumerable<KeyValuePair<string, Player>> GetOnlinePlayers()
+        {
+            return players.Where(p => p.Value.Online);
+        }
+
+        public bool AddFriend(string eMail, string friend)
+        {
+            if (eMail  == null) throw new ArgumentNullException("eMail");
+            if (friend == null) throw new ArgumentNullException("friend");
+
+            if (!players.ContainsKey(eMail)) return false;
+            return players[eMail].AddFriend(friend);
+        }
+
+        public bool RemoveFriend(string eMail, string friend)
+        {
+            if (eMail  == null) throw new ArgumentNullException("eMail");
+            if (friend == null) throw new ArgumentNullException("friend");
+
+            if (!players.ContainsKey(eMail)) return false;
+            return players[eMail].RemoveFriend(friend);
+        }
     }
 }
