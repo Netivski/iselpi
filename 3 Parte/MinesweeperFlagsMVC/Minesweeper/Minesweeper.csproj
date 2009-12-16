@@ -52,6 +52,8 @@
     <Compile Include="GamePlayer.cs" />
     <Compile Include="Invite.cs" />
     <Compile Include="IToJSon.cs" />
+    <Compile Include="Message.cs" />
+    <Compile Include="MessageType.cs" />
     <Compile Include="Photo.cs" />
     <Compile Include="PlayerStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

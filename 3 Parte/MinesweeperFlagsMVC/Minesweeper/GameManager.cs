@@ -126,5 +126,10 @@ namespace Minesweeper
             if (!players.ContainsKey(eMail)) return false;
             return players[eMail].RemoveFriend(friend);
         }
+
+        public void AddMessage(Message msg, List<Player> players)
+        {
+            players.ForEach(p => p.AddMessage(msg));
+        }
     }
 }

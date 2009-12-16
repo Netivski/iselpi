@@ -14,17 +14,23 @@ namespace Minesweeper
         Dictionary<string, Photo>  _photos;
         Dictionary<string, Invite> _invite;
         Dictionary<string, Player> _friends;
+        LinkedList<Message>        _message;
+        object                     _mMonitor;  // _mMonitor == Message Monitor
+
 
         public Player() : this(string.Empty) { }
 
         
         public Player(string name)
         {            
-            _name    = name;
-            _status  = PlayerStatus.Online; 
-            _photos  = new Dictionary<string, Photo>();
-            _invite  = new Dictionary<string, Invite>();
-            _friends = new Dictionary<string, Player>();
+            _name     = name;
+            _status   = PlayerStatus.Online; 
+            _photos   = new Dictionary<string, Photo>();
+            _invite   = new Dictionary<string, Invite>();
+            _friends  = new Dictionary<string, Player>();
+            _message  = new LinkedList<Message>();
+            _mMonitor = new object();
+
         }
 
         public Player(string name, string eMail): this( name )
@@ -117,6 +123,25 @@ namespace Minesweeper
             if (!_friends.ContainsKey(eMail)) return false;
 
             return _friends.Remove(eMail); 
+        }
+
+        public void AddMessage(Message msg)
+        {
+            lock (_mMonitor)
+            {
+                _message.AddLast(msg);
+            }
+        }
+
+        public LinkedList<Message> GetMessage()
+        {
+            LinkedList<Message> rObj;
+            lock (_mMonitor)
+            {
+                rObj     = _message;
+                _message = new LinkedList<Message>();
+            }
+            return rObj;
         }
 
         public virtual string ToJSon()
