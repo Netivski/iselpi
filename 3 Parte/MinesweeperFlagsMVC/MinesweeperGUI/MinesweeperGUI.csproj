@@ -98,6 +98,7 @@
     <Content Include="Source\mineSweeper.css" />
     <Content Include="Source\Player.js" />
     <Content Include="Views\GameAsynchronous\GameBoard.aspx" />
+    <Content Include="Views\Game\Lobby.aspx" />
     <Content Include="Views\Game\Show.aspx" />
     <Content Include="Views\Lobby\Lobby_CSS_Tester.htm" />
     <Content Include="Views\Profile\Show.aspx" />
@@ -140,6 +141,9 @@
           <IISUrl>
           </IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>

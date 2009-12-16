@@ -8,5 +8,10 @@ namespace MinesweeperControllers
         {
             return View();
         }
+
+        public ActionResult Lobby()
+        {
+            return View();
+        }
     }
 }
