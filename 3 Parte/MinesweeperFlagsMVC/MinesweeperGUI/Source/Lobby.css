@@ -53,10 +53,16 @@
 	left: 20%;
 	top: 2%;
 	width: 60%;	
-	height: 80px;
+	max-height: 80px;
 	border: solid 1px White;
 	color: Black;
 }
+.divPlayerInfo .divPhoto img
+{
+	width: 100%;	
+	height: 100%;
+}
+
 .divPlayerInfo .divPlayerName
 {
 	position: relative;
