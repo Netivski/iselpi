@@ -101,5 +101,11 @@ namespace MinesweeperControllers
 
             return new ContentResult() { Content = game.ToJSon(), ContentType = "text/x-json" };
         }
+
+        public ActionResult GameBoard()
+        {
+            return new ViewResult();            
+        }
+
     }
 }
