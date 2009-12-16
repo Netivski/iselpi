@@ -1,0 +1,99 @@
+﻿body
+{
+	color: White;
+}
+.divBackGround
+{
+	position: static;
+	width: 620px;
+	height: 510px;
+    /* background-image: url(../Images/BackGround.png); */
+	background-position: top center;
+	text-align: center;
+	margin: 0px auto;
+	border: solid 1px Black;
+}
+.divPlayerInfo
+{
+	position: relative;
+	float: left;
+	left: 5px;
+	top: 5px;
+	width: 22%;
+	height: 90%;		
+	background-color: Gray;	
+	filter: alpha(opacity=50);
+	-moz-opacity: 0.5;
+	-khtml-opacity: 0.5;
+	opacity: 0.5;
+}
+.divPlayerInfo .divPhoto
+{
+	position: relative;
+	float: left;	
+	left: 20%;
+	top: 10px;
+	width: 60%;	
+	height: 80px;
+	border: solid 1px White;
+	color: Black;
+}
+.divPlayerInfo .divPlayerName
+{
+	position: relative;
+	clear: left;
+	left: 5%;
+	top: 12px;
+	max-width: 90%;	
+	border: solid 1px Black;
+	color: White;
+	font: Verdana bold 10px;
+}
+.divPlayerInfo .divPlayerOptions
+{
+	position: relative;
+	left: 5%;
+	width: 90%;
+	border: solid 1px Black;
+	top: 15px;
+}
+.divPlayerInfo .divPlayerOptions input
+{
+	background-color: Green;
+	width: 90%;
+	left: 5%;
+	border: solid 1px black;
+}
+.divPlayerInfo .divPlayerFriendsList
+{
+	position: relative;	
+	left: 5%;
+	width: 90%;
+	border: solid 1px Black;
+	top: 20px;
+}
+.divPlayerInfo .divPlayerFriendsList .divFriend
+{
+	position: relative;	
+	left: 5%;
+	width: 90%;
+	border: solid 1px White;
+}
+.divMessage
+{
+	position: relative;
+	float: left;
+	left: 10px;
+	top: 5px;
+	width: 50%;
+	border: solid 1px Black;
+}
+.divLists
+{
+	position: relative;
+	float: left;
+	left: 15px;
+	top: 5px;
+	width: 22%;
+	border: solid 1px Black;
+}
