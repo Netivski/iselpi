@@ -1,14 +1,14 @@
 ﻿body
 {
 	color: White;
+	font-family: Verdana;
 }
 .divBackGround
 {
 	position: static;
 	width: 700px;
 	height: 510px;
-    background-image: url(../Images/BackGround.png);
-	background-position: top center;
+    background-image: url(../Images/LobbyBackGround.png);	
 	text-align: center;
 	margin: 0px auto;
 	border: solid 1px Black;
@@ -20,17 +20,32 @@
 	left: 2%;
 	top: 2%;
 	width: 96%;
-	height: 5%;
-	border: solid 1px White;
+	height: 5%;	
+	background-color: White;	
+	vertical-align: middle;
+	filter: alpha(opacity=65);
+	-moz-opacity: 0.65;
+	-khtml-opacity: 0.65;
+	opacity: 0.65;	
 }
 .divTabList .divTab
 {
 	position: relative;
 	float: left;
+	top: 2%;
 	left: 1%;
-	width: 10%;
-	height: 98%;
-	border: solid 1px Orange;	
+	width: 15%;
+	height: 90%;	
+	margin-right: 5px;
+	background-color: Black;	
+	font-weight: bold;
+	font-size: 95%;
+	text-align: center;	
+	vertical-align: bottom;	
+	filter: alpha(opacity=65);
+	-moz-opacity: 0.65;
+	-khtml-opacity: 0.65;
+	opacity: 0.65;	
 }
 .divPlayerInfo
 {
@@ -40,22 +55,26 @@
 	top: 4%;
 	width: 25%;
 	height: 88%;	
-	border: solid 1px White;	
-	/*filter: alpha(opacity=50);
-	-moz-opacity: 0.5;
-	-khtml-opacity: 0.5;
-	opacity: 0.5;*/
+	font-weight: bold;
+	font-size: 85%;
+	background-color: #5B5B5B;
+	filter: alpha(opacity=85);
+	-moz-opacity: 0.85;
+	-khtml-opacity: 0.85;
+	opacity: 0.85;
 }
 .divPlayerInfo .divPhoto
 {
 	position: relative;
 	float: left;	
-	left: 20%;
+	left: 25%;
 	top: 2%;
-	width: 60%;	
+	width: 50%;	
 	max-height: 80px;
-	border: solid 1px White;
-	color: Black;
+	border: solid 2px White;
+	background-color: Black;
+	background-position: center;
+	background-repeat: no-repeat;		
 }
 .divPlayerInfo .divPhoto img
 {
@@ -69,40 +88,66 @@
 	clear: left;
 	left: 5%;
 	top: 4%;
-	max-width: 90%;	
-	border: solid 1px White;
-	color: White;
-	font: Verdana bold 10px;
+	max-width: 90%;
+	font-weight:bold;
+	font-size: medium;
 }
 .divPlayerInfo .divPlayerOptions
 {
 	position: relative;
 	left: 5%;
-	top: 5%;
+	top: 7%;
 	width: 90%;
-	border: solid 1px White;	
+	/*background-color: Black;*/
+	padding-top: 2%;
+	padding-bottom: 2%;
 }
 .divPlayerInfo .divPlayerOptions input
 {
-	background-color: Green;
-	width: 100%;
-	left: 5%;
-	border: solid 1px black;
+	background-color: #D2D2D2;
+	width: 90%;
+	left: 5%;	
+	color: Black;
+	border: 0px;
+	margin: 1%;
+	font-weight: bold;
+	filter: alpha(opacity=85);
+	-moz-opacity: 0.85;
+	-khtml-opacity: 0.85;
+	opacity: 0.85;
 }
 .divPlayerInfo .divPlayerFriendsList
 {
 	position: relative;	
 	left: 5%;
-	top: 6%;
+	top: 8%;
 	width: 90%;
-	border: solid 1px White;	
+	height: 38%;
+	/*background-color: Black;*/
+	padding-top: 2%;
+	padding-bottom: 2%;
 }
-.divPlayerInfo .divPlayerFriendsList .divFriend
+.divPlayerInfo .divPlayerFriendsList dl
 {
 	position: relative;	
+	left: 5%;	
+	width: 90%;	
+	height: 75%;
+	background-color: White;
+	padding-top: 2%;
+	padding-bottom: 2%;
+	filter: alpha(opacity=85);
+	-moz-opacity: 0.85;
+	-khtml-opacity: 0.85;
+	opacity: 0.85;
+}
+.divPlayerInfo .divPlayerFriendsList dl dt
+{
+	position: relative;	
+	color: Black;
 	left: 5%;
 	width: 90%;
-	border: solid 1px White;
+	border-bottom: solid 1px Black;
 }
 .divCommunication
 {
@@ -112,7 +157,11 @@
 	top: 4%;
 	width: 43%;
 	height: 88%;
-	border: solid 1px White;
+	background-color: #5B5B5B;
+	filter: alpha(opacity=85);
+	-moz-opacity: 0.85;
+	-khtml-opacity: 0.85;
+	opacity: 0.85;
 }
 .divCommunication .divInviteBoard
 {
