@@ -2,35 +2,65 @@
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head>
     <title>Lobby_CSS_Tester</title>
-	<script type="text/javascript" src="../../source/LobbyMVC.js"></script>
-	<script type="text/javascript" src="../../source/HttpRequest.js"></script>
-	<script type="text/javascript" src="../../source/jquery-1.3.2.js"></script>
-
-	<link href="../../Source/Lobby.css" type="text/css" rel="Stylesheet" />
+    <link href="../../Source/Lobby.css" type="text/css" rel="Stylesheet" />
 </head>
-
-<body onload="Lobby.init();">
+<body>
     <div class="divBackGround">
         <div class="divTabList">
-            <div class="divTab"></div>
-            <div class="divTab"></div>
-            <div class="divTab"></div>
-            <div class="divTab"></div>
+            <div class="divTab">Lobby</div>
+            <div class="divTab">divTab 1</div>
+            <div class="divTab">divTab 2</div>
+            <div class="divTab">divTab 3</div>
         </div>
-        <div class="divPlayerInfo">
-            <div class="divPhoto"></div>
-            <div class="divPlayerName"></div>
-            <div class="divPlayerOptions"></div>
-			<div class="divPlayerFriendsList"></div>
+        <div class="divPlayerInfo">Player Information
+            <div class="divPhoto">
+                <img src="../../Images/DefaultPlayerPhoto.png" alt="" />
+            </div>
+            <div class="divPlayerName">Nuno Sousa</div>
+            <div class="divPlayerOptions">OPTIONS
+                <input type="button" value="Button1" />
+                <input type="button" value="Button2" />
+                <input type="button" value="Button3" />
+                <input type="button" value="Button4" />
+            </div>
+			<div class="divPlayerFriendsList">FRIENDS LIST
+				<dl>
+				    <dt>Friend 1</dt>
+				    <dt>Friend 2</dt>
+				</dl>
+			</div>
         </div>
-        <div class="divCommunication">
-            <div class="divInviteBoard"></div>
-            <div class="divMessageBoard"></div>
-            <div class="divPlayerMessage"></div>
+        <div class="divCommunication">Communication
+            <div class="divInviteBoard">INVITES
+                <textarea cols="20" readonly="readonly" rows="20"></textarea>
+            </div>
+            <div class="divMessageBoard">MESSAGES
+                <textarea cols="20" readonly="readonly" rows="20"></textarea>
+            </div>
+            <div class="divPlayerMessage">PLAYER MESSAGES
+                <textarea cols="20" rows="20"></textarea>
+                <input type="button" value="Send To" />
+                <select>
+                    <option>Nuno</option>
+                    <option>Ricardo</option>
+                    <option>Paulo</option>
+                </select>                
+                <input type="button" value="Send To All" />
+            </div>
         </div>
-        <div class="divOnLists">
-            <div class="divPlayersOnList"></div>           
-            <div class="divGameOnList"></div>
+        <div class="divOnLists">Online Board
+            <div class="divPlayersOnList">PLAYERS ONLINE
+                <dl>
+				    <dt>Player 1</dt>
+				    <dt>Player 2</dt>
+				</dl>
+            </div>           
+            <div class="divGameOnList">GAMES ONLINE
+                <dl>
+				    <dt>Game 1</dt>
+				    <dt>Game 2</dt>
+				</dl>
+            </div>
         </div>        
     </div>
 </body>
