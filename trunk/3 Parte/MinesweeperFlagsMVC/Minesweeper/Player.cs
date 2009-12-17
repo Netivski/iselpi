@@ -12,6 +12,7 @@ namespace Minesweeper
         string _eMail;
         PlayerStatus _status;
         Dictionary<string, Photo> _photos;
+        Dictionary<string, Player> _myFriends;
         List<Player> _refreshFriends;
         List<Player> _refreshPlayers;
         List<Message> _refreshMessage;
@@ -23,6 +24,7 @@ namespace Minesweeper
             _name = name;
             _status = PlayerStatus.Online;
             _photos = new Dictionary<string, Photo>();
+            _myFriends = new Dictionary<string, Player>();
             _refreshFriends = new List<Player>();
             _refreshPlayers = new List<Player>();
             _refreshMessage = new List<Message>();
@@ -98,7 +100,7 @@ namespace Minesweeper
         //---------------------------------
         // Invites
 
-        public bool ReceiveInvite(string gName, string pName)
+        public bool ReceiveGameInvite(string gName, string pName)
         {
             Message msg = new Message(Invite.GetGameInvite(gName, pName));
             if (!_refreshMessage.Contains(msg))
@@ -111,12 +113,37 @@ namespace Minesweeper
 
 
         //---------------------------------
-        // Friends
+        // My Friends
 
-        public bool AddRefreshFriends(string eMail)
+        public bool AddFriend(string eMail)
         {
-            Player friend = Lobby.Current.LoadPlayer(eMail);
-            if (friend == null) return false;
+            if (eMail == null) throw new ArgumentNullException("Null eMail!");
+            lock (_myFriends)
+            {
+                if (_myFriends.ContainsKey(eMail)) return false;
+                _myFriends.Add(eMail, Lobby.Current.getPlayer(eMail));
+                AddRefreshFriends(eMail);
+                return true;
+            }
+        }
+
+        public bool RemoveFriend(string eMail)
+        {
+            if (eMail == null) throw new ArgumentNullException("Null eMail!");
+            lock (_myFriends)
+            {
+                _myFriends.Remove(eMail);
+                return true;
+            }
+        }
+
+        //---------------------------------
+        // Friends Refresh
+
+        private bool AddRefreshFriends(string eMail)
+        {
+            Player friend = Lobby.Current.getPlayer(eMail);
+            if (friend == null) throw new ArgumentNullException("Friend not in game!");
             lock (_refreshFriends)
             {
                 if (!_refreshFriends.Contains(friend))
@@ -152,7 +179,7 @@ namespace Minesweeper
 
         public bool AddRefreshPlayers(string eMail)
         {
-            Player player = Lobby.Current.LoadPlayer(eMail);
+            Player player = Lobby.Current.getPlayer(eMail);
             if (player == null) return false;
             lock (_refreshPlayers)
             {
@@ -174,7 +201,7 @@ namespace Minesweeper
             }
             return retList;
         }
- 
+
         public void ResetRefreshPlayers()
         {
             lock (_refreshFriends)

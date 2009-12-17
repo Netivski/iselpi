@@ -32,7 +32,6 @@ namespace Minesweeper
             get
             {
                 if (games.ContainsKey(name)) return games[name];
-
                 return null;
             }
         }
@@ -40,9 +39,7 @@ namespace Minesweeper
         public bool CreateGame(string gameName, string playerName)
         {
             if (games.ContainsKey(gameName)) return false;
-
             games.Add(gameName, new Game(gameName, playerName, COLS, ROWS));
-
             return true;
         }
 
@@ -53,7 +50,7 @@ namespace Minesweeper
                     select g);
         }
 
-        public IEnumerable<Player> GetActivePlayers()
+        public IEnumerable<Player> GetOnlinePlayers()
         {
             return (from p in players.Values
                     where (p.Online)
@@ -73,16 +70,25 @@ namespace Minesweeper
             return rObj == null ? new Player(string.Empty, eMail) : rObj;
         }
 
+        public Player getPlayer(string name)
+        {
+            if (players.ContainsKey(name)) return players[name];
+            return null;
+        }
+
         public bool AddPlayer(Player player)
         {
-            if (players == null) return false;
-
-            if (players.ContainsKey(player.EMail)) players[player.EMail] = player;
-            else players.Add(player.EMail, player);
-
+            if (players.ContainsValue(player) || player == null) return false;
+            players.Add(player.EMail, player);
             return true;
         }
 
+        public bool UpdatePlayer(Player player)
+        {
+            if (!players.ContainsValue(player) || player == null) return false;
+            players[player.EMail] = player;
+            return true;
+        }
 
         public bool Invite(string gName, string eMailFrom, string eMailTo)
         {
@@ -94,23 +100,7 @@ namespace Minesweeper
             if (!players.ContainsKey(eMailFrom)) throw new ApplicationException("Invalid Source Plyer!");
             if (!players.ContainsKey(eMailTo)) throw new ApplicationException("Invalid Destination Plyer!");
 
-
-            return players[eMailTo].ReceiveInvite(gName, eMailFrom);
-        }
-
-        public bool AcceptInvite(string gName, string eMail)
-        {
-            if (gName == null) throw new ArgumentNullException("gName");
-            if (eMail == null) throw new ArgumentNullException("eMail");
-
-            if (!players.ContainsKey(eMail)) throw new ApplicationException("Invalid Player e-Mail");
-
-            return players[eMail].AcceptInvite(gName);
-        }
-
-        public IEnumerable<KeyValuePair<string, Player>> GetOnlinePlayers()
-        {
-            return players.Where(p => p.Value.Online);
+            return players[eMailTo].ReceiveGameInvite(gName, eMailFrom);
         }
 
         public bool AddFriend(string eMail, string friend)
@@ -119,7 +109,7 @@ namespace Minesweeper
             if (friend == null) throw new ArgumentNullException("friend");
 
             if (!players.ContainsKey(eMail)) return false;
-            return players[eMail].AddFriend(friend);
+            return (players[eMail].AddFriend(friend));
         }
 
         public bool RemoveFriend(string eMail, string friend)
@@ -128,7 +118,8 @@ namespace Minesweeper
             if (friend == null) throw new ArgumentNullException("friend");
 
             if (!players.ContainsKey(eMail)) return false;
-            return players[eMail].RemoveFriend(friend);
+            players[eMail].RemoveFriend(friend);
+            return players[eMail].AddRefreshPlayers(friend);
         }
 
         public void AddMessage(Message msg, List<Player> players)
