@@ -95,6 +95,7 @@
     <Content Include="Source\HttpRequest.js" />
     <Content Include="Source\jquery-1.3.2.js" />
     <Content Include="Source\Lobby.css" />
+    <Content Include="Source\LobbyMVC.js" />
     <Content Include="Source\mineSweeper.css" />
     <Content Include="Source\Player.js" />
     <Content Include="Views\GameAsynchronous\GameBoard.aspx" />

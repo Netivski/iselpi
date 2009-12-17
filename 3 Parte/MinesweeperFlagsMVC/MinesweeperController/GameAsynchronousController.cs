@@ -42,7 +42,7 @@ namespace MinesweeperControllers
 
         public ActionResult ListActiveGames()
         {
-            return new ContentResult() { Content = Utils.JSon.Serialize<List<string>>(Minesweeper.GameManager.Current.GetActiveGames()), ContentType = "text/x-json" };
+            return new ContentResult() { Content = Utils.JSon.Serialize<List<string>>(Minesweeper.Lobby.Current.GetActiveGames()), ContentType = "text/x-json" };
         }
 
         public ActionResult Play(int playerId, int posX, int posY)
@@ -79,7 +79,7 @@ namespace MinesweeperControllers
         {
             JSONGame game = new JSONGame(gName);
 
-            if (Minesweeper.GameManager.Current.CreateGame(game.GameName, playerName)) 
+            if (Minesweeper.Lobby.Current.CreateGame(game.GameName, playerName)) 
             {
                 game.gStatus = GameStatus.WAITING_FOR_PLAYERS;
                 game.minesLeft = CurrentGame.MinesLeft;

@@ -4,25 +4,28 @@ using System.Linq;
 
 namespace Minesweeper
 {
-    public class GameManager
+    public class Lobby
     {
         const int COLS = 20;
-        const int ROWS = 20; 
-        Dictionary<string, Game>   games;
+        const int ROWS = 20;
+        Dictionary<string, Game> games;
         Dictionary<string, Player> players;
 
-        GameManager() 
+        Lobby()
         {
-            games   = new Dictionary<string, Game>();
-            players = new Dictionary<string, Player>();
+            games = new Dictionary<string, Game>();
+            players = new Dictionary<string, Player>(){
+                    {"ze@aol.com", new Player("Zé Manel","ze.manel@aol.com")},
+                    {"maria@aol.com", new Player("Maria","maria@aol.com")},
+                    {"toi@aol.com", new Player("António","toi@aol.com")}};
         }
 
-        static GameManager()
+        static Lobby()
         {
-            if (Current == null) Current = new GameManager();
+            if (Current == null) Current = new Lobby();
         }
 
-        public static GameManager Current;
+        public static Lobby Current;
 
         public Game this[string name]
         {
@@ -38,22 +41,23 @@ namespace Minesweeper
         {
             if (games.ContainsKey(gameName)) return false;
 
-            games.Add( gameName, new Game( gameName, playerName, COLS, ROWS ) );
+            games.Add(gameName, new Game(gameName, playerName, COLS, ROWS));
 
             return true;
         }
 
-        public List<string> GetActiveGames() 
+        public IEnumerable<string> GetActiveGames()
         {
-            List<string> rObj = new List<string>();
-            foreach (string gName in games.Keys)
-            {
-                if (games[gName].Status == GameStatus.WAITING_FOR_PLAYERS)
-                {
-                    rObj.Add(gName);
-                }
-            }
-            return rObj;
+            return (from g in games.Keys
+                    where (games[g].Status == GameStatus.WAITING_FOR_PLAYERS)
+                    select g);
+        }
+
+        public IEnumerable<Player> GetActivePlayers()
+        {
+            return (from p in players.Values
+                    where (p.Online)
+                    select p);
         }
 
         public Player LoadPlayer(string eMail)
@@ -69,7 +73,7 @@ namespace Minesweeper
             return rObj == null ? new Player(string.Empty, eMail) : rObj;
         }
 
-        public bool AddPlayer(Player player) 
+        public bool AddPlayer(Player player)
         {
             if (players == null) return false;
 
@@ -82,16 +86,16 @@ namespace Minesweeper
 
         public bool Invite(string gName, string eMailFrom, string eMailTo)
         {
-            if (gName     == null) throw new ArgumentNullException("gName");
+            if (gName == null) throw new ArgumentNullException("gName");
             if (eMailFrom == null) throw new ArgumentNullException("eMailFrom");
-            if (eMailTo   == null) throw new ArgumentNullException("eMailTo");
+            if (eMailTo == null) throw new ArgumentNullException("eMailTo");
 
-            if (!games.ContainsKey(gName))       throw new ApplicationException("Invalid Game!");
+            if (!games.ContainsKey(gName)) throw new ApplicationException("Invalid Game!");
             if (!players.ContainsKey(eMailFrom)) throw new ApplicationException("Invalid Source Plyer!");
-            if (!players.ContainsKey(eMailTo))   throw new ApplicationException("Invalid Destination Plyer!");
+            if (!players.ContainsKey(eMailTo)) throw new ApplicationException("Invalid Destination Plyer!");
 
 
-            return players[eMailTo].AddInvite(gName, eMailFrom);            
+            return players[eMailTo].ReceiveInvite(gName, eMailFrom);
         }
 
         public bool AcceptInvite(string gName, string eMail)
@@ -111,7 +115,7 @@ namespace Minesweeper
 
         public bool AddFriend(string eMail, string friend)
         {
-            if (eMail  == null) throw new ArgumentNullException("eMail");
+            if (eMail == null) throw new ArgumentNullException("eMail");
             if (friend == null) throw new ArgumentNullException("friend");
 
             if (!players.ContainsKey(eMail)) return false;
@@ -120,7 +124,7 @@ namespace Minesweeper
 
         public bool RemoveFriend(string eMail, string friend)
         {
-            if (eMail  == null) throw new ArgumentNullException("eMail");
+            if (eMail == null) throw new ArgumentNullException("eMail");
             if (friend == null) throw new ArgumentNullException("friend");
 
             if (!players.ContainsKey(eMail)) return false;
