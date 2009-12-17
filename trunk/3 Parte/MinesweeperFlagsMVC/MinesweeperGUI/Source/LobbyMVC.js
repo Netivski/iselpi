@@ -7,6 +7,7 @@ Lobby.init = function(vd) { // vd == Virtual Directory
     LobbyModel.init();
     LobbyView.init();
     LobbyController.init();
+    LobbyController.startPooling();
 }
 
 
@@ -28,13 +29,13 @@ var LobbyController = new Object();
 LobbyController.init = function() {
 
 
-	LobbyView.renderProfile("http://www.istockphoto.com/file_thumbview_approve/5200069/2/istockphoto_5200069-wave-icon.jpg", "Name");
+    LobbyView.renderProfile("http://www.istockphoto.com/file_thumbview_approve/5200069/2/istockphoto_5200069-wave-icon.jpg", "Name");
     LobbyView.renderOptions();
-	LobbyView.renderFriendList();
-	LobbyView.renderPlayerList();
-	LobbyView.renderGameList();
-	LobbyView.renderMsgBoard();
-	LobbyView.renderMsgInput();
+    LobbyView.renderFriendList();
+    LobbyView.renderPlayerList();
+    LobbyView.renderGameList();
+    LobbyView.renderMsgBoard();
+    LobbyView.renderMsgInput();
 
 
     // --------------------------------
@@ -45,12 +46,12 @@ LobbyController.init = function() {
     var pooling = function() {
         if (!poolingActive) return;
         try {
-            poolGamesRefresh();
             poolPlayersRefresh();
+            //            poolGamesRefresh();
             poolFriendsRefresh();
-            poolMessageRefresh();
-            poolInvitesRefresh();
-            poolProfileRefresh();
+            //            poolMessageRefresh();
+            //            poolInvitesRefresh();
+            //            poolProfileRefresh();
         }
         finally { if (poolingActive) setTimeout("LobbyController.doWork()", 1000); }
     }
@@ -68,126 +69,131 @@ LobbyController.init = function() {
         poolingActive = false;
     }
 
-	var poolGamesRefresh = function() {
-	}
-	var poolPlayersRefresh = function(){
-        var req = new HttpRequest("RefreshPlayers", undefined, undefined, "pName", LobbyModel.getPlayerName());
+    var poolGamesRefresh = function() {
+    }
+
+    var poolPlayersRefresh = function() {
+        var req = new HttpRequest("RefreshPlayers", undefined, 0, "playerName", LobbyModel.getPlayerName());
         req.Request();
         if (req != "") {
-			//Update lobby view with information about online players
+            LobbyView.populatePlayerList(req.getJSonObject());
         }
-	}
+    }
 
-	var poolFriendsRefresh = function(){
-		var req = new HttpRequest("RefreshFriends",undefined, undefined, "pName", LobbyModel.getPlayerName());
-		if (req != "") {
-			//Update lobby view with information about online friends
-		}
-	}
-	
-	var poolMessageRefresh = function(){
-		var req = new HttpRequest("RefreshMessages",undefined, undefined, "pName", LobbyModel.getPlayerName());
-		if (req != "") {
-			var message = req.getJSonObject();
-			for (var i = 0; i < message.length; i++) {
-				this.sendMessage(message[i].value);
-			}
-		}
-	}
-	
-	var poolInvitesRefresh = function(){
-		var req = new HttpRequest("RefreshInvites",undefined, undefined, "pName", LobbyModel.getPlayerName());
-		if (req != "") {
-			var invite = req.getJSonObject();
-			for (var i = 0; i < invite.length; i++) {
-				this.sendMessage(invite[i].value);
-				//Perform other necessary operarions when receiving invites
-			}
-		}
-	}
-	
-	var poolProfileRefresh = function(){
-		var req = new HttpRequest("RefreshProfile",undefined, undefined, "pName", LobbyModel.getPlayerName());
-		if (req != "") {
-			//Update lobby view with profile updates (name, img,...)
-		}
-	
-	}
+    var poolFriendsRefresh = function() {
+        var req = new HttpRequest("RefreshFriends", undefined, 0, "playerName", LobbyModel.getPlayerName());
+        req.Request();
+        if (req != "") {
+            LobbyView.populateFriendList(req.getJSonObject());
+        }
+    }
+
+    var poolMessageRefresh = function() {
+        var req = new HttpRequest("RefreshMessages", undefined, 0, "playerName", LobbyModel.getPlayerName());
+        req.Request();
+        if (req != "") {
+            var message = req.getJSonObject();
+            for (var i = 0; i < message.length; i++) {
+                this.sendMessage(message[i].value);
+            }
+        }
+    }
+
+    var poolInvitesRefresh = function() {
+        var req = new HttpRequest("RefreshInvites", undefined, 0, "playerName", LobbyModel.getPlayerName());
+        req.Request();
+        if (req != "") {
+            var invite = req.getJSonObject();
+            for (var i = 0; i < invite.length; i++) {
+                this.sendMessage(invite[i].value);
+                //Perform other necessary operarions when receiving invites
+            }
+        }
+    }
+
+    var poolProfileRefresh = function() {
+        var req = new HttpRequest("RefreshProfile", undefined, 0, "playerName", LobbyModel.getPlayerName());
+        req.Request();
+        if (req != "") {
+            //Update lobby view with profile updates (name, img,...)
+        }
+
+    }
 
     // --------------------------------    
     // Events
 
-		
-	this.evtStartPublicGame = function() {
-		
-		//Creation of new tab with a new Game
+
+    this.evtStartPublicGame = function() {
+
+        //Creation of new tab with a new Game
 
         try {
-            var req = new HttpRequest("StartPublicGame", undefined, undefined, "pName", LobbyModel.getPlayerName());
+            var req = new HttpRequest("StartPublicGame", undefined, 0, "playerName", LobbyModel.getPlayerName());
             req.Request();
             var game = req.getJSonObject();
         } catch (e) { alert(e); }
-		
-		//Request response should return new tab html
-        
+
+        //Request response should return new tab html
+
     }
 
-	this.evtStartPrivateGame = function() {
-		
-		//Creation of new tab with a new Game
+    this.evtStartPrivateGame = function() {
+
+        //Creation of new tab with a new Game
 
         try {
-            var req = new HttpRequest("StartPrivateGame", undefined, undefined, "pName", LobbyModel.getPlayerName());
+            var req = new HttpRequest("StartPrivateGame", undefined, 0, "playerName", LobbyModel.getPlayerName());
             req.Request();
             var game = req.getJSonObject();
         } catch (e) { alert(e); }
-		
-		//Request response should return new tab html
-        
-    }	
-	
-	
+
+        //Request response should return new tab html
+
+    }
+
+
     this.evtAddFriend = function() {
         try {
-            var req = new HttpRequest("AddFriend", undefined, undefined, "pName"
-				,LobbyModel.getPlayerName(), "fName", LobbyView.getSelPlayer());
+            var req = new HttpRequest("AddFriend", undefined, 0, "eMail"
+				, LobbyModel.getPlayerName(), "friend", LobbyView.getSelectedPlayer());
             req.Request();
         } catch (e) { alert(e); }
     }
 
     this.evtRemoveFriend = function() {
-		try {
-			var req = new HttpRequest("RemoveFriend", undefined, undefined, "pName"
-				,LobbyModel.getPlayerName(), "fName", LobbyView.getSelectedFriend());
-			req.Request();
-		} catch (e) { alert(e); }
-	}
-
-	this.evtJoinGame = function() {
-		try{
-			var req = new HttpRequest("JoinGame", undefined, undefined, "pName"
-				,LobbyModel.getPlayerName(), "gName", LobbyView.getSelectedGame());
-			req.Request();
-		} catch (e) { alert(e); }
-	}
-
-	this.evtEditProfile = function() {
-		try{
-			var req = new HttpRequest("EditProfile", undefined, undefined, "pName"
-				,LobbyModel.getPlayerName(), "pName", LobbyView.getSelectedGame());
-			req.Request();
-		} catch (e) { alert(e); }
-	}	
-	
-	this.evtSendMessage = function() {
         try {
-            var req = new HttpRequest("SendMessage", undefined, undefined, "pName"
-				,LobbyModel.getPlayerName(), "pMsg", LobbyView.getMsgInput());
+            var req = new HttpRequest("RemoveFriend", undefined, 0, "eMail"
+				, LobbyModel.getPlayerName(), "friend", LobbyView.getSelectedFriend());
             req.Request();
         } catch (e) { alert(e); }
-		LobbyView.clearMsgInput();
-	}
-	
+    }
+
+    this.evtJoinGame = function() {
+        try {
+            var req = new HttpRequest("JoinGame", undefined, 0, "playerName"
+				, LobbyModel.getPlayerName(), "gName", LobbyView.getSelectedGame());
+            req.Request();
+        } catch (e) { alert(e); }
+    }
+
+    this.evtEditProfile = function() {
+        try {
+            var req = new HttpRequest("EditProfile", undefined, 0, "playerName"
+				, LobbyModel.getPlayerName(), "pName", LobbyView.getSelectedGame());
+            req.Request();
+        } catch (e) { alert(e); }
+    }
+
+    this.evtSendMessage = function() {
+        try {
+            var req = new HttpRequest("SendMessage", undefined, 0, "playerName"
+				, LobbyModel.getPlayerName(), "pMsg", LobbyView.getMsgInput());
+            req.Request();
+        } catch (e) { alert(e); }
+        LobbyView.clearMsgInput();
+    }
+
     // --------------------------------
     // Messages
 

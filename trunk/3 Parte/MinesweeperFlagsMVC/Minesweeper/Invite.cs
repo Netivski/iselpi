@@ -2,18 +2,15 @@
 
 namespace Minesweeper
 {
-    public class Invite
+    public static class Invite
     {
-        public string GameName
+        public static string GetGameInvite(string gName, string pName)
         {
-            get;
-            set;
-        }
-
-        public Player Player
-        {
-            get;
-            set;
+            string rStr = "<font style='color:yellow;'>Player " + pName
+                + " invites you to play a private game! Accept? "
+                + " <a href='' onClick='LobbyController.JoinGame(\""
+                + gName + "\")'> Yes! </a></font>";
+            return rStr;
         }
     }
 }

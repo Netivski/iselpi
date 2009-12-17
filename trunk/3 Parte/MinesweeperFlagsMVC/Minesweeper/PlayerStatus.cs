@@ -4,7 +4,7 @@ namespace Minesweeper
 {
     public enum PlayerStatus
     {
-         Online  = 0x0
-        ,Offline = 0x1
+         Online  = 0x1
+        ,Offline = 0x0
     }
 }

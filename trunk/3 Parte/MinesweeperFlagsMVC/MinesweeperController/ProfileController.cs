@@ -12,7 +12,7 @@ namespace MinesweeperControllers
         [AcceptVerbs(HttpVerbs.Get)]  
         public ActionResult Create( string eMail )
         {
-            ViewData.Model = GameManager.Current.LoadPlayer( eMail );
+            ViewData.Model = Lobby.Current.LoadPlayer( eMail );
             return new ViewResult() { ViewData = ViewData };            
         }
 
@@ -20,7 +20,7 @@ namespace MinesweeperControllers
         public ActionResult Create(string eMail, string name, HttpPostedFileBase photo, bool online)
         {
             Player nPlayer; // nPlayer == New Player
-            if ((nPlayer = GameManager.Current.LoadPlayer(eMail)) == null)
+            if ((nPlayer = Lobby.Current.LoadPlayer(eMail)) == null)
             {
                 nPlayer = new Player(name, eMail);
             }
@@ -29,7 +29,7 @@ namespace MinesweeperControllers
             nPlayer.Status = ( online ? PlayerStatus.Online : PlayerStatus.Offline);
             if (photo != null) nPlayer.AddPhoto(new Photo() { Name = photo.FileName, ContentType = photo.ContentType, Image = photo.InputStream });
 
-            GameManager.Current.AddPlayer(nPlayer);
+            Lobby.Current.AddPlayer(nPlayer);
             ViewData.Model = nPlayer;
             return new ViewResult() { ViewData = ViewData };            
         }
@@ -37,7 +37,7 @@ namespace MinesweeperControllers
         public ActionResult GetPlayerPhoto(string eMail)
         {
             Player player;
-            if ((player = GameManager.Current.LoadPlayer(eMail)) != null)
+            if ((player = Lobby.Current.LoadPlayer(eMail)) != null)
             {
                 Photo dPhoto; //dPhoto = Default Photo
                 if ((dPhoto = player.GetDefaultPhoto()) != null)
@@ -61,7 +61,7 @@ namespace MinesweeperControllers
 
         public ActionResult Show( string eMail )
         {
-            ViewData.Model = GameManager.Current.LoadPlayer(eMail); 
+            ViewData.Model = Lobby.Current.LoadPlayer(eMail); 
             return new ViewResult() { ViewData = ViewData };
         }
 

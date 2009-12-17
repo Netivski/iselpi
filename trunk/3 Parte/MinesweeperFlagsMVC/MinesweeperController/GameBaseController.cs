@@ -15,7 +15,7 @@ namespace MinesweeperControllers
 
         protected Game CurrentGame
         {
-            get { return Minesweeper.GameManager.Current[Request["gName"]]; }
+            get { return Minesweeper.Lobby.Current[Request["gName"]]; }
         }
 
     }
