@@ -117,7 +117,7 @@ namespace Minesweeper
 
         public bool AddFriend(string eMail)
         {
-            if (eMail == null) throw new ArgumentNullException("Null eMail!");
+            if (eMail == null) throw new ArgumentNullException("eMail");
             lock (_myFriends)
             {
                 if (_myFriends.ContainsKey(eMail)) return false;
@@ -129,7 +129,7 @@ namespace Minesweeper
 
         public bool RemoveFriend(string eMail)
         {
-            if (eMail == null) throw new ArgumentNullException("Null eMail!");
+            if (eMail == null) throw new ArgumentNullException("eMail");
             lock (_myFriends)
             {
                 _myFriends.Remove(eMail);
@@ -143,7 +143,7 @@ namespace Minesweeper
         private bool AddRefreshFriends(string eMail)
         {
             Player friend = Lobby.Current.getPlayer(eMail);
-            if (friend == null) throw new ArgumentNullException("Friend not in game!");
+            if (friend == null) throw new ArgumentNullException("eMail");
             lock (_refreshFriends)
             {
                 if (!_refreshFriends.Contains(friend))
@@ -179,8 +179,9 @@ namespace Minesweeper
 
         public bool AddRefreshPlayers(string eMail)
         {
+            if (eMail == null) throw new ArgumentNullException("eMail");
             Player player = Lobby.Current.getPlayer(eMail);
-            if (player == null) return false;
+
             lock (_refreshPlayers)
             {
                 if (!_refreshPlayers.Contains(player))

@@ -36,10 +36,16 @@ namespace Minesweeper
             }
         }
 
-        public bool CreateGame(string gameName, string playerName)
+        //--------------------------
+        // Games Management
+
+        public bool CreateGame(string gName, string pName)
         {
-            if (games.ContainsKey(gameName)) return false;
-            games.Add(gameName, new Game(gameName, playerName, COLS, ROWS));
+            if (gName == null) throw new ArgumentNullException("gName");
+            if (pName == null) throw new ArgumentNullException("pName");
+
+            if (games.ContainsKey(gName)) return false;
+            games.Add(gName, new Game(gName, pName, COLS, ROWS));
             return true;
         }
 
@@ -49,6 +55,9 @@ namespace Minesweeper
                     where (games[g].Status == GameStatus.WAITING_FOR_PLAYERS)
                     select g);
         }
+
+        //--------------------------
+        // Players Management
 
         public IEnumerable<Player> GetOnlinePlayers()
         {
