@@ -1,4 +1,7 @@
 function cell() {
+
+    var current = this; 
+    
     // Private Members --------------------------------------------------------------------------------------
 
     var setValue = function(cell, val) { $(cell).attr("value", "" + val + ""); }
