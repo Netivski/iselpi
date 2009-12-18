@@ -107,5 +107,12 @@ namespace MinesweeperControllers
             return new ViewResult();            
         }
 
+        public ActionResult RefreshPlayers(int playerId)
+        {
+            List<Cell> rObj = CurrentGame.GetRefreshCell(playerId - 1);
+
+            return new ContentResult() { Content = Generic.GetJSon(rObj), ContentType = "text/x-json" };
+        }
+
     }
 }

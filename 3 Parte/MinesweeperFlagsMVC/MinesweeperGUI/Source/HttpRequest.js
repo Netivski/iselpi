@@ -8,7 +8,7 @@
 
         var data = "";
         
-        for (var i = 3; i < _args.length; i += 2) {
+        for (var i = 4; i < _args.length; i += 2) {
             data += "&" + _args[i] + "=" + escape(_args[i + 1]);
         }
         var gChannel = "/" + handlerClass + "/" + handlerUrl

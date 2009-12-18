@@ -9,11 +9,12 @@ namespace MinesweeperControllers
 {
     public class ProfileController : GameBaseController
     {
-        [AcceptVerbs(HttpVerbs.Get)]  
-        public ActionResult Create( string eMail )
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult Create(string eMail)
         {
-            ViewData.Model = Lobby.Current.LoadPlayer( eMail );
-            return new ViewResult() { ViewData = ViewData };            
+            if (eMail != null)
+                ViewData.Model = Lobby.Current.LoadPlayer(eMail);
+            return new ViewResult() { ViewData = ViewData };
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
@@ -25,13 +26,13 @@ namespace MinesweeperControllers
                 nPlayer = new Player(name, eMail);
             }
 
-            nPlayer.Name   = name;
-            nPlayer.Status = ( online ? PlayerStatus.Online : PlayerStatus.Offline);
+            nPlayer.Name = name;
+            nPlayer.Status = (online ? PlayerStatus.Online : PlayerStatus.Offline);
             if (photo != null) nPlayer.AddPhoto(new Photo() { Name = photo.FileName, ContentType = photo.ContentType, Image = photo.InputStream });
 
             Lobby.Current.AddPlayer(nPlayer);
             ViewData.Model = nPlayer;
-            return new ViewResult() { ViewData = ViewData };            
+            return new ViewResult() { ViewData = ViewData };
         }
 
         public ActionResult GetPlayerPhoto(string eMail)
@@ -46,22 +47,22 @@ namespace MinesweeperControllers
                     Response.ClearContent();
                     Response.ClearHeaders();
                     Response.BufferOutput = true;
-                    Response.ContentType  = dPhoto.ContentType;
+                    Response.ContentType = dPhoto.ContentType;
                     byte[] buffer = new byte[512];
 
-                    while( (dPhoto.Image.Read(buffer, 0, buffer.Length)) > 0 )
+                    while ((dPhoto.Image.Read(buffer, 0, buffer.Length)) > 0)
                     {
                         Response.BinaryWrite(buffer);
                     }
-                }                                      
+                }
             }
 
             return new EmptyResult();
         }
 
-        public ActionResult Show( string eMail )
+        public ActionResult Show(string eMail)
         {
-            ViewData.Model = Lobby.Current.LoadPlayer(eMail); 
+            ViewData.Model = Lobby.Current.LoadPlayer(eMail);
             return new ViewResult() { ViewData = ViewData };
         }
 
