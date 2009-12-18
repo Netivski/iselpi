@@ -2,8 +2,49 @@
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head>
     <title>Debug Page</title>
-    <script language="javascript" src="../Source/HttpRequest.js"></script>
+    <script language="javascript" src="/Source/HttpRequest.js"></script>
+    <script language="javascript" src="/Source/BoardMVC.js"></script>
     <script language="javascript" >
+
+
+        var y = new boardMVC();
+        y.boardModel();
+        y.boardModel.alert("Go! Go! Jony Go!");
+
+        function gameMVC(p1) {
+
+            this.model = function() {
+                var a = "(:)";
+
+                var h = function() {
+                    a = "Novo Valor de A";
+                    alert("Como é!!!!");
+                }
+
+                this.model.show = function() {
+                    h();
+                    alert('Model' + p1 + a);
+                }
+            }
+
+            this.view = function() {
+                this.view.show = function() {
+                  this.model.show();
+                }
+            }
+
+            this.model();
+            this.view();
+        }
+
+
+        var x = new gameMVC("Paulo ***");
+        x.model.show();
+        for (var key in x) {
+            alert( key );
+        }
+        //x.model.show();
+    
         function doWork() {
             try {
                 sOut.innerHTML += "*";
@@ -38,13 +79,13 @@
     </script>
 </head>
 <body onload="setTimeout('doWork()', 1000);">
-  <form id="frmCreateGame" action="../CreateGame.ashx" method="get">
+  <form id="frmCreateGame" action="/CreateGame.ashx" method="get">
      Game Name <input type="text" id="gName" name="gName" /><br/>
      Player Name<input type="text" id="playerName" name="playerName" /><br />
      <input type="submit" value="Create Game"/>
    </form>
   <br/>
-  <form id="frmAddPlayer" action="../AddPlayer.ashx" method="get">
+  <form id="frmAddPlayer" action="/AddPlayer.ashx" method="get">
      Game Name <input type="text" id="gName" name="gName" /><br/>
      Player Name<input type="text" id="playerName" name="playerName" /><br />
      <input type="submit" value="Join Game"/>
