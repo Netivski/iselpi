@@ -1,4 +1,4 @@
-﻿function HttpRequest(handlerUrl, gName, playerId) {
+﻿function HttpRequest(handlerClass, handlerUrl, gName, playerId) {
 
     var xhr;
     var _args = arguments;
@@ -11,7 +11,7 @@
         for (var i = 3; i < _args.length; i += 2) {
             data += "&" + _args[i] + "=" + escape(_args[i + 1]);
         }
-        var gChannel = "/GameAsynchronous/" + handlerUrl
+        var gChannel = "/" + handlerClass + "/" + handlerUrl
                                                 + "?gName=" + escape(gName)
                                                 + "&playerId=" + escape(playerId)
                                                 + data;
