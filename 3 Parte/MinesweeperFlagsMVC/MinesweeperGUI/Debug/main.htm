@@ -12,12 +12,13 @@
             var showInstanceVariable = function() { alert(instanceVariable); }
 
             var viewProperties = function(obj) {
-                
-                for (var k in obj) {
+
+                for (var k in current) {
                     alert(k);
                 }
             }
 
+            var current = this;
 
 
             this.showMe = function(str) { this.showIIMe( "[" + str + "]"); }
@@ -61,12 +62,18 @@
                     alert(a);
                 }
 
+                var j = function() {
+                    alert(a);
+                }                
+
                 this.view.show = function() {                    
 
-                    //                    h();
-                    //                    showInstanceVariable();
+                    h();
+                    showInstanceVariable();
 
-                    //getModel().show();
+                    current.model.show();
+
+                    j();                                        
                 }
 
                 this.view.showp = function() { alert(p1); }
@@ -92,9 +99,9 @@
         //y.showMe("João");
         //y.viewProperties();
 
-        y.model.viewProperties();
-        alert('*');
-        y.meShow();
+//        y.model.viewProperties();
+//        alert('*');
+//        y.meShow();
 
         //alert(y.constructor);
 
@@ -109,7 +116,7 @@
 
 //        alert( "Start View" );
 
-        //y.view.show();
+        y.view.show();
 //        y.view.showp();
 //        y.view.showInstanceVariable();
 
