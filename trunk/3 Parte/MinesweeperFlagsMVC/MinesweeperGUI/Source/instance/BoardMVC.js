@@ -1,6 +1,9 @@
 // Board MVC Object
 
-function boardMVC(lines, cols, cell){
+function boardMVC(lines, cols, cell) {
+
+    var current = this; 
+
 
     // Board Model --------------------------------------------------------------------------------------
 
@@ -18,13 +21,13 @@ function boardMVC(lines, cols, cell){
     this.boardController = function() {
 
         if (this.boardController.getLines == undefined) {
-            this.boardController.getLines = function() { return this.boardModel.getLines(); }
-            this.boardController.getCols = function() { return this.boardModel.getCols(); }
+            this.boardController.getLines = function() { return current.boardModel.getLines(); }
+            this.boardController.getCols  = function() { return current.boardModel.getCols(); }
 
             this.boardController.start = function() {
                 for (var i = 0; i < this.getLines(); i++) {
                     for (var j = 0; j < this.getCols(); j++) {
-                        var currCell = this.boardView.getCellByPos(j, i);
+                        var currCell = current.boardView.getCellByPos(j, i);
                         cell.addEventListener(currCell);
                     }
                 }
@@ -37,17 +40,17 @@ function boardMVC(lines, cols, cell){
         if (this.boardView.render == undefined) {
             this.boardView.render = function() {
                 var cellWidth = $("." + HIDDEN_CELL).css("width");
-                var width = (cellWidth * this.boardController.getCols());
+                var width     = (cellWidth * current.boardController.getCols());
 
-                for (var i = 0; i < this.boardController.getLines(); i++) {
-                    for (var j = 0; j < this.boardController.getCols(); j++) {
+                for (var i = 0; i < current.boardController.getLines(); i++) {
+                    for (var j = 0; j < current.boardController.getCols(); j++) {
                         cell.create(undefined, j, i).appendTo($("." + BOARD_CLASS));
                     }
                 }
             }
 
             this.boardView.getCellByPos = function(posX, posY) {
-                if (posX >= this.boardController.getCols() || posY >= this.boardController.getLines() || posX < 0 || posY < 0)
+            if (posX >= current.boardController.getCols() || posY >= current.boardController.getLines() || posX < 0 || posY < 0)
                     return null;
                 return document.getElementById("" + posX + "," + posY + "");
             }

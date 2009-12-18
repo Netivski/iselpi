@@ -1,4 +1,7 @@
 function player() {
+
+    var current = this; 
+    
     this.update = function(pNum, pName, pScore, myId) {
         if ($("#Player" + pNum).length == 0)
             renderNew(pNum, pName, myId);

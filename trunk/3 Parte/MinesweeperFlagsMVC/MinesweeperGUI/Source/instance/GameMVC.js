@@ -2,6 +2,8 @@
 
 function GameMVC(lines, cols) {
 
+    var current = this; 
+
     // Game Model ---------------------------------------------------------------------------------------
     this.gameModel = function() {
         if (this.gameModel.setGameName == undefined) {
