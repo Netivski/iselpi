@@ -6,44 +6,119 @@
     <script language="javascript" src="/Source/BoardMVC.js"></script>
     <script language="javascript" >
 
+        function testMVC(p1) {
 
-        var y = new boardMVC();
-        y.boardModel();
-        y.boardModel.alert("Go! Go! Jony Go!");
+            var instanceVariable = "instance Variable";
+            var showInstanceVariable = function() { alert(instanceVariable); }
 
-        function gameMVC(p1) {
+            var viewProperties = function(obj) {
+                
+                for (var k in obj) {
+                    alert(k);
+                }
+            }
+
+
+
+            this.showMe = function(str) { this.showIIMe( "[" + str + "]"); }
+            this.showIIMe = function(str) { alert(str); }
+
+            this.meShow = function() { viewProperties(this); }
 
             this.model = function() {
                 var a = "(:)";
 
                 var h = function() {
-                    a = "Novo Valor de A";
-                    alert("Como é!!!!");
+                    a = "(.)model - h(.)";
+                    alert(a);
                 }
 
                 this.model.show = function() {
                     h();
-                    alert('Model' + p1 + a);
+                    alert("Funcção Show de Model. Valor do Parametro P1 = [" + p1 + "]. Valor do Parametro a = [" + a + "]");
                 }
+
+                this.model.showp = function() { alert(p1); }
+                this.model.showInstanceVariable = function() { showInstanceVariable(); }
+
+                this.model.viewProperties = function() {
+                    //                    for (var k in this) {
+                    //                        alert(k);
+                    //                    }
+
+                    viewProperties(this);
+
+                }
+
+
             }
 
             this.view = function() {
-                this.view.show = function() {
-                  this.model.show();
+
+                var a = "(.)(.)";
+                var h = function() {
+                    a = "(.)view - h(.)";
+                    alert(a);
                 }
+
+                this.view.show = function() {                    
+
+                    //                    h();
+                    //                    showInstanceVariable();
+
+                    //getModel().show();
+                }
+
+                this.view.showp = function() { alert(p1); }
+                this.view.showInstanceVariable = function() { showInstanceVariable(); }
             }
 
             this.model();
             this.view();
+
+            var getModel = function() {
+                alert(this);
+                alert(this.model);
+
+                //model.show();
+
+                return this.model;
+            }     
         }
 
 
-        var x = new gameMVC("Paulo ***");
-        x.model.show();
-        for (var key in x) {
-            alert( key );
-        }
-        //x.model.show();
+
+        var y = new testMVC("p param");
+        //y.showMe("João");
+        //y.viewProperties();
+
+        y.model.viewProperties();
+        alert('*');
+        y.meShow();
+
+        //alert(y.constructor);
+
+//        for (var key in y) {
+//            alert(key);
+//        }
+//        
+        
+//        y.model.show();
+//        y.model.showp();
+//        y.model.showInstanceVariable();
+
+//        alert( "Start View" );
+
+        //y.view.show();
+//        y.view.showp();
+//        y.view.showInstanceVariable();
+
+
+
+//        for (var key in y) {
+//            alert( key );
+//        }
+//        //x.model.show();
     
         function doWork() {
             try {
