@@ -121,7 +121,7 @@ namespace Minesweeper
             lock (_myFriends)
             {
                 if (_myFriends.ContainsKey(eMail)) return false;
-                _myFriends.Add(eMail, Lobby.Current.getPlayer(eMail));
+                _myFriends.Add(eMail, Lobby.Current.GetPlayer(eMail));
                 AddRefreshFriends(eMail);
                 return true;
             }
@@ -142,8 +142,22 @@ namespace Minesweeper
 
         private bool AddRefreshFriends(string eMail)
         {
-            Player friend = Lobby.Current.getPlayer(eMail);
+            Player friend = Lobby.Current.GetPlayer(eMail);
             if (friend == null) throw new ArgumentNullException("eMail");
+            lock (_refreshFriends)
+            {
+                if (!_refreshFriends.Contains(friend))
+                {
+                    _refreshFriends.Add(friend);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private bool AddRefreshFriends(Player friend)
+        {
+            if (friend == null) throw new ArgumentNullException("friend");
             lock (_refreshFriends)
             {
                 if (!_refreshFriends.Contains(friend))
@@ -180,8 +194,22 @@ namespace Minesweeper
         public bool AddRefreshPlayers(string eMail)
         {
             if (eMail == null) throw new ArgumentNullException("eMail");
-            Player player = Lobby.Current.getPlayer(eMail);
+            Player player = Lobby.Current.GetPlayer(eMail);
 
+            lock (_refreshPlayers)
+            {
+                if (!_refreshPlayers.Contains(player))
+                {
+                    _refreshPlayers.Add(player);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool AddRefreshPlayers(Player player)
+        {
+            if (player == null) throw new ArgumentNullException("player");
             lock (_refreshPlayers)
             {
                 if (!_refreshPlayers.Contains(player))
@@ -200,6 +228,7 @@ namespace Minesweeper
             {
                 retList = new List<Player>(_refreshPlayers);
             }
+            ResetRefreshPlayers();
             return retList;
         }
 
@@ -237,8 +266,10 @@ namespace Minesweeper
 
         public virtual string ToJSon()
         {
-            return "{\"name\":\"" + _name + ", \"email\":\"" + _eMail
-                + "\", \"status\":\"" + _status + "\"}";
+            string imgUrl = GetDefaultPhoto() == null ? "" : GetDefaultPhoto().Name;
+            return "{\"name\":\"" + _name + "\", \"email\":\"" + _eMail
+                + "\", \"status\":\"" + _status + "\", \"photo\":\"" 
+                + imgUrl + "\"}";
         }
     }
 }

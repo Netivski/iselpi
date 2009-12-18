@@ -13,19 +13,15 @@
   <div>
     <form method="post" id="createProfile" enctype="multipart/form-data">
     E-Mail:
-    <input type="text" name="eMail" value="<%=Model.EMail%>" />
+    <input type="text" name="eMail" value="" />
     <br />
     Name:
-    <input type="text" name="name" value="<%=Model.Name%>" />
+    <input type="text" name="name" value="" />
     <br />   
-    Online:    <%= Html.CheckBox("Online", Model.Online)%>    
+    Online:    <%= Html.CheckBox("Online")%>    
     <br />
     Photo:
     <input type="file" name="photo" />
-    <%if (Model.EMail != null){ %>
-     Photo: <img src="/Profile/GetPlayerPhoto?eMail=<%=Model.EMail%>" />    
-    <%} %>
-     
     <br />
     <input type="submit" value="Save Profile" />
     </form>

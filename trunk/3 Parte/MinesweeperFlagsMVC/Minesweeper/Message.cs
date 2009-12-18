@@ -2,7 +2,7 @@
 
 namespace Minesweeper
 {
-    public class Message
+    public class Message : IToJSon
     {
         public Message()  {  Type = MessageType.Undefined;  }
 
@@ -27,6 +27,11 @@ namespace Minesweeper
         {
             get;
             set;
+        }
+
+        public string ToJSon()
+        {
+            return "{\"msg\":\"" + Value + "\"}"; ;
         }
     }
 }

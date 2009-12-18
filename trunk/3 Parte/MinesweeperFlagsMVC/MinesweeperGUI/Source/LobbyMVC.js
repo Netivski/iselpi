@@ -2,14 +2,12 @@
 
 var Lobby = new Object();
 
-    alert("xpto");
-
 Lobby.init = function() {
 
     LobbyModel.init();
     LobbyView.init();
     LobbyController.init();
-    //LobbyController.startPooling();
+    LobbyController.startPooling();
 }
 
 
@@ -18,7 +16,7 @@ Lobby.init = function() {
 var LobbyModel = new Object();
 LobbyModel.init = function() {
 
-    var _pName = null;
+    var _pName = "Gummie";
 
     this.setPlayerName = function(pName) { _pName = pName; }
     this.getPlayerName = function() { return _pName; }
@@ -30,9 +28,9 @@ LobbyModel.init = function() {
 var LobbyController = new Object();
 LobbyController.init = function() {
 
-    var handlerClass = "GameAsynchronous";
+    var handlerClass = "Lobby";
 
-    LobbyView.renderProfile("http://www.istockphoto.com/file_thumbview_approve/5200069/2/istockphoto_5200069-wave-icon.jpg", "Name");
+    LobbyView.renderProfile("http://www.istockphoto.com/file_thumbview_approve/5200069/2/istockphoto_5200069-wave-icon.jpg", "Snack");
     LobbyView.renderOptions();
     LobbyView.renderFriendList();
     LobbyView.renderPlayerList();
@@ -114,40 +112,46 @@ LobbyController.init = function() {
     // Events
 
 
-    this.evtStartPublicGame = function() {
+    this.evtProceedToGame = function() {
+        if (LobbyView.getGameName() == "") return;
 
-        if (!LobbyView.isGameFormVisible() || LobbyView.getGameName()==""){
-            LobbyView.showGameForm();
-            return;
-        }
- 
+        var handler = LobbyView.isPublicGame() ? "StartPublicGame" : "StartPrivateGame";
+
         try {
-            var req = new HttpRequest(handlerClass, "StartPublicGame",
-                 LobbyView.getGameName(), 0, "eMail", LobbyModel.getPlayerName());
+            var req = new HttpRequest(handlerClass, handler, LobbyView.getGameName(), 0,
+                "eMail", LobbyModel.getPlayerName());
             req.Request();
             var game = req.getJSonObject();
         } catch (e) { alert(e); }
 
-        //Request response should return new tab html
+        if (game.gStatus == INVALID_NAME) {
+            this.sendMessage("Game named '" + game.GameName + "' already exists!");
+            LobbyView.setFocusGameName();
+        }
+        else {
 
+            //This is when a new Game is created and binded to a tab
+            //and when we should invite other players to join in
+            //or wait for players and then start the game
+        }
+    }
+
+    this.evtStartPublicGame = function() {
+
+        if (!LobbyView.isGameFormVisible()) {
+            LobbyView.showGameForm();
+            LobbyView.hidePrivateButton();
+            return;
+        }
     }
 
     this.evtStartPrivateGame = function() {
 
-        if (!LobbyView.isGameFormVisible() || LobbyView.getGameName()==""){
+        if (!LobbyView.isGameFormVisible()) {
             LobbyView.showGameForm();
+            LobbyView.hidePublicButton();
             return;
         }
-        
-        try {
-            var req = new HttpRequest(handlerClass, "StartPrivateGame",
-                LobbyView.getGameName(), 0, "eMail", LobbyModel.getPlayerName());
-            req.Request();
-            var game = req.getJSonObject();
-        } catch (e) { alert(e); }
-
-        //Request response should return new tab html
-
     }
 
 
@@ -242,16 +246,19 @@ LobbyView.init = function() {
 
     this.hideGameForm = function() {
         $(".divGameForm").hide("slow");
+        this.showPublicButton();
+        this.showPrivateButton();
         setTimeout('$("#gameNameInput").val("");');
     }
 
     this.isGameFormVisible = function() { return $(".divGameForm").is(":visible"); }
+    this.isPublicGame = function() { return $("#StartPublicButton").is(":visible"); }
 
-    this.showPublicButton = function() { $("#StartPublicButton").show("slow");
-    this.hidePublicButton = function() { $("#StartPublicButton").hide("slow");
-    
-    this.showPrivateButton = function() { $("#StartPrivateButton").show("slow");
-    this.hidePrivateButton = function() { $("#StartPrivateButton").hide("slow");
+    this.showPublicButton = function() { $("#StartPublicButton").show("slow"); }
+    this.hidePublicButton = function() { $("#StartPublicButton").hide("slow"); }
+
+    this.showPrivateButton = function() { $("#StartPrivateButton").show("slow"); }
+    this.hidePrivateButton = function() { $("#StartPrivateButton").hide("slow"); }
 
     this.getGameName = function() { return $("#gameNameInput").val(); }
     this.setGameName = function(name) { $("#gameNameInput").val(name); }
@@ -299,8 +306,8 @@ LobbyView.init = function() {
         }
         else {
             for (var i = 0; i < jSon.length; i++) {
-                var playerItem = $('<input type="radio" id="playerListItem" name="playerListItem" value="' + jSon[i] + '">' + jSon[i] + '</input><br>');
-                playerItem.appendTo($("<span/>")).appendTo(listDiv);
+                var playerItem = $('<input type="radio" id="playerListItem" name="playerListItem" value="' + jSon[i].email + '">' + jSon[i].email + '</input><br>');
+                playerItem.appendTo($("<div/>").addClass("divTitles")).appendTo(listDiv);
             }
             $("<button/>").click(function() { LobbyController.evtAddFriend(); }).attr("id", "AddFriend").text("Add Friend").appendTo(listDiv);
         }

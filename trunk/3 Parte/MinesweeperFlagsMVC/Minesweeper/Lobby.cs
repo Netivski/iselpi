@@ -76,10 +76,10 @@ namespace Minesweeper
                 catch (KeyNotFoundException) { }
             }
 
-            return rObj == null ? new Player(string.Empty, eMail) : rObj;
+            return rObj;
         }
 
-        public Player getPlayer(string name)
+        public Player GetPlayer(string name)
         {
             if (players.ContainsKey(name)) return players[name];
             return null;
@@ -89,6 +89,11 @@ namespace Minesweeper
         {
             if (players.ContainsValue(player) || player == null) return false;
             players.Add(player.EMail, player);
+            foreach (Player p in players.Values)
+            {
+                if (p.EMail != player.EMail)
+                    p.AddRefreshPlayers(player);
+            }
             return true;
         }
 
