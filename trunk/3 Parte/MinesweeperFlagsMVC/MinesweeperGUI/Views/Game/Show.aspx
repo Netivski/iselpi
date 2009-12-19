@@ -3,11 +3,23 @@
 <html>
 <head>
     <title>Board Tests</title>
-    <script type="text/javascript" src="../Source/GameMVC.js"></script>
-    <script type="text/javascript" src="../Source/jquery-1.3.2.js"></script>	
-    <link rel="Stylesheet" type="text/css" href="../Source/mineSweeper.css" />	
+    <script type="text/javascript" src="/Source/Instance/Constants.js"></script>
+    <script type="text/javascript" src="/Source/HttpRequest.js"></script>
+    <script type="text/javascript" src="/Source/Instance/Cell.js"></script>
+    <script type="text/javascript" src="/Source/Instance/Player.js"></script>
+    <script type="text/javascript" src="/Source/Instance/BoardMVC.js"></script>
+    <script type="text/javascript" src="/Source/Instance/GameMVC.js"></script>
+    <script type="text/javascript" src="/Source/jquery-1.3.2.js"></script>	
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var gName = new GameMVC(LINES, COLS);
+            gName.init();
+            gName.gameView.showMainOptions();
+        });
+    </script>
+    <link rel="Stylesheet" type="text/css" href="/Source/mineSweeper.css" />	
 </head>
-<body onload="Game.init();">
+<body onload="">
 	<p/>
 	<div class="divBackGround">
 		<div id="divPlayerBoard" class="divPlayerBoard">
