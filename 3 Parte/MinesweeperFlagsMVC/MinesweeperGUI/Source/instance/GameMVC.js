@@ -312,8 +312,10 @@ function GameMVC(lines, cols) {
 
         this.gameView.showMainOptions = function() {
             current.gameView.hideOptions();
-            setTimeout("GameView.renderOptions();"
-            + "GameView.showListButton();GameView.showCreateButton();", 1000);
+            current.gameView.renderOptions();
+            current.gameView.showCreateButton();
+            //            setTimeout("GameView.renderOptions();"
+            //            + "GameView.showListButton();GameView.showCreateButton();", 1000);
         }
 
         this.gameView.hideCreateButton = function() { $("#CreateButton").hide("slow"); }
