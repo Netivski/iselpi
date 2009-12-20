@@ -40,6 +40,12 @@ namespace Minesweeper
             set { _name = value; }
         }
 
+        public string EMail
+        {
+            get { return _eMail; }
+            set { _eMail = value; }
+        }
+
         public int Points
         {
             get { return _points; }

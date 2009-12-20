@@ -1,4 +1,4 @@
-function GameMVC(lines, cols) {
+function GameMVC(lines, cols, gName) {
 
     var current = this; 
 
@@ -9,8 +9,10 @@ function GameMVC(lines, cols) {
         var _gStatus = -1;
         var _gName = null;
         var _pName = null;
+        var _pEMail = null;
         var _pId = 0;
         var _activePlayer = 0;
+        var _isOwner = false;
 
         this.gameModel.setGameName = function(gName) { _gName = gName; }
         this.gameModel.getGameName = function() { return _gName; }
@@ -21,12 +23,17 @@ function GameMVC(lines, cols) {
         this.gameModel.setPlayerName = function(pName) { _pName = pName; }
         this.gameModel.getPlayerName = function() { return _pName; }
 
+        this.gameModel.setPlayerEMail = function(pEMail) { _pEMail = pEMail; }
+        this.gameModel.getPlayerEMail = function() { return _pEMail; }
+
         this.gameModel.setPlayerId = function(pId) { _pId = pId; }
         this.gameModel.getPlayerId = function() { return _pId; }
 
         this.gameModel.setActivePlayer = function(pId) { _activePlayer = pId; }
         this.gameModel.getActivePlayer = function() { return _activePlayer; }
 
+        this.gameModel.setIsOwner = function(isOwner) { _isOwner = isOwner; }
+        this.gameModel.getIsOwner = function() { return (_isOwner == true ); }
     }
 
     // Game Controller ----------------------------------------------------------------------------------
@@ -34,11 +41,26 @@ function GameMVC(lines, cols) {
     this.gameController = function() {
         if (this.gameController.doWork != undefined) return;
 
-        var cellObj = new cell(current.gameController);
-        var board = new boardMVC(lines, cols, cellObj);
-        var playerObj = new player(current.gameController);
+        var cellObj = new Cell(current.gameController);
+        var board = new BoardMVC(lines, cols, cellObj);
+        var playerObj = new Player(current.gameController);
 
         board.init();
+
+        this.gameController.startGame = function(gName, pName, pEMail, pId, isOwner) {
+            current.gameModel.setGameName(gName);
+            current.gameModel.setPlayerName(pName);
+            current.gameModel.setPlayerEMail(pEMail);
+            current.gameModel.setPlayerId(pId);
+            current.gameModel.setIsOwner(isOwner);
+
+            if (current.gameModel.getIsOwner()) {
+            } else {
+            }
+
+            current.gameView.startPooling();
+        }
+
 
         // --------------------------------
         // Pooling
@@ -53,7 +75,7 @@ function GameMVC(lines, cols) {
                 poolGameRefresh();
                 //poolMessageRefresh(); - not implemented
             }
-            finally { if (poolingActive) setTimeout("GameController.doWork()", 1000); }
+            finally { if (poolingActive) setTimeout(gName + ".gameController.doWork()", 1000); }
         }
 
         this.gameController.doWork = function() {
@@ -276,6 +298,8 @@ function GameMVC(lines, cols) {
 
         if (current.gameView.renderBoard != undefined) return;
 
+        var poolingActive = false;
+
         this.gameView.renderBoard = function() {
             $("." + BOARD_CLASS).empty();
             BoardView.render();
@@ -312,10 +336,30 @@ function GameMVC(lines, cols) {
 
         this.gameView.showMainOptions = function() {
             current.gameView.hideOptions();
-            current.gameView.renderOptions();
-            current.gameView.showCreateButton();
-            //            setTimeout("GameView.renderOptions();"
-            //            + "GameView.showListButton();GameView.showCreateButton();", 1000);
+            current.gameView.startPooling();
+        }
+
+        var pooling = function() {
+            if (!poolingActive) return;
+            try {
+                current.gameView.renderOptions();
+                current.gameView.showListButton()
+                current.gameView.showCreateButton();
+            }
+            finally { if (poolingActive) setTimeout(gName + ".gameView.doWork()", 1000); }
+        }
+
+        this.gameView.doWork = function() {
+            pooling();
+        }
+
+        this.gameView.startPooling = function() {
+            poolingActive = true;
+            pooling();
+        }
+
+        this.gameView.stopPooling = function() {
+            poolingActive = false;
         }
 
         this.gameView.hideCreateButton = function() { $("#CreateButton").hide("slow"); }

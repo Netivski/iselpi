@@ -1,4 +1,4 @@
-function boardMVC(lines, cols, cell) {
+function BoardMVC(lines, cols, cell) {
 
     var current = this; 
 

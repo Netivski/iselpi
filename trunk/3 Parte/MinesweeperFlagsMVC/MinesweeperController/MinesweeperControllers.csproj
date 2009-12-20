@@ -69,6 +69,7 @@
     <Compile Include="Proxy\JSONCell.cs" />
     <Compile Include="Proxy\JSONGame.cs" />
     <Compile Include="Proxy\JSONPlayer.cs" />
+    <Compile Include="Utils\GameKey.cs" />
     <Compile Include="Utils\Generic.cs" />
     <Compile Include="Utils\JSon.cs" />
   </ItemGroup>

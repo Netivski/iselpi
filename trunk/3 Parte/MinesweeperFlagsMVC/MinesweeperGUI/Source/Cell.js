@@ -1,19 +1,15 @@
-var Cell = new Object();
+function Cell(gCtrl) {
+    var current = this; 
+    
+    // Private Members --------------------------------------------------------------------------------------
 
-Cell.init = function() {
+    var setValue  = function(cell, val) { $(cell).attr("value", "" + val + ""); }
+    var setClass  = function(cell, cellClass) { $(cell).attr("class", cellClass); }
+    var setId     = function(cell, id) { $(cell).attr("id", id); }
+    var showLabel = function(cell) { $(cell).append(Cell.getValue(cell)); }
+    
 
-
-// Private Members --------------------------------------------------------------------------------------
-
-    var setValue = function(cell, val) { $(cell).attr("value", "" + val + ""); }
-    var setClass = function(cell, cellClass) { $(cell).attr("class", cellClass); }
-    var setId = function(cell, id) { $(cell).attr("id", id); }
-
-    var showLabel = function(cell) {
-        $(cell).append(Cell.getValue(cell));
-    }
-
-// Public Members ---------------------------------------------------------------------------------------
+    // Public Members ---------------------------------------------------------------------------------------
 
     this.setType = function(cell, type) {
         $(cell).attr("type", type);
@@ -41,7 +37,7 @@ Cell.init = function() {
     }
 
     this.addEventListener = function(cell) {
-        jQuery(cell).click(function() { GameController.evtCellClicked(cell); });
+        jQuery(cell).click(function() { gCtrl.evtCellClicked(cell); });
     }
 
     this.create = function(isMine, x, y) {
@@ -51,10 +47,9 @@ Cell.init = function() {
         return cell;
     }
 
-    this.getPos = function(cell) { return $(cell).attr("id").split(","); }
+    this.getPos   = function(cell) { return $(cell).attr("id").split(","); }
     this.getValue = function(cell) { return $(cell).attr("value"); }
-
-    this.isMine = function(cell) { return $(cell).attr("type") == TYPE_MINE; }
+    this.isMine   = function(cell) { return $(cell).attr("type") == TYPE_MINE; }
     this.isHidden = function(cell) { return $(cell).attr("class") == HIDDEN_CELL; }
-    this.isEmpty = function(cell) { return (!this.isMine(cell) && this.getValue(cell) == "0"); }
+    this.isEmpty  = function(cell) { return (!this.isMine(cell) && this.getValue(cell) == "0"); }
 }
