@@ -1,5 +1,8 @@
 // Lobby MVC initializer
 
+var PLAYER_STATUS_OFF = "Offline";
+var PLAYER_STATUS_ON = "Online";
+
 var Lobby = new Object();
 
 Lobby.init = function() {
@@ -76,7 +79,17 @@ LobbyController.init = function() {
         var req = new HttpRequest(handlerClass, "RefreshPlayers", undefined, 0, "eMail", LobbyModel.getPlayerName());
         req.Request();
         if (req != "") {
-            LobbyView.populatePlayerList(req.getJSonObject());
+            jSon = req.getJSonObject();
+            if (jSon.length > 0) {
+                for (var i = 0; i < jSon.length; i++) {
+                    if (jSon[i].status == PLAYER_STATUS_OFF) {
+                        LobbyView.removePlayer(jSon[i]);
+                    } else {
+                        LobbyView.addPlayer(jSon[i]);
+                        LobbyView.addFriend(jSon[i]);
+                    }
+                }
+            }
         }
     }
 
@@ -84,7 +97,13 @@ LobbyController.init = function() {
         var req = new HttpRequest(handlerClass, "RefreshFriends", undefined, 0, "eMail", LobbyModel.getPlayerName());
         req.Request();
         if (req != "") {
-            LobbyView.populateFriendList(req.getJSonObject());
+            jSon = req.getJSonObject();
+            if (jSon.length > 0) {
+                for (var i = 0; i < jSon.length; i++) {
+                        LobbyView.addFriend(jSon[i]);
+                    }
+                }
+            }
         }
     }
 
@@ -115,7 +134,16 @@ LobbyController.init = function() {
     this.evtProceedToGame = function() {
         if (LobbyView.getGameName() == "") return;
 
-        var handler = LobbyView.isPublicGame() ? "StartPublicGame" : "StartPrivateGame";
+        if (LobbyView.isPublicGame())
+            handler = "StartPublicGame";
+        else {
+            handler = "StartPrivateGame";
+            selFriendCount = LobbyView.getSelFriendCount();
+            if (selFriendCount < 1 || selFriendCount > 4) {
+                this.sendMessage("Minimum number of invites for private game is 1, maximum is 3!");
+                return;
+            }
+        }
 
         try {
             var req = new HttpRequest(handlerClass, handler, LobbyView.getGameName(), 0,
@@ -124,15 +152,23 @@ LobbyController.init = function() {
             var game = req.getJSonObject();
         } catch (e) { alert(e); }
 
+        if (handler = "StartPrivateGame") {
+            selFriends = LobbyView.getSelFriends();
+            for (var i = 0; i < selFriends.length; i++) {
+                try {
+                    invite = new HttpRequest(handlerClass, "Invite", LobbyView.getGameName(), 0,
+                "eMailFrom", LobbyModel.getPlayerName(), "eMailTo", selFriends[i]);
+                    invite.Request();
+                } catch (e) { alert(e); }
+            }
+        }
+
         if (game.gStatus == INVALID_NAME) {
             this.sendMessage("Game named '" + game.GameName + "' already exists!");
             LobbyView.setFocusGameName();
         }
         else {
-
-            //This is when a new Game is created and binded to a tab
-            //and when we should invite other players to join in
-            //or wait for players and then start the game
+            this.startGame(LobbyView.getGameName());
         }
     }
 
@@ -164,6 +200,8 @@ LobbyController.init = function() {
     }
 
     this.evtRemoveFriend = function() {
+        alert(LobbyView.getSelectedFriends());
+        return;
         try {
             var req = new HttpRequest(handlerClass, "RemoveFriend", undefined, 0, "eMail"
 				, LobbyModel.getPlayerName(), "friend", LobbyView.getSelectedFriend());
@@ -268,52 +306,70 @@ LobbyView.init = function() {
     // Friends List
 
     this.renderFriendList = function() {
-        var listDiv = $(".divPlayerFriendsList").attr("id", "friendList");
+        var listDiv = $(".divPlayerFriendsList");
+        $("<button/>").click(function() { LobbyController.evtRemoveFriend(); }).attr("id", "RemoveFriendButton").text("Remove Friend").css("display", "none").appendTo(listDiv);
     }
 
-    this.populateFriendList = function(jSon) {
-        var listDiv = $("#friendList");
-        listDiv.empty();
-
-        if (jSon == "") {
-            $("<span/>").text("No friends online!").appendTo(listDiv);
+    this.addFriend = function(player) {
+        var listDiv = $("#frList");
+        if ($("#fr_" + player.email + "").length == 0) {
+            var friendItem = $('<input type="checkbox" id="' + player.email + '" name="friendListItem"</input>&nbsp;');
+            $("<dt/>").attr("id", "fr_" + player.email).toggleClass(player.status).append(friendItem).append($("<span/>").text(player.email)).appendTo(listDiv);
         }
-        else {
-            for (var i = 0; i < jSon.length; i++) {
-                var friendItem = $('<input type="radio" id="friendListItem" name="friendListItem" value="' + jSon[i] + '">' + jSon[i] + '</input><br>');
-                friendItem.appendTo($("<span/>")).appendTo(listDiv);
-            }
-            $("<button/>").click(function() { LobbyController.evtRemoveFriend(); }).attr("id", "RemoveFriend").text("Remove Friend").appendTo(listDiv);
+        $("#fr_" + player.email + "").removeClass().toggleClass(player.status);
+        if (getFriendCount() > 0) showRemoveFriendButton();
+    }
+
+    this.removeFriend = function(player) {
+        $("#fr_" + player.email + "").remove();
+        if (getFriendcount() == 0) hideRemoveFriendButton();
+    }
+
+    var getFriendCount = function() { return ($("#frList <dt/>").length); }
+    this.getSelFriendCount = function() {
+        return $("input[name='friendListItem']:checked").size();
+    }
+
+    this.getSelectedFriends = function() {
+
+        var selectedFriends, outValues;
+
+        selectedFriends = $("input[name='friendListItem']:checked");
+        for (var i = 0; i < selectedFriends.length; i++) {
+            outValues[i] = ($(selectedFriends[i]).attr("id"));
         }
     }
 
-    this.getSelectedFriend = function() { return ($("input[name='friendListItem']:checked").val()); }
+    var showRemoveFriendButton = function() { $("#RemoveFriendButton").show("slow"); }
+    var hideRemoveFriendButton = function() { $("#RemoveFriendButton").hide("slow"); }
 
 
     // --------------------------------
     // Players List
 
     this.renderPlayerList = function() {
-        var listDiv = $(".divPlayersOnList").attr("id", "playerList");
+        var listDiv = $(".divPlayersOnList");
+        $("<button/>").click(function() { LobbyController.evtAddFriend(); }).attr("id", "AddPlayerButton").text("Add To Friends").css("display", "none").appendTo(listDiv);
     }
 
-    this.populatePlayerList = function(jSon) {
-        var listDiv = $("#playerList");
-        listDiv.empty();
+    this.addPlayer = function(player) {
+        var listDiv = $("#plList");
+        if ($("#pl_" + player.email + "").length == 0) {
+            var playerItem = $('<input type="radio" id="playerListItem" name="playerListItem" value="' + player.email + '">' + player.email + '</input><br>');
+            $("<dt/>").attr("id", "pl_" + player.email).append(playerItem).appendTo(listDiv);
+        }
+        if (getPlayerCount() > 0) showAddPlayerButton();
+    }
 
-        if (jSon == "") {
-            $("<span/>").text("No players online!").appendTo(listDiv);
-        }
-        else {
-            for (var i = 0; i < jSon.length; i++) {
-                var playerItem = $('<input type="radio" id="playerListItem" name="playerListItem" value="' + jSon[i].email + '">' + jSon[i].email + '</input><br>');
-                playerItem.appendTo($("<div/>").addClass("divTitles")).appendTo(listDiv);
-            }
-            $("<button/>").click(function() { LobbyController.evtAddFriend(); }).attr("id", "AddFriend").text("Add Friend").appendTo(listDiv);
-        }
+    this.removePlayer = function(player) {
+        $("#pl_" + player.email + "").remove();
+        if (getPlayercount() == 0) hideAddPlayerButton();
     }
 
     this.getSelectedPlayer = function() { return ($("input[name='playerListItem']:checked").val()); }
+    var getPlayerCount = function() { return ($("#plList <dt/>").length); }
+    var showAddPlayerButton = function() { $("#AddPlayerButton").show("slow"); }
+    var hideAddPlayerButton = function() { $("#AddPlayerButton").hide("slow"); }
 
 
     // --------------------------------
