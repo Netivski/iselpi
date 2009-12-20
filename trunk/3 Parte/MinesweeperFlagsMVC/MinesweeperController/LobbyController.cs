@@ -44,7 +44,7 @@ namespace MinesweeperControllers
             if (p != null)
             {
                 List<Message> rObj = p.GetRefreshMessages();
-                return new ContentResult() { Content = Generic.GetJSon(rObj), ContentType = "text/x-json" };
+                return new JsonResult() { Data = Generic.GetJSon(rObj), ContentType = "text/x-json" };
             }
             return null;
         }

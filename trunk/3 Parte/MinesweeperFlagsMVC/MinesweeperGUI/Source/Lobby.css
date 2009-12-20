@@ -3,6 +3,21 @@
 	color: White;
 	font-family: Verdana;
 }
+button
+{
+	background-color: #D2D2D2;
+	width: 100%;
+	left: 5%;	
+	color: Black;
+	border: 0px;
+	margin: 1%;
+	text-align:center;
+	font-weight: bold;
+	filter: alpha(opacity=85);
+	-moz-opacity: 0.85;
+	-khtml-opacity: 0.85;
+	opacity: 0.85;
+}
 .divTitles
 {
 	font-weight: bold;
@@ -109,14 +124,15 @@
 	padding-bottom: 2%;	
 	font-size: small;
 }
-.divPlayerInfo .divPlayerOptions input
+.divPlayerInfo .divPlayerOptions button
 {
 	background-color: #D2D2D2;
-	width: 90%;
+	width: 100%;
 	left: 5%;	
 	color: Black;
 	border: 0px;
 	margin: 1%;
+	text-align:center;
 	font-weight: bold;
 	filter: alpha(opacity=85);
 	-moz-opacity: 0.85;
@@ -137,12 +153,15 @@
 .divPlayerInfo .divPlayerFriendsList dl
 {
 	position: relative;	
+	overflow:auto;	
 	left: 5%;	
 	width: 90%;	
 	height: 75%;
+	max-height: 75;
 	background-color: White;
 	padding-top: 2%;
 	padding-bottom: 2%;
+	margin-bottom: 3%;
 	filter: alpha(opacity=85);
 	-moz-opacity: 0.85;
 	-khtml-opacity: 0.85;
@@ -156,6 +175,11 @@
 	width: 90%;
 	border-bottom: solid 1px Black;
 	font-size: small;
+}
+
+.divPlayerInfo .divPlayerFriendsList dl dt.Offline
+{
+	color:Yellow;
 }
 .divCommunication
 {
@@ -269,24 +293,27 @@
 	top: 2%;
 	width: 90%;
 	height: 42%;
-	/*background-color: Black;*/
-	/*padding-top: 2%;*/
 	padding-bottom: 2%;
 	font-size: small;
 	border: solid 1px Gray;	
 }
+
 .divOnLists .divPlayersOnList dl
 {
-	position: relative;	
+	position: relative;
+	overflow:auto;	
 	left: 5%;	
 	width: 90%;	
-	height: 82%;
+	height: 70%;
+	max-height: 70%;
 	background-color: White;	
 	padding-bottom: 2%;
+	margin-bottom: 3%;
 	filter: alpha(opacity=85);
 	-moz-opacity: 0.85;
 	-khtml-opacity: 0.85;
 	opacity: 0.85;
+
 }
 .divOnLists .divPlayersOnList dl dt
 {
