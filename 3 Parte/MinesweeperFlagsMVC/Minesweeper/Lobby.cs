@@ -39,13 +39,15 @@ namespace Minesweeper
         //--------------------------
         // Games Management
 
-        public bool CreateGame(string gName, string pName)
+        public bool CreateGame(string gName, string pName, string pEMail)
         {
-            if (gName == null) throw new ArgumentNullException("gName");
-            if (pName == null) throw new ArgumentNullException("pName");
+            if (gName == null ) throw new ArgumentNullException("gName");
+            if (pName == null ) throw new ArgumentNullException("pName");
+            if (pEMail == null) throw new ArgumentNullException("pEMail");
+            
 
             if (games.ContainsKey(gName)) return false;
-            games.Add(gName, new Game(gName, pName, COLS, ROWS));
+            games.Add(gName, new Game(gName, pName, pEMail, COLS, ROWS));
             return true;
         }
 

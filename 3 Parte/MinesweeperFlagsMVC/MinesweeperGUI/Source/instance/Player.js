@@ -1,4 +1,4 @@
-function player( gCtrl ) {
+function Player( gCtrl ) {
 
     var current = this; 
     

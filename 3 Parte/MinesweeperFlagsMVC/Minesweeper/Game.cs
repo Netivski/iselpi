@@ -21,7 +21,7 @@ namespace Minesweeper
         int _totalMines;
         int _minesLeft;
 
-        public Game(string name, string playerName, int cols, int rows)
+        public Game(string name, string playerName, string playerEMail, int cols, int rows)
         {
             this._name = name;
             _sStatus = GameStatus.WAITING_FOR_PLAYERS;
@@ -31,7 +31,7 @@ namespace Minesweeper
             _cells = new Cell[rows, cols];
             _playersCount = 0;
             _currentPlayer = 0;
-            AddPlayer(playerName); //Owner (id = 1)
+            AddPlayer(playerName, playerEMail); //Owner (id = 1)
         }
 
         public string Name
@@ -243,11 +243,11 @@ namespace Minesweeper
             }
         }
 
-        public int AddPlayer(string name)
+        public int AddPlayer(string name, string eMail)
         {
             if (_playersCount < MAX_PLAYERS)
             {
-                GamePlayer player = new GamePlayer(_playersCount + 1, name);
+                GamePlayer player = new GamePlayer(_playersCount + 1, name, eMail);
                 _players[_playersCount++] = player;
                 foreach (GamePlayer p in _players)
                 {
@@ -311,6 +311,21 @@ namespace Minesweeper
         public GamePlayer GetPlayer(int playerId)
         {
             return _players[playerId];
+        }
+
+        public GamePlayer GetPlayer(string eMail)
+        {
+            for (int i = 0; i < _playersCount; i++)
+            {
+                if (string.Compare(eMail, _players[i].EMail) == 0) return _players[i];
+            }
+
+            return null;
+        }
+
+        public bool IsOwner(string eMail)
+        {
+            return string.Compare(eMail, _players[0].EMail) == 0;
         }
     }
 }

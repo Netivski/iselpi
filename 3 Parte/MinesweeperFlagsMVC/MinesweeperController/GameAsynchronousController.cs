@@ -62,12 +62,12 @@ namespace MinesweeperControllers
             return new EmptyResult();
         }
 
-        public ActionResult JoinGame(string gName, string playerName)
+        public ActionResult JoinGame(string gName, string playerName, string playerEMail)
         {
             JSONGame game = new JSONGame(gName);
             if (CurrentGame != null)
             {
-                game.callingPlayer = CurrentGame.AddPlayer(playerName);
+                game.callingPlayer = CurrentGame.AddPlayer(playerName, playerEMail);
                 game.gStatus = (game.callingPlayer == ~0 ? GameStatus.CROWDED : CurrentGame.Status);
                 game.minesLeft = CurrentGame.MinesLeft;
             }
@@ -75,11 +75,11 @@ namespace MinesweeperControllers
             return new ContentResult() { Content = game.ToJSon(), ContentType = "text/x-json" };
         }
 
-        public ActionResult CreateGame(string gName, string playerName)
+        public ActionResult CreateGame(string gName, string playerName, string playerEMail)
         {
             JSONGame game = new JSONGame(gName);
 
-            if (Minesweeper.Lobby.Current.CreateGame(game.GameName, playerName)) 
+            if (Minesweeper.Lobby.Current.CreateGame(game.GameName, playerName, playerEMail)) 
             {
                 game.gStatus = GameStatus.WAITING_FOR_PLAYERS;
                 game.minesLeft = CurrentGame.MinesLeft;

@@ -1,7 +1,7 @@
-var Player = new Object();
+function Player( gCtrl ) {
 
-Player.init = function() {
-
+    var current = this; 
+    
     this.update = function(pNum, pName, pScore, myId) {
         if ($("#Player" + pNum).length == 0)
             renderNew(pNum, pName, myId);
@@ -9,23 +9,23 @@ Player.init = function() {
     }
 
     var renderNew = function(pNum, pName, myId) {
-        var playerDiv = $("<div/>").addClass(PL_BOARD_CLASS).attr("id", "Player" + pNum);
+        var playerDiv   = $("<div/>").addClass(PL_BOARD_CLASS).attr("id", "Player" + pNum);
         var playerImage = $("<img/>").attr("src", PL_PIC_SRC + pNum + ".png").attr("alt", "Player " + pNum);
-        var picDiv = $("<div/>").addClass(PL_PIC_CLASS);
+        var picDiv      = $("<div/>").addClass(PL_PIC_CLASS);
         playerImage.appendTo(picDiv);
 
         var playerFlag = $("<img/>").attr("src", PL_FLAG_SRC + pNum + ".png").attr("alt", "Player " + pNum);
-        var flagDiv = $("<div/>").addClass(PL_FLAG_CLASS);
+        var flagDiv    = $("<div/>").addClass(PL_FLAG_CLASS);
         playerFlag.appendTo(flagDiv);
 
         var scoreDiv = $("<div/>").addClass(PL_SCORE_CLASS).text("0");
-        var nameDiv = $("<div/>").addClass(PL_NAME_CLASS).text(pName);
+        var nameDiv  = $("<div/>").addClass(PL_NAME_CLASS).text(pName);
 
         var quitButton = $("<button/>").addClass(BTN_QUIT_CLASS).text("Quit");
         var quitDiv = $("<div/>").addClass(PL_QUIT_CLASS);
         if (pNum == myId) {
             quitButton.appendTo(quitDiv);
-            quitButton.click(function() { GameController.evtRemovePlayer(); });
+            quitButton.click(function() { gCtrl.evtRemovePlayer(); });
         }
 
         ((playerDiv.append(picDiv)).append(flagDiv).append(scoreDiv));

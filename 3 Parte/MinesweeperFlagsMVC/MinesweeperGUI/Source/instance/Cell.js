@@ -1,4 +1,4 @@
-function cell(gCtrl) {
+function Cell(gCtrl) {
     var current = this; 
     
     // Private Members --------------------------------------------------------------------------------------
