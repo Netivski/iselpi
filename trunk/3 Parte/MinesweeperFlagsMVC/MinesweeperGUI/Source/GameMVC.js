@@ -238,7 +238,7 @@ function GameMVC(lines, cols, gName) {
             } catch (e) { alert(e); }
 
             if (game.gStatus == STARTED) {
-                gModel.setGameStatus(STARTED);
+                current.gameModel.setGameStatus(STARTED);
                 board.controller.start();
                 playerObj.activatePlayer(game.activePlayer);
                 current.gameView.hideOptions();
