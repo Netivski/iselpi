@@ -82,6 +82,17 @@ namespace MinesweeperControllers
 
         public ActionResult SendInvite(string gName, string eMail, string friend)
         {
+
+            Invite inv = new Invite()
+            {
+                Value = "Player ",
+                Sender = eMail,
+                YesHandler = "",
+                YesParam = gName,
+                NoHandler = "",
+                NoParam = eMail
+            };
+
             Lobby.Current.GetPlayer(friend).AddRefreshInvites(gName, eMail);
             return new ContentResult();
         }

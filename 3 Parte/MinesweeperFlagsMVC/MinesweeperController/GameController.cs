@@ -28,9 +28,10 @@ namespace MinesweeperControllers
             return View();
         }
 
-        public ActionResult Lobby(Player p)
+        public ActionResult Lobby(string eMail)
         {
-            return View(p);
+            ViewData["eMail"] = eMail;
+            return View();
         }
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult Start()

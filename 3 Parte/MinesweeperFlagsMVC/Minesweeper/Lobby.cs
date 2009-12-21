@@ -97,7 +97,7 @@ namespace Minesweeper
                 if (rObj == null)
                     rObj = new Player(null, eMail);
             }
-            players.Values.All(p => rObj.AddRefreshPlayers(p));
+            players.Values.Where(p=>p.EMail!=eMail).All(p => rObj.AddRefreshPlayers(p));
             AddPlayer(rObj);
             UpdateRefreshPlayers(rObj);
             return rObj;

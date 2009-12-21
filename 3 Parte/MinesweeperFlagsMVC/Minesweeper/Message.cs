@@ -4,34 +4,26 @@ namespace Minesweeper
 {
     public class Message : IToJSon
     {
-        public Message() { Type = MessageType.Undefined; }
+        public Message()
+            : this(MessageType.Undefined, null, null) { }
 
         public Message(string message, string owner)
-            : this()
-        {
-            Value = message;
-            Owner = owner;
-        }
+            : this(MessageType.Undefined, message, owner) { }
 
-        public Message(MessageType type, string message)
+        public Message(MessageType type, string message, string sender)
         {
             Type = type;
             Value = message;
+            Sender = sender;
         }
 
-        public MessageType Type
-        {
-            get;
-            set;
-        }
-
+        public MessageType Type { get; set; }
         public string Value { get; set; }
+        public string Sender { get; set; }
 
-        public string Owner { get; set; }
-
-        public string ToJSon()
+        public virtual string ToJSon()
         {
-            return "{\"msg\":\"" + Value + "\" , \"owner\":\"" + Owner + "\"}"; ;
+            return "{\"msg\":\"" + Value + "\" , \"owner\":\"" + Sender + "\"}"; ;
         }
     }
 }
