@@ -51,6 +51,7 @@ LobbyController.init = function() {
             //            poolGamesRefresh();
             poolFriendsRefresh();
             poolMessagesRefresh();
+            poolInvitesRefresh();
             //            poolProfileRefresh();
         }
         finally { if (poolingActive) setTimeout("LobbyController.doWork()", 1000); }
@@ -127,7 +128,8 @@ LobbyController.init = function() {
         req.Request();
         if (req != "") {
             invites = req.getJSonObject();
-            LobbyController.addInvite(invites);
+            for (var i = 0; i < invites.length; i++)
+                LobbyView.addInvite(invites);
         }
     }
 
@@ -142,7 +144,6 @@ LobbyController.init = function() {
 
     // --------------------------------    
     // Events
-
 
     this.evtProceedToGame = function() {
         var handler;
@@ -159,6 +160,16 @@ LobbyController.init = function() {
                 return;
             }
         }
+        if (handler = "StartPrivateGame") {
+            selFriends = LobbyView.getSelectedFriends();
+            for (var i = 0; i < selFriends.length; i++) {
+                try {
+                    this.evtSendInvite(LobbyView.getGameName(), selFriends[i]);
+                } catch (e) { alert(e); }
+            }
+        }
+
+        return;
 
         try {
             var req = new HttpRequest(handlerClass, handler, LobbyView.getGameName(), 0,
@@ -167,16 +178,7 @@ LobbyController.init = function() {
             var game = req.getJSonObject();
         } catch (e) { alert(e); }
 
-        if (handler = "StartPrivateGame") {
-            selFriends = LobbyView.getSelFriends();
-            for (var i = 0; i < selFriends.length; i++) {
-                try {
-                    invite = new HttpRequest(handlerClass, "Invite", LobbyView.getGameName(), 0,
-                "eMailFrom", LobbyModel.getPlayerName(), "eMailTo", selFriends[i]);
-                    invite.Request();
-                } catch (e) { alert(e); }
-            }
-        }
+
 
         if (game.gStatus == INVALID_NAME) {
             this.sendMessage("Game named '" + game.GameName + "' already exists!");
@@ -209,7 +211,7 @@ LobbyController.init = function() {
         try {
             var req = new HttpRequest(handlerClass, "SendInvite", gName, 0, "eMail"
                 , LobbyModel.getPlayerName(), "friend", pName);
-            req.request();
+            req.Request();
         }
         catch (e) { alert(e); }
     }
@@ -273,6 +275,13 @@ LobbyController.init = function() {
             req.Request();
         } catch (e) { alert(e); }
         LobbyView.clearMsgInput();
+    }
+
+    this.sendMessage = function(msg) {
+        var message = new Object();
+        message.msg = msg;
+        message.sender = "MS2500";
+        LobbyView.addMessage(message);
     }
 }
 
@@ -439,11 +448,26 @@ LobbyView.init = function() {
 
 
     // --------------------------------
+    // Invites
+
+    this.addInvite = function(invite) {
+        var listDiv = $("#invList");
+        if ($("#inv_" + invite.owner + "").length == 0) {
+            $("<dt/>").attr("id", "inv_" + invite.owner).append(invite.msg).appendTo(listDiv);
+        }
+    }
+
+    this.removeInvite = function(gName) {
+        $("#inv_" + gName + "").remove();
+    }
+
+
+    // --------------------------------
     // Messages Box
 
     this.addMessage = function(message) {
         var listDiv = $("#msgBoard");
-        listDiv.val(listDiv.val() + "<" + message.owner + ">" + (message.msg) + "\n");
+        listDiv.val(listDiv.val() + "<" + message.sender + ">" + (message.msg) + "\n");
     }
 
     this.clearMsgList = function() { $("#msgBoard").val(""); }

@@ -63,6 +63,7 @@
     <Compile Include="GameAsynchronousController.cs" />
     <Compile Include="GameBaseController.cs" />
     <Compile Include="GameController.cs" />
+    <Compile Include="LobbyController.cs" />
     <Compile Include="ProfileController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Proxy\JSONCell.cs" />

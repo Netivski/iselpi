@@ -106,13 +106,14 @@ namespace Minesweeper
 
         public bool AddRefreshInvites(string gName, string eMail)
         {
-            Message msg = new Message(Invite.GetGameInvite(gName, eMail), eMail);
-            if (msg == null) throw new ArgumentNullException("msg");
-            lock (_refreshInvites)
-            {
-                _refreshInvites.Add(msg);
-                return true;
-            }
+            //Message msg = new Message(Invite.GetGameInvite(gName, eMail), gName);
+            //if (msg == null) throw new ArgumentNullException("msg");
+            //lock (_refreshInvites)
+            //{
+            //    _refreshInvites.Add(msg);
+            //    return true;
+            //}
+            return false;
         }
 
         public List<Message> GetRefreshInvites()
