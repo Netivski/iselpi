@@ -13,6 +13,11 @@
 function addNewTab() {
     var tabLength = $("#tabs").tabs('length');
     $("#tabs").tabs('add', "/GameAsynchronous/GameBoard", "Game");
+    $('#tabs').bind('tabsselect', function(event, ui) {
+        alert(event);
+        alert(ui);
+    });
+    //$("#tabs").tabs('url', tabLength - 1, "/GameAsynchronous/GameBoard");
     ///GameAsynchronous/GetTabContent
     return false;
 }
@@ -20,7 +25,6 @@ function addNewTab() {
   </script>
 </head>
 <body style="font-size:62.5%;">
-  
 <div id="tabs">
     <ul>
         <li><a href="#fragment-1"><span>One</span></a></li>
