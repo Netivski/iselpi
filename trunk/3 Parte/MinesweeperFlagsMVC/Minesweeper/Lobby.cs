@@ -42,7 +42,7 @@ namespace Minesweeper
             players.Values.Where(p => p.EMail != player.EMail)
                 .All(p => p.AddRefreshPlayers(player));
         }
-        
+
         private void UpdateRefreshGames(Game game)
         {
             players.Values.All(p => p.AddRefreshGames(game));
@@ -97,13 +97,13 @@ namespace Minesweeper
                 if (rObj == null)
                     rObj = new Player(null, eMail);
             }
-            players.Values.Where(p=>p.EMail!=eMail).All(p => rObj.AddRefreshPlayers(p));
+            players.Values.Where(p => p.EMail != eMail).All(p => rObj.AddRefreshPlayers(p));
             AddPlayer(rObj);
             UpdateRefreshPlayers(rObj);
             return rObj;
         }
 
-        
+
 
         public Player GetPlayer(string name)
         {
@@ -137,11 +137,23 @@ namespace Minesweeper
             if (eMailFrom == null) throw new ArgumentNullException("eMailFrom");
             if (eMailTo == null) throw new ArgumentNullException("eMailTo");
 
-            if (!games.ContainsKey(gName)) throw new ApplicationException("Invalid Game!");
+            //if (!games.ContainsKey(gName)) throw new ApplicationException("Invalid Game!");
             if (!players.ContainsKey(eMailFrom)) throw new ApplicationException("Invalid Source Plyer!");
             if (!players.ContainsKey(eMailTo)) throw new ApplicationException("Invalid Destination Plyer!");
 
-            return players[eMailTo].AddRefreshInvites(gName, eMailFrom);
+
+            Invite inv = new Invite()
+            {
+                Value = "Player " + players[eMailFrom].Name + " invites you to a private game! Accept?",
+                Sender = eMailFrom,
+                Game = gName,
+                YesHandler = "",
+                YesParam = gName,
+                NoHandler = "",
+                NoParam = eMailFrom
+            };
+
+            return players[eMailTo].AddRefreshInvites(gName, eMailFrom, inv);
         }
 
         //--------------------------

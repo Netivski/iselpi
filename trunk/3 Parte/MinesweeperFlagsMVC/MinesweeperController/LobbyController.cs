@@ -52,7 +52,7 @@ namespace MinesweeperControllers
         public ActionResult RefreshInvites(string eMail)
         {
             Player p = Lobby.Current.GetPlayer(eMail);
-            List<Message> rObj = null;
+            List<Invite> rObj = null;
             if (p != null)
             {
                 rObj = p.GetRefreshInvites();
@@ -72,28 +72,19 @@ namespace MinesweeperControllers
 
         public ActionResult StartPublicGame(string gName, string eMail)
         {
-            return View("GameBoard");
+            Lobby.Current.CreateGame(gName, "Name", eMail);
+            return new ContentResult();
         }
 
         public ActionResult StartPrivateGame(string gName, string eMail)
         {
-            return View("GameBoard");
+            Lobby.Current.CreateGame(gName, "Name", eMail);
+            return new ContentResult();
         }
 
         public ActionResult SendInvite(string gName, string eMail, string friend)
         {
-
-            Invite inv = new Invite()
-            {
-                Value = "Player ",
-                Sender = eMail,
-                YesHandler = "",
-                YesParam = gName,
-                NoHandler = "",
-                NoParam = eMail
-            };
-
-            Lobby.Current.GetPlayer(friend).AddRefreshInvites(gName, eMail);
+            Lobby.Current.Invite(gName, eMail, friend);
             return new ContentResult();
         }
 
