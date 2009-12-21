@@ -1,51 +1,63 @@
-﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" >
+﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<string>" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">	
+<html>
 <head>
-    <title>Lobby_CSS_Tester</title>
-    <link href="/Source/Lobby.css" type="text/css" rel="Stylesheet" />
+    <title>Lobby</title>
+	<script type="text/javascript" src="../../source/LobbyMVC.js"></script>
+	<script type="text/javascript" src="../../source/HttpRequest.js"></script>
+	<script type="text/javascript" src="../../source/Constants.js"></script>
+	<script type="text/javascript" src="../../source/jquery-1.3.2.js"></script>
+
+	<link href="../../Source/Lobby.css" type="text/css" rel="Stylesheet" />
 </head>
-<body>
+
+<body onload="Lobby.init('<%=ViewData["eMail"]%>');">
     <div class="divBackGround">
         <div class="divTabList">
-            <div class="divTab">Lobby</div>
-            <div class="divTab">divTab 1</div>
-            <div class="divTab">divTab 2</div>
-            <div class="divTab">divTab 3</div>
-        divTabList</div>
-        <div class="divPlayerInfo">divPlayerInfo
-            <div class="divPhoto">divPhoto</div>
-            <div class="divPlayerName">divPlayerName</div>
-            <div class="divPlayerOptions">divPlayerOptions
-                <input type="button" value="Button1" />
-                <input type="button" value="Button2" />
-                <input type="button" value="Button3" />
-                <input type="button" value="Button4" />
+            <div class="divTab"></div>
+            <div class="divTab"></div>
+            <div class="divTab"></div>
+            <div class="divTab"></div>
+        </div>
+        <div class="divPlayerInfo">
+            <div class="divTitles">My Information</div>
+            <div class="divPhoto"></div>
+            <div class="divPlayerName"></div>
+            <div class="divPlayerOptions">
+                <div class="divTitles">Menu</div>
             </div>
-			<div class="divPlayerFriendsList">divPlayerFriendsList
-				<div class="divFriend">divFriend 1</div>
-				<div class="divFriend">divFriend 2</div>
+			<div class="divPlayerFriendsList">
+			    <div class="divTitles">My Friends</div>
+			    <dl id="frList"></dl>
 			</div>
         </div>
-        <div class="divCommunication">divCommunication
-            <div class="divInviteBoard">divInviteBoard</div>
-            <div class="divMessageBoard">divMessageBoard</div>
-            <div class="divPlayerMessage">divPlayerMessage</div>
+        <div class="divCommunication">
+            <div class="divTitles">Communications</div>
+            <div class="divInviteBoard">
+                <div class="divTitles">Incoming Invites</div>
+                <dl id="invList"></dl>
+            </div>
+            <div class="divMessageBoard">
+                <div class="divTitles">Message Box</div>
+                <textarea cols="20" id="msgBoard" readonly="readonly" rows="20"></textarea>
+            </div>
+            <div class="divPlayerMessage">
+                <div class="divTitles">Message</div>
+                <textarea cols="20" rows="20" id="msgInput"></textarea>
+                <input type="button" id="SendPrivate" value="Send To" />
+                <select id="msgDestList"/>
+                <input type="button" id="SendAll"value="Send To All" />
+            </div>
         </div>
-        <div class="divOnLists">divOnLists
-            <div class="divPlayersOnList">divPlayersOnList
-                <div class="divPlayerOn">divPlayerOn 1</div>
-                <div class="divPlayerOn">divPlayerOn 2</div>
-                <div class="divPlayerOn">divPlayerOn 3</div>
-                <div class="divPlayerOn">divPlayerOn 4</div>
-                <div class="divPlayerOn">divPlayerOn 5</div>
-                <div class="divPlayerOn">divPlayerOn 6</div>
+        <div class="divOnLists">
+            <div class="divTitles">Online Board</div>
+            <div class="divPlayersOnList">
+                <div class="divTitles">Players Online</div>
+                <dl id="plList"></dl>
             </div>           
-            <div class="divGameOnList">divGameOnList
-                <div class="divGameOn">divGameOn 1</div>
-                <div class="divGameOn">divGameOn 2</div>
-                <div class="divGameOn">divGameOn 3</div>
-                <div class="divGameOn">divGameOn 4</div>
+            <div class="divGameOnList">
+                <div class="divTitles">Games Available</div>
+                <dl id="gList"></dl>
             </div>
         </div>        
     </div>

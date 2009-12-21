@@ -4,7 +4,7 @@ using System.Threading;
 
 namespace Minesweeper
 {
-    public class Game
+    public class Game : IToJSon
     {
         const int MAX_PLAYERS = 4;
         const int MIN_PLAYERS = 2;
@@ -161,7 +161,7 @@ namespace Minesweeper
             if ((_playersCount < 2) || (MinesLeft + ScoreList[1].Points < ScoreList[0].Points))
             {
                 _sStatus = GameStatus.GAME_OVER;
-                _currentPlayer = (ScoreList.Count==0?0:ScoreList[0].Id);
+                _currentPlayer = (ScoreList.Count == 0 ? 0 : ScoreList[0].Id);
                 return true;
             }
             return false;
@@ -326,6 +326,11 @@ namespace Minesweeper
         public bool IsOwner(string eMail)
         {
             return string.Compare(eMail, _players[0].EMail) == 0;
+        }
+
+        public string ToJSon()
+        {
+            return "{\"name\":\"" + _name + "\", \"status\":\"" + _sStatus + "\"}";
         }
     }
 }

@@ -11,6 +11,12 @@
 	var CROWDED = 4;
 	var GAME_OVER = 5;
 
+// Player constants
+// ---------------------------
+
+	var PLAYER_STATUS_OFF = "Offline";
+	var PLAYER_STATUS_ON = "Online";
+
 // CSS board
 // ---------------------------
 

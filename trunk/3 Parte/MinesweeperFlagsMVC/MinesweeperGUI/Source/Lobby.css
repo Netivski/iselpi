@@ -207,6 +207,33 @@ button
 	font-weight: bold;
 	font-size: small;
 }
+.divCommunication .divInviteBoard dl
+{
+	position: relative;
+	overflow:auto;	
+	left: 1.5%;	
+	width: 97%;	
+	height: 76%;
+	max-height: 76%;
+	background-color: White;	
+	padding-bottom: 2%;
+	margin-top: 1%;
+	margin-bottom: 3%;
+	filter: alpha(opacity=85);
+	-moz-opacity: 0.85;
+	-khtml-opacity: 0.85;
+	opacity: 0.85;
+}
+.divCommunication .divInviteBoard dl dt
+{
+	position: relative;	
+	color: Black;
+	left: 5%;
+	width: 90%;
+	text-align: left;
+	border-bottom: solid 1px Black;
+}
+
 .divCommunication .divInviteBoard textarea
 {
 	width: 95%;
@@ -313,7 +340,6 @@ button
 	-moz-opacity: 0.85;
 	-khtml-opacity: 0.85;
 	opacity: 0.85;
-
 }
 .divOnLists .divPlayersOnList dl dt
 {
@@ -329,21 +355,22 @@ button
 	left: 5%;
 	top: 3%;
 	width: 90%;
-	height: 46%;
-	/*background-color: Black;*/
-	/*padding-top: 2%;*/
+	height: 42%;
 	padding-bottom: 2%;
 	font-size: small;
 	border: solid 1px Gray;	
 }
 .divOnLists .divGameOnList dl
 {
-	position: relative;	
+	position: relative;
+	overflow:auto;	
 	left: 5%;	
 	width: 90%;	
-	height: 82%;
+	height: 70%;
+	max-height: 70%;
 	background-color: White;	
 	padding-bottom: 2%;
+	margin-bottom: 3%;
 	filter: alpha(opacity=85);
 	-moz-opacity: 0.85;
 	-khtml-opacity: 0.85;
