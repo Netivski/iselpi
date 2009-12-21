@@ -23,7 +23,7 @@ namespace Minesweeper
 
         public virtual string ToJSon()
         {
-            return "{\"msg\":\"" + Value + "\" , \"owner\":\"" + Sender + "\"}"; ;
+            return "{\"msg\":\"" + Value + "\" , \"sender\":\"" + Sender + "\"}"; ;
         }
     }
 }

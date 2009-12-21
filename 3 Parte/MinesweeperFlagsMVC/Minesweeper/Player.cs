@@ -17,7 +17,7 @@ namespace Minesweeper
         List<Player> _refreshPlayers;
         List<Game> _refreshGames;
         List<Message> _refreshMessage;
-        List<Message> _refreshInvites;
+        List<Invite> _refreshInvites;
 
         public Player() : this(string.Empty) { }
 
@@ -31,7 +31,7 @@ namespace Minesweeper
             _refreshPlayers = new List<Player>();
             _refreshGames = new List<Game>();
             _refreshMessage = new List<Message>();
-            _refreshInvites = new List<Message>();
+            _refreshInvites = new List<Invite>();
         }
 
         public Player(string name, string eMail)
@@ -104,24 +104,22 @@ namespace Minesweeper
         //---------------------------------
         // Invites
 
-        public bool AddRefreshInvites(string gName, string eMail)
+        public bool AddRefreshInvites(string gName, string eMail, Invite inv)
         {
-            //Message msg = new Message(Invite.GetGameInvite(gName, eMail), gName);
-            //if (msg == null) throw new ArgumentNullException("msg");
-            //lock (_refreshInvites)
-            //{
-            //    _refreshInvites.Add(msg);
-            //    return true;
-            //}
-            return false;
-        }
-
-        public List<Message> GetRefreshInvites()
-        {
-            List<Message> retList;
+            if (inv == null) throw new ArgumentNullException("inv");
             lock (_refreshInvites)
             {
-                retList = new List<Message>(_refreshInvites);
+                _refreshInvites.Add(inv);
+                return true;
+            }
+        }
+
+        public List<Invite> GetRefreshInvites()
+        {
+            List<Invite> retList;
+            lock (_refreshInvites)
+            {
+                retList = new List<Invite>(_refreshInvites);
             }
             ResetRefreshInvites();
             return retList;
