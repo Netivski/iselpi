@@ -10,6 +10,7 @@
   <script type="text/javascript">
       var tabId = "#tabs";
       var tabElementsCount;
+      
       $(document).ready(function() {
           $(tabId).tabs();
           tabElementsCount = $(tabId).tabs('length');
@@ -21,9 +22,7 @@ function addTab( url, label ) {
         if (ui.index > (tabElementsCount - 1) && ui.panel.innerHTML.length > 0) {
             $(tabId).tabs('url', ui.index, "");
         }
-    });    
-
-    return false;
+    });        
 }
   
   </script>
