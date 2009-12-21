@@ -30,8 +30,8 @@
 
     this.getJSonObject = function() {
         var jSon = xhr.responseText;
-        //if (jSon.length > 0)
-          //  jSon = "(" + jSon + ")";
+        if (jSon.length > 0)
+            jSon = "(" + jSon + ")";
         return eval(jSon);
     }
 

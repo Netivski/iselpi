@@ -12,10 +12,12 @@ namespace Minesweeper
         string _eMail;
         PlayerStatus _status;
         Dictionary<string, Photo> _photos;
-        Dictionary<string, Player> _myFriends;
+        List<string> _myFriends;
         List<Player> _refreshFriends;
         List<Player> _refreshPlayers;
+        List<Game> _refreshGames;
         List<Message> _refreshMessage;
+        List<Message> _refreshInvites;
 
         public Player() : this(string.Empty) { }
 
@@ -24,10 +26,12 @@ namespace Minesweeper
             _name = name;
             _status = PlayerStatus.Online;
             _photos = new Dictionary<string, Photo>();
-            _myFriends = new Dictionary<string, Player>();
+            _myFriends = new List<string>();
             _refreshFriends = new List<Player>();
             _refreshPlayers = new List<Player>();
+            _refreshGames = new List<Game>();
             _refreshMessage = new List<Message>();
+            _refreshInvites = new List<Message>();
         }
 
         public Player(string name, string eMail)
@@ -100,17 +104,35 @@ namespace Minesweeper
         //---------------------------------
         // Invites
 
-        public bool ReceiveGameInvite(string gName, string pName)
+        public bool AddRefreshInvites(string gName, string eMail)
         {
-            Message msg = new Message(Invite.GetGameInvite(gName, pName));
-            if (!_refreshMessage.Contains(msg))
+            Message msg = new Message(Invite.GetGameInvite(gName, eMail), eMail);
+            if (msg == null) throw new ArgumentNullException("msg");
+            lock (_refreshInvites)
             {
-                this.AddMessage(msg);
+                _refreshInvites.Add(msg);
                 return true;
             }
-            return false;
         }
 
+        public List<Message> GetRefreshInvites()
+        {
+            List<Message> retList;
+            lock (_refreshInvites)
+            {
+                retList = new List<Message>(_refreshInvites);
+            }
+            ResetRefreshInvites();
+            return retList;
+        }
+
+        public void ResetRefreshInvites()
+        {
+            lock (_refreshInvites)
+            {
+                _refreshInvites.Clear();
+            }
+        }
 
         //---------------------------------
         // My Friends
@@ -120,8 +142,8 @@ namespace Minesweeper
             if (eMail == null) throw new ArgumentNullException("eMail");
             lock (_myFriends)
             {
-                if (_myFriends.ContainsKey(eMail)) return false;
-                _myFriends.Add(eMail, Lobby.Current.GetPlayer(eMail));
+                if (_myFriends.Contains(eMail)) return false;
+                _myFriends.Add(eMail);
                 AddRefreshFriends(eMail);
                 return true;
             }
@@ -137,13 +159,18 @@ namespace Minesweeper
             }
         }
 
+
         //---------------------------------
-        // Friends Refresh
+        // Friends
 
         private bool AddRefreshFriends(string eMail)
         {
             Player friend = Lobby.Current.GetPlayer(eMail);
-            if (friend == null) throw new ArgumentNullException("eMail");
+            if (friend == null)
+            {
+                friend = new Player(null, eMail, null);
+                friend.Status = PlayerStatus.Offline;
+            }
             lock (_refreshFriends)
             {
                 if (!_refreshFriends.Contains(friend))
@@ -176,10 +203,11 @@ namespace Minesweeper
             {
                 retList = new List<Player>(_refreshFriends);
             }
+            ResetRefreshFriends();
             return retList;
         }
 
-        public void ResetRefreshFriends()
+        private void ResetRefreshFriends()
         {
             lock (_refreshFriends)
             {
@@ -195,16 +223,11 @@ namespace Minesweeper
         {
             if (eMail == null) throw new ArgumentNullException("eMail");
             Player player = Lobby.Current.GetPlayer(eMail);
-
             lock (_refreshPlayers)
             {
-                if (!_refreshPlayers.Contains(player))
-                {
-                    _refreshPlayers.Add(player);
-                    return true;
-                }
+                _refreshPlayers.Add(player);
+                return true;
             }
-            return false;
         }
 
         public bool AddRefreshPlayers(Player player)
@@ -212,13 +235,9 @@ namespace Minesweeper
             if (player == null) throw new ArgumentNullException("player");
             lock (_refreshPlayers)
             {
-                if (!_refreshPlayers.Contains(player))
-                {
-                    _refreshPlayers.Add(player);
-                    return true;
-                }
+                _refreshPlayers.Add(player);
+                return true;
             }
-            return false;
         }
 
         public List<Player> GetRefreshPlayers()
@@ -232,9 +251,9 @@ namespace Minesweeper
             return retList;
         }
 
-        public void ResetRefreshPlayers()
+        private void ResetRefreshPlayers()
         {
-            lock (_refreshFriends)
+            lock (_refreshPlayers)
             {
                 _refreshPlayers.Clear();
             }
@@ -242,13 +261,49 @@ namespace Minesweeper
 
 
         //---------------------------------
+        // Games
+
+        public bool AddRefreshGames(Game game)
+        {
+            if (game == null) throw new ArgumentNullException("game");
+
+            lock (_refreshGames)
+            {
+                _refreshGames.Add(game);
+                return true;
+            }
+        }
+
+        public List<Game> GetRefreshGames()
+        {
+            List<Game> retList;
+            lock (_refreshGames)
+            {
+                retList = new List<Game>(_refreshGames);
+            }
+            ResetRefreshGames();
+            return retList;
+        }
+
+        private void ResetRefreshGames()
+        {
+            lock (_refreshGames)
+            {
+                _refreshGames.Clear();
+            }
+        }
+
+
+        //---------------------------------
         // Messages
 
-        public void AddMessage(Message msg)
+        public bool AddMessage(Message msg)
         {
+            if (msg == null) throw new ArgumentNullException("msg");
             lock (_refreshMessage)
             {
                 _refreshMessage.Add(msg);
+                return true;
             }
         }
 
@@ -259,8 +314,18 @@ namespace Minesweeper
             {
                 retList = new List<Message>(_refreshMessage);
             }
+            ResetRefreshMessages();
             return retList;
         }
+
+        public void ResetRefreshMessages()
+        {
+            lock (_refreshMessage)
+            {
+                _refreshMessage.Clear();
+            }
+        }
+
 
         //---------------------------------
 
@@ -268,7 +333,7 @@ namespace Minesweeper
         {
             string imgUrl = GetDefaultPhoto() == null ? "" : GetDefaultPhoto().Name;
             return "{\"name\":\"" + _name + "\", \"email\":\"" + _eMail
-                + "\", \"status\":\"" + _status + "\", \"photo\":\"" 
+                + "\", \"status\":\"" + _status + "\", \"photo\":\""
                 + imgUrl + "\"}";
         }
     }

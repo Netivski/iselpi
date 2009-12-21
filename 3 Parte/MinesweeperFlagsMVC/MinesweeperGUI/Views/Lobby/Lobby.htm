@@ -9,7 +9,7 @@
 	<link href="../../Source/Lobby.css" type="text/css" rel="Stylesheet" />
 </head>
 
-<body onload="Lobby.init();">
+<body onload="Lobby.init('<%=Request.QueryString("pName")%>');">
     <div class="divBackGround">
         <div class="divTabList">
             <div class="divTab"></div>

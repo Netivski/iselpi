@@ -1,13 +1,11 @@
 // Lobby MVC initializer
 
-var PLAYER_STATUS_OFF = "Offline";
-var PLAYER_STATUS_ON = "Online";
 
 var Lobby = new Object();
 
-Lobby.init = function() {
+Lobby.init = function(pName) {
 
-    LobbyModel.init();
+    LobbyModel.init(pName);
     LobbyView.init();
     LobbyController.init();
     LobbyController.startPooling();
@@ -17,9 +15,9 @@ Lobby.init = function() {
 // Lobby Model ---------------------------------------------------------------------------------------
 
 var LobbyModel = new Object();
-LobbyModel.init = function() {
+LobbyModel.init = function(pName) {
 
-    var _pName = "Gummie";
+    var _pName = pName;
 
     this.setPlayerName = function(pName) { _pName = pName; }
     this.getPlayerName = function() { return _pName; }
@@ -38,7 +36,6 @@ LobbyController.init = function() {
     LobbyView.renderFriendList();
     LobbyView.renderPlayerList();
     LobbyView.renderGameList();
-    LobbyView.renderMsgBoard();
     LobbyView.renderMsgInput();
 
 
@@ -53,7 +50,7 @@ LobbyController.init = function() {
             poolPlayersRefresh();
             //            poolGamesRefresh();
             poolFriendsRefresh();
-            //            poolMessageRefresh();
+            poolMessagesRefresh();
             //            poolProfileRefresh();
         }
         finally { if (poolingActive) setTimeout("LobbyController.doWork()", 1000); }
@@ -73,6 +70,18 @@ LobbyController.init = function() {
     }
 
     var poolGamesRefresh = function() {
+        var req = new HttpRequest(handlerClass, "RefreshGames", undefined, 0, "eMail", LobbyModel.getPlayerName());
+        req.Request();
+        if (req != "") {
+            jSon = req.getJSonObject();
+            for (var i = 0; i < jSon.length; i++) {
+                if (jSon[i].status == GAME_OVER || jSon[i].status == STARTED) {
+                    LobbyView.removeGame(jSon[i]);
+                } else {
+                    LobbyView.addGame(jSon[i]);
+                }
+            }
+        }
     }
 
     var poolPlayersRefresh = function() {
@@ -80,14 +89,11 @@ LobbyController.init = function() {
         req.Request();
         if (req != "") {
             jSon = req.getJSonObject();
-            if (jSon.length > 0) {
-                for (var i = 0; i < jSon.length; i++) {
-                    if (jSon[i].status == PLAYER_STATUS_OFF) {
-                        LobbyView.removePlayer(jSon[i]);
-                    } else {
-                        LobbyView.addPlayer(jSon[i]);
-                        LobbyView.addFriend(jSon[i]);
-                    }
+            for (var i = 0; i < jSon.length; i++) {
+                if (jSon[i].status == PLAYER_STATUS_OFF) {
+                    LobbyView.removePlayer(jSon[i]);
+                } else {
+                    LobbyView.addPlayer(jSon[i]);
                 }
             }
         }
@@ -100,21 +106,28 @@ LobbyController.init = function() {
             jSon = req.getJSonObject();
             if (jSon.length > 0) {
                 for (var i = 0; i < jSon.length; i++) {
-                        LobbyView.addFriend(jSon[i]);
-                    }
+                    LobbyView.addFriend(jSon[i]);
                 }
             }
         }
     }
 
-    var poolMessageRefresh = function() {
+    var poolMessagesRefresh = function() {
         var req = new HttpRequest(handlerClass, "RefreshMessages", undefined, 0, "eMail", LobbyModel.getPlayerName());
         req.Request();
         if (req != "") {
-            var message = req.getJSonObject();
-            for (var i = 0; i < message.length; i++) {
-                this.sendMessage(message[i].value);
-            }
+            messages = req.getJSonObject();
+            for (var i = 0; i < messages.length; i++)
+                LobbyView.addMessage(messages[i]);
+        }
+    }
+
+    var poolInvitesRefresh = function() {
+        var req = new HttpRequest(handlerClass, "RefreshInvites", undefined, 0, "eMail", LobbyModel.getPlayerName());
+        req.Request();
+        if (req != "") {
+            invites = req.getJSonObject();
+            LobbyController.addInvite(invites);
         }
     }
 
@@ -132,6 +145,8 @@ LobbyController.init = function() {
 
 
     this.evtProceedToGame = function() {
+        var handler;
+
         if (LobbyView.getGameName() == "") return;
 
         if (LobbyView.isPublicGame())
@@ -190,6 +205,14 @@ LobbyController.init = function() {
         }
     }
 
+    this.evtSendInvite = function(gName, pName) {
+        try {
+            var req = new HttpRequest(handlerClass, "SendInvite", gName, 0, "eMail"
+                , LobbyModel.getPlayerName(), "friend", pName);
+            req.request();
+        }
+        catch (e) { alert(e); }
+    }
 
     this.evtAddFriend = function() {
         try {
@@ -200,13 +223,17 @@ LobbyController.init = function() {
     }
 
     this.evtRemoveFriend = function() {
-        alert(LobbyView.getSelectedFriends());
-        return;
+        if (LobbyView.getSelFriendCount() != 1) {
+            this.sendMessage("Only one friend should be selected in order to proceed with removal!");
+            return false;
+        }
+        selFriend = LobbyView.getSelectedFriends();
         try {
             var req = new HttpRequest(handlerClass, "RemoveFriend", undefined, 0, "eMail"
-				, LobbyModel.getPlayerName(), "friend", LobbyView.getSelectedFriend());
+				, LobbyModel.getPlayerName(), "friend", selFriend);
             req.Request();
         } catch (e) { alert(e); }
+        LobbyView.removeFriend(selFriend);
     }
 
     this.evtJoinGame = function() {
@@ -226,19 +253,26 @@ LobbyController.init = function() {
     }
 
     this.evtSendMessage = function() {
+        if (LobbyView.getMsgInput() == "")
+            return;
         try {
-            var req = new HttpRequest(handlerClass, "SendMessage", undefined, 0, "playerName"
-				, LobbyModel.getPlayerName(), "pMsg", LobbyView.getMsgInput());
+            var req = new HttpRequest(handlerClass, "SendMessage", undefined, 0, "eMail"
+				, LobbyModel.getPlayerName(), "msg", LobbyView.getMsgInput());
             req.Request();
         } catch (e) { alert(e); }
         LobbyView.clearMsgInput();
     }
 
-    // --------------------------------
-    // Messages
-
-    this.sendMessage = function(msg) {
-        LobbyView.renderMessage(msg);
+    this.evtSendPrivateMessage = function() {
+        if (LobbyView.getMsgInput() == "")
+            return;
+        try {
+            var req = new HttpRequest(handlerClass, "SendPrivateMessage", undefined, 0, "eMail"
+				, LobbyModel.getPlayerName(), "eMailTo", LobbyView.getSelectedPlayerTo()
+				, "msg", "*" + LobbyView.getMsgInput());
+            req.Request();
+        } catch (e) { alert(e); }
+        LobbyView.clearMsgInput();
     }
 }
 
@@ -320,24 +354,25 @@ LobbyView.init = function() {
         if (getFriendCount() > 0) showRemoveFriendButton();
     }
 
-    this.removeFriend = function(player) {
-        $("#fr_" + player.email + "").remove();
-        if (getFriendcount() == 0) hideRemoveFriendButton();
+    this.removeFriend = function(eMail) {
+        $("#fr_" + eMail + "").remove();
+        if (getFriendCount() == 0) hideRemoveFriendButton();
     }
 
-    var getFriendCount = function() { return ($("#frList <dt/>").length); }
+    var getFriendCount = function() { return ($("input[name='friendListItem']").length); }
     this.getSelFriendCount = function() {
-        return $("input[name='friendListItem']:checked").size();
+        return $("input[name='friendListItem']:checked").length;
     }
 
     this.getSelectedFriends = function() {
 
-        var selectedFriends, outValues;
-
+        var selectedFriends;
+        var outValues = new Array();
         selectedFriends = $("input[name='friendListItem']:checked");
         for (var i = 0; i < selectedFriends.length; i++) {
-            outValues[i] = ($(selectedFriends[i]).attr("id"));
+            outValues[i] = $(selectedFriends[i]).attr("id");
         }
+        return outValues;
     }
 
     var showRemoveFriendButton = function() { $("#RemoveFriendButton").show("slow"); }
@@ -357,13 +392,15 @@ LobbyView.init = function() {
         if ($("#pl_" + player.email + "").length == 0) {
             var playerItem = $('<input type="radio" id="playerListItem" name="playerListItem" value="' + player.email + '">' + player.email + '</input><br>');
             $("<dt/>").attr("id", "pl_" + player.email).append(playerItem).appendTo(listDiv);
+            this.addPlayerTo(player);
         }
         if (getPlayerCount() > 0) showAddPlayerButton();
     }
 
     this.removePlayer = function(player) {
         $("#pl_" + player.email + "").remove();
-        if (getPlayercount() == 0) hideAddPlayerButton();
+        this.removePlayerTo(player);
+        if (getPlayerCount() == 0) hideAddPlayerButton();
     }
 
     this.getSelectedPlayer = function() { return ($("input[name='playerListItem']:checked").val()); }
@@ -376,55 +413,69 @@ LobbyView.init = function() {
     // Games List
 
     this.renderGameList = function() {
-        var listDiv = $(".divGameOnList").attr("id", "gameList");
+        var listDiv = $(".divGameOnList");
+        $("<button/>").click(function() { LobbyController.evtJoinGame(); }).attr("id", "JoinGameButton").text("Join Game").css("display", "none").appendTo(listDiv);
+        showJoinGameButton();
     }
 
-    this.populateGameList = function(jSon) {
-        var listDiv = $("#gameList");
-        listDiv.empty();
+    this.addGame = function(game) {
+        var listDiv = $("#gList");
+        if ($("#g_" + game.name + "").length == 0) {
+            var gameItem = $('<input type="radio" id="gameListItem" name="gameListItem" value="' + game.name + '">' + game.name + '</input><br>');
+            $("<dt/>").attr("id", "g_" + game.name).append(gameItem).appendTo(listDiv);
+        }
+        if (getGameCount() > 0) showJoinGameButton();
+    }
 
-        if (jSon == "") {
-            $("<span/>").text("No games available!").appendTo(listDiv);
-        }
-        else {
-            for (var i = 0; i < jSon.length; i++) {
-                var gameItem = $('<input type="radio" id="gameListItem" name="gameListItem" value="' + jSon[i] + '">' + jSon[i] + '</input><br>');
-                gameItem.appendTo($("<span/>")).appendTo(listDiv);
-            }
-            $("<button/>").click(function() { LobbyController.evtJoinGame(); }).attr("id", "JoinGame").text("Join Game").appendTo(listDiv);
-        }
+    this.removeGame = function(game) {
+        $("#g_" + game.name + "").remove();
+        if (getGameCount() == 0) hideJoinGameButton();
     }
 
     this.getSelectedGame = function() { return ($("input[name='gameListItem']:checked").val()); }
+    var getGameCount = function() { return ($("#gList <dt/>").length); }
+    var showJoinGameButton = function() { $("#JoinGameButton").show("slow"); }
+    var hideJoinGameButton = function() { $("#JoinGameButton").hide("slow"); }
 
 
     // --------------------------------
     // Messages Box
 
-    this.renderMsgBoard = function() {
-        var listDiv = $(".divMessageBoard").attr("id", "msgBoard");
-    }
-
-    this.addMessage = function(jSon) {
+    this.addMessage = function(message) {
         var listDiv = $("#msgBoard");
-        for (var i = 0; i < jSon.length; i++) {
-            listDiv.html(listDiv.html() + "<br>" + "> " + jSon[i]);
-        }
+        listDiv.val(listDiv.val() + "<" + message.owner + ">" + (message.msg) + "\n");
     }
 
-    this.clearMsgList = function() { $("#msgBoard").html(""); }
+    this.clearMsgList = function() { $("#msgBoard").val(""); }
 
 
     // --------------------------------
     // Message Input
 
     this.renderMsgInput = function() {
-        var listDiv = $(".divPlayerMessage").attr("id", "playerMsg").empty();
-        $("<input/>").attr("id", "msgInput").appendTo(listDiv);
-        $("<button/>").click(function() { LobbyController.evtSendMessage(); }).text("Ok").attr({ align: "center", id: "btnSend" }).appendTo(listDiv);
+        var listDiv = $(".divPlayerMessage").attr("id", "playerMsg");
+        $("#SendAll").click(function() { LobbyController.evtSendMessage(); });
+        $("#SendPrivate").click(function() { LobbyController.evtSendPrivateMessage(); });
     }
 
-    this.clearMsgInput = function() { $("#msgInput").text(""); }
-    this.getMsgInput = function() { return $("#msgInput").text(); }
+    this.clearMsgInput = function() { $("#msgInput").val(""); }
+    this.getMsgInput = function() { return $("#msgInput").val(); }
+
+
+    // --------------------------------
+    // Message To Select Box
+
+    this.addPlayerTo = function(player) {
+        var selBox = $("#msgDestList");
+        if ($("#plTo_" + player.email + "").length == 0) {
+            $('<option id="plTo_' + player.email + '">').val(player.email).text(player.email).appendTo(selBox)
+        }
+    }
+
+    this.removePlayerTo = function(player) {
+        $("#plTo_" + player.email + "").remove();
+    }
+
+    this.getSelectedPlayerTo = function() { return ($("#msgDestList").val()); }
 
 }

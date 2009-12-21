@@ -14,10 +14,7 @@ namespace Minesweeper
         Lobby()
         {
             games = new Dictionary<string, Game>();
-            players = new Dictionary<string, Player>(){
-                    {"ze@aol.com", new Player("Zé Manel","ze.manel@aol.com")},
-                    {"maria@aol.com", new Player("Maria","maria@aol.com")},
-                    {"toi@aol.com", new Player("António","toi@aol.com")}};
+            players = new Dictionary<string, Player>();
         }
 
         static Lobby()
@@ -36,18 +33,39 @@ namespace Minesweeper
             }
         }
 
+
+        //--------------------------
+        // Players Refresh Structures Management
+
+        private void UpdateRefreshPlayers(Player player)
+        {
+            players.Values.Where(p => p.EMail != player.EMail)
+                .All(p => p.AddRefreshPlayers(player));
+        }
+        
+        private void UpdateRefreshGames(Game game)
+        {
+            players.Values.All(p => p.AddRefreshGames(game));
+        }
+
+        public void UpdateRefreshMessages(Message msg)
+        {
+            players.Values.All(p => p.AddMessage(msg));
+        }
+
         //--------------------------
         // Games Management
 
         public bool CreateGame(string gName, string pName, string pEMail)
         {
-            if (gName == null ) throw new ArgumentNullException("gName");
-            if (pName == null ) throw new ArgumentNullException("pName");
+            if (gName == null) throw new ArgumentNullException("gName");
+            if (pName == null) throw new ArgumentNullException("pName");
             if (pEMail == null) throw new ArgumentNullException("pEMail");
-            
-
             if (games.ContainsKey(gName)) return false;
-            games.Add(gName, new Game(gName, pName, pEMail, COLS, ROWS));
+
+            Game game = new Game(gName, pName, pEMail, COLS, ROWS);
+            games.Add(gName, game);
+            UpdateRefreshGames(game);
             return true;
         }
 
@@ -76,10 +94,16 @@ namespace Minesweeper
             {
                 try { rObj = players[eMail]; }
                 catch (KeyNotFoundException) { }
+                if (rObj == null)
+                    rObj = new Player(null, eMail);
             }
-
+            players.Values.All(p => rObj.AddRefreshPlayers(p));
+            AddPlayer(rObj);
+            UpdateRefreshPlayers(rObj);
             return rObj;
         }
+
+        
 
         public Player GetPlayer(string name)
         {
@@ -89,13 +113,10 @@ namespace Minesweeper
 
         public bool AddPlayer(Player player)
         {
-            if (players.ContainsValue(player) || player == null) return false;
+            if (player == null) throw new ArgumentNullException("player");
+            if (players.ContainsValue(player)) return false;
             players.Add(player.EMail, player);
-            foreach (Player p in players.Values)
-            {
-                if (p.EMail != player.EMail)
-                    p.AddRefreshPlayers(player);
-            }
+            UpdateRefreshPlayers(player);
             return true;
         }
 
@@ -105,6 +126,10 @@ namespace Minesweeper
             players[player.EMail] = player;
             return true;
         }
+
+
+        //--------------------------
+        // Invites Management
 
         public bool Invite(string gName, string eMailFrom, string eMailTo)
         {
@@ -116,8 +141,11 @@ namespace Minesweeper
             if (!players.ContainsKey(eMailFrom)) throw new ApplicationException("Invalid Source Plyer!");
             if (!players.ContainsKey(eMailTo)) throw new ApplicationException("Invalid Destination Plyer!");
 
-            return players[eMailTo].ReceiveGameInvite(gName, eMailFrom);
+            return players[eMailTo].AddRefreshInvites(gName, eMailFrom);
         }
+
+        //--------------------------
+        // Friends Management
 
         public bool AddFriend(string eMail, string friend)
         {
@@ -134,13 +162,7 @@ namespace Minesweeper
             if (friend == null) throw new ArgumentNullException("friend");
 
             if (!players.ContainsKey(eMail)) return false;
-            players[eMail].RemoveFriend(friend);
-            return players[eMail].AddRefreshPlayers(friend);
-        }
-
-        public void AddMessage(Message msg, List<Player> players)
-        {
-            players.ForEach(p => p.AddMessage(msg));
+            return (players[eMail].RemoveFriend(friend));
         }
     }
 }

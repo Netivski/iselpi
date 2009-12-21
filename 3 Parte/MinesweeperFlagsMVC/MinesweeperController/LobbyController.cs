@@ -19,44 +19,51 @@ namespace MinesweeperControllers
         public ActionResult RefreshPlayers(string eMail)
         {
             Player p = Lobby.Current.GetPlayer(eMail);
+            List<Player> rObj = null;
             if (p != null)
             {
-                List<Player> rObj = p.GetRefreshPlayers();
-                return new ContentResult() { Content = Generic.GetJSon(rObj), ContentType = "text/x-json" };
+                rObj = p.GetRefreshPlayers();
             }
-            return null;
+            return new ContentResult() { Content = Generic.GetJSon(rObj), ContentType = "text/x-json" };
         }
 
         public ActionResult RefreshFriends(string eMail)
         {
             Player f = Lobby.Current.GetPlayer(eMail);
+            List<Player> rObj = null;
             if (f != null)
             {
-                List<Player> rObj = f.GetRefreshFriends();
-                return new ContentResult() { Content = Generic.GetJSon(rObj), ContentType = "text/x-json" };
+                rObj = f.GetRefreshFriends();
             }
-            return null;
+            return new ContentResult() { Content = Generic.GetJSon(rObj), ContentType = "text/x-json" };
         }
 
         public ActionResult RefreshMessages(string eMail)
         {
             Player p = Lobby.Current.GetPlayer(eMail);
+            List<Message> rObj = null;
             if (p != null)
             {
-                List<Message> rObj = p.GetRefreshMessages();
-                return new JsonResult() { Data = Generic.GetJSon(rObj), ContentType = "text/x-json" };
+                rObj = p.GetRefreshMessages();
             }
-            return null;
+            return new ContentResult() { Content = Generic.GetJSon(rObj), ContentType = "text/x-json" };
+        }
+
+        public ActionResult RefreshInvites(string eMail)
+        {
+            Player p = Lobby.Current.GetPlayer(eMail);
+            List<Message> rObj = null;
+            if (p != null)
+            {
+                rObj = p.GetRefreshInvites();
+            }
+            return new ContentResult() { Content = Generic.GetJSon(rObj), ContentType = "text/x-json" };
         }
 
         public ActionResult RefreshProfile(string eMail)
         {
             Player rObj = Lobby.Current.GetPlayer(eMail);
-            if (rObj != null)
-            {
-                return new ContentResult() { Content = Generic.GetJSon(rObj), ContentType = "text/x-json" };
-            }
-            return null;
+            return new ContentResult() { Content = Generic.GetJSon(rObj), ContentType = "text/x-json" };
         }
 
 
@@ -72,6 +79,39 @@ namespace MinesweeperControllers
         {
             return View("GameBoard");
         }
+
+        public ActionResult SendInvite(string gName, string eMail, string friend)
+        {
+            Lobby.Current.GetPlayer(friend).AddRefreshInvites(gName, eMail);
+            return new ContentResult();
+        }
+
+        public ActionResult AddFriend(string eMail, string friend)
+        {
+            Lobby.Current.GetPlayer(eMail).AddFriend(friend);
+            return new ContentResult();
+        }
+
+        public ActionResult RemoveFriend(string eMail, string friend)
+        {
+            Lobby.Current.GetPlayer(eMail).RemoveFriend(friend);
+            return new ContentResult();
+        }
+
+        public ActionResult SendMessage(string eMail, string msg)
+        {
+            Lobby.Current.UpdateRefreshMessages(new Message(msg, eMail));
+            return new ContentResult();
+        }
+
+        public ActionResult SendPrivateMessage(string eMail, string eMailTo, string msg)
+        {
+            Lobby.Current.GetPlayer(eMailTo).AddMessage((new Message(msg, eMail)));
+            return new ContentResult();
+        }
+
+
+
 
     }
 }

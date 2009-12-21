@@ -18,8 +18,8 @@ namespace MinesweeperControllers
             if (gPlayer == null) throw new ApplicationException("Invalid Game Player.");
 
 
-            ViewData.Add("gName" , gName);
-            ViewData.Add("pName" , gPlayer.Name);
+            ViewData.Add("gName", gName);
+            ViewData.Add("pName", gPlayer.Name);
             ViewData.Add("pEMail", gPlayer.EMail);
             ViewData.Add("pId", gPlayer.Id);
             ViewData.Add("isOwner", Minesweeper.Lobby.Current[gName].IsOwner(eMail));
@@ -28,8 +28,10 @@ namespace MinesweeperControllers
             return View();
         }
 
-        public ActionResult Lobby()
+        public ActionResult Lobby(string eMail)
         {
+            Minesweeper.Lobby.Current.LoadPlayer(eMail);
+            ViewData["eMail"]=eMail;
             return View();
         }
     }
