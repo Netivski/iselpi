@@ -5,26 +5,48 @@
     <title>Board Tests</title>
     <script type="text/javascript" src="~/Source/GameMVC.js"></script>
     <script type="text/javascript" src="~/Source/jquery-1.3.2.js"></script>	
-    <link rel="Stylesheet" type="text/css" href="~/Source/mineSweeper.css" />	
+    <link rel="Stylesheet" type="text/css" href="../../Source/Profile.css" />	
 </head>
 <body>
   <h1>Adicionar Perfil</h1>
   
-  <div>
-    <form method="post" id="createProfile" enctype="multipart/form-data">
-    E-Mail:
-    <input type="text" name="eMail" value="" />
-    <br />
-    Name:
-    <input type="text" name="name" value="" />
-    <br />   
-    Online:    <%= Html.CheckBox("Online")%>    
-    <br />
-    Photo:
-    <input type="file" name="photo" />
-    <br />
-    <input type="submit" value="Save Profile" />
-    </form>
+  <div class="divBackGround">
+    <div class="divTittle">
+        Registering in MineSweeper 2000&Half
+        <br /><br />
+    </div>
+    <div class="divProfile">
+        <% using (Html.BeginForm("Create", "Profile", FormMethod.Post, new { enctype = "multipart/form-data"}))
+        { %>
+            <div class="divProfileLine">
+                <div class="divProfileText">Email:</div>
+                <div class="divProfileControls">
+                    <%= Html.TextBox("Email")%>
+                </div>
+            </div>
+            <div class="divProfileLine">
+                <div class="divProfileText">Name:</div>
+                <div class="divProfileControls">
+                    <%= Html.TextBox("Name")%>
+                </div>
+            </div>
+            <div class="divProfileLine">
+                <div class="divProfileText">Online:</div>
+                <div class="divProfileControls">
+                    <%= Html.CheckBox("Online")%>
+                </div>
+            </div>
+            <div class="divProfileLine">
+                <div class="divProfileText">Photo:</div>
+                <div class="divProfileControls">
+                    <input type="file" name="photo" />
+                </div>
+            </div>
+            <div class="divProfileLine" style="text-align: center">
+                <input type="submit" value="Save Profile" />
+            </div>
+        <% } %>        
+    </div>
   </div> 
 </body>
 </html>
