@@ -6,7 +6,31 @@ namespace MinesweeperControllers
 {
     public class GameController : GameBaseController
     {
-        public ActionResult Show(string gName, string eMail)
+        public ActionResult Create(string gName, string playerName, string playerEMail)
+        {
+            if (Minesweeper.Lobby.Current.CreateGame(gName, playerName, playerEMail))
+            {
+                return Show(gName, playerEMail);
+            }
+
+
+            return new EmptyResult();
+        }
+
+        public ActionResult Join(string gName, string playerName, string playerEMail)
+        {
+            if (CurrentGame != null)
+            {
+                CurrentGame.AddPlayer(playerName, playerEMail);
+                return Show(gName, playerEMail);
+            }
+
+
+            return new EmptyResult();
+        }
+
+
+        ActionResult Show(string gName, string eMail)
         {
             if (gName == null) throw new ArgumentNullException("gName");
             if (eMail == null) throw new ArgumentNullException("eMail");
@@ -25,7 +49,7 @@ namespace MinesweeperControllers
             ViewData.Add("isOwner", Minesweeper.Lobby.Current[gName].IsOwner(eMail));
 
             ViewData.Add("gKey", Utils.GameKey.GetKey());
-            return View();
+            return View("Show");
         }
 
         public ActionResult Lobby(string eMail)
