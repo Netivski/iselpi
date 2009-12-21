@@ -10,16 +10,21 @@ namespace MinesweeperControllers
     public class ProfileController : GameBaseController
     {
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Create(string eMail)
+        //public ActionResult Create(string eMail)
+        //{
+        //    if (eMail != null)
+        //        ViewData.Model = Lobby.Current.LoadPlayer(eMail);
+        //    return new ViewResult() { ViewData = ViewData };
+        //}
+        public ActionResult Create()
         {
-            if (eMail != null)
-                ViewData.Model = Lobby.Current.LoadPlayer(eMail);
-            return new ViewResult() { ViewData = ViewData };
+            return View();
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Create(string eMail, string name, HttpPostedFileBase photo, bool online)
+        public ActionResult Create(string eMail, string name, bool online)
         {
+            HttpPostedFileBase photo = Request.Files[0];
             Player nPlayer; // nPlayer == New Player
             if ((nPlayer = Lobby.Current.LoadPlayer(eMail)) == null)
             {
@@ -32,7 +37,7 @@ namespace MinesweeperControllers
 
             Lobby.Current.AddPlayer(nPlayer);
             ViewData.Model = nPlayer;
-            return new ViewResult() { ViewData = ViewData };
+            return View("../Game/Lobby", nPlayer);
         }
 
         public ActionResult GetPlayerPhoto(string eMail)
@@ -65,6 +70,5 @@ namespace MinesweeperControllers
             ViewData.Model = Lobby.Current.LoadPlayer(eMail);
             return new ViewResult() { ViewData = ViewData };
         }
-
     }
 }
