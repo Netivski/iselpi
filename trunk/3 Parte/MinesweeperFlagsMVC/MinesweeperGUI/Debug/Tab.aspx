@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Tab.aspx.cs" Inherits="MinesweeperGUI.Debug.Tab" %>
+
+<!DOCTYPE html>
 <html>
 <head>
   <link type="text/css" href="http://jqueryui.com/latest/themes/base/ui.all.css" rel="stylesheet" />
@@ -11,14 +13,15 @@
 });
 
 function addNewTab() {
-    var tabLength = $("#tabs").tabs('length');
+    var tabElementsCount = $("#tabs").tabs('length');
+    
     $("#tabs").tabs('add', "/GameAsynchronous/GameBoard", "Game");
     $('#tabs').bind('tabsselect', function(event, ui) {
-        alert(event.constructor);
-        alert(ui.constructor);
-    });
-    //$("#tabs").tabs('url', tabLength - 1, "/GameAsynchronous/GameBoard");
-    ///GameAsynchronous/GetTabContent
+        if (ui.index > 2 && ui.panel.innerHTML.length > 0) {
+            $("#tabs").tabs('url', ui.index, "");
+        }
+    });    
+
     return false;
 }
   
@@ -46,5 +49,7 @@ function addNewTab() {
     </div>
 </div>
 <input type="button" value="Add New Tab" onclick="javascript:addNewTab();" />
+<br/>
+<%= DateTime.Now.ToString() %>
 </body>
 </html>
