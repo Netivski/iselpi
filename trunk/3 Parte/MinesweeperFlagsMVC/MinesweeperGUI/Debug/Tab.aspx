@@ -16,14 +16,19 @@
           tabElementsCount = $(tabId).tabs('length');
       });
 
-function addTab( url, label ) {
-    $(tabId).tabs('add', url, label );
-    $(tabId).bind('tabsselect', function(event, ui) {
-        if (ui.index > (tabElementsCount - 1) && ui.panel.innerHTML.length > 0) {
-            $(tabId).tabs('url', ui.index, "");
-        }
-    });        
-}
+      function addTab(url, label) {
+          $(tabId).tabs('add', url, label);
+          $(tabId).bind('tabsselect', function(event, ui) {
+              if (ui.index > (tabElementsCount - 1) && ui.panel.innerHTML.length > 0) {
+                  $(tabId).tabs('url', ui.index, "");
+              }
+          });
+      }
+
+      function doSeelect() {
+          alert($("//mainP/myancor").innerHTML);
+      }
+      
   
   </script>
 </head>
@@ -37,7 +42,11 @@ function addTab( url, label ) {
         <pre><code>Sim.... aqui!!!!</code></pre>
     </div>
 </div>
+
+<p id="mainP"><a id="myancor" href="http://www.sapo.pt" target="_blank">o mey ancor</a></p>
+
 <input type="button" value="Add New Tab" onclick="javascript:addTab('/GameAsynchronous/GameBoard', 'Game');" />
+<input type="button" value="Select" onclick="javascript:doSeelect();" />
 <br/>
 <%= DateTime.Now.ToString() %>
 </body>

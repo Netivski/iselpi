@@ -92,20 +92,20 @@ function GameMVC(lines, cols, gName) {
         }
 
         var poolPlayerRefresh = function() {
-            var req = new HttpRequest("RefreshPlayerBoard", gModel.getGameName(), gModel.getPlayerId());
+            var req = new HttpRequest("GameAsynchronous", "RefreshPlayerBoard", current.gameModel.getGameName(), current.gameModel.getPlayerId());
             req.Request();
             if (req != "") {
                 var p = req.getJSonObject();
                 for (var i = 0; i < p.length; i++) {
                     if (p[i].active == 0)
                         playerObj.removePlayer(p[i].id);
-                    playerObj.update(p[i].id, p[i].name, p[i].points, gModel.getPlayerId());
+                    playerObj.update(p[i].id, p[i].name, p[i].points, current.gameModel.getPlayerId());
                 }
             }
         }
 
         var poolGameRefresh = function() {
-            var req = new HttpRequest("RefreshGameInfo", gModel.getGameName(), gModel.getPlayerId());
+            var req = new HttpRequest("GameAsynchronous", "RefreshGameInfo", current.gameModel.getGameName(), current.gameModel.getPlayerId());
             req.Request();
             if (req != "") {
                 var game = req.getJSonObject();
@@ -126,7 +126,7 @@ function GameMVC(lines, cols, gName) {
         }
 
         var poolCellRefresh = function() {
-            var req = new HttpRequest("RefreshCell", current.gameModel.getGameName(), current.gameModel.getPlayerId());
+            var req = new HttpRequest("GameAsynchronous", "RefreshCell", current.gameModel.getGameName(), current.gameModel.getPlayerId());
             req.Request();
             if (req != "") {
                 var cell = req.getJSonObject();
@@ -168,7 +168,7 @@ function GameMVC(lines, cols, gName) {
 
         this.gameController.evtListGames = function() {
             try {
-                var req = new HttpRequest("ListActiveGames");
+                var req = new HttpRequest("GameAsynchronous", "ListActiveGames");
                 req.Request();
                 current.gameView.populateGamesList(req.getJSonObject());
             } catch (e) { alert(e); }
@@ -193,7 +193,7 @@ function GameMVC(lines, cols, gName) {
             var handler = current.gameView.isNewGame() ? "CreateGame" : "JoinGame";
 
             try {
-                var req = new HttpRequest(handler, current.gameView.getGameName(), 0,
+                var req = new HttpRequest("GameAsynchronous", handler, current.gameView.getGameName(), 0,
                 "playerName", current.gameView.getPlayerName());
                 req.Request();
                 var game = req.getJSonObject();
@@ -209,10 +209,10 @@ function GameMVC(lines, cols, gName) {
                 current.gameView.setFocusPlayerName();
             }
             else {
-                gModel.setGameStatus(game.gStatus);
-                gModel.setGameName(game.GameName);
-                gModel.setPlayerName(current.gameView.getPlayerName());
-                gModel.setPlayerId(game.callingPlayer);
+                current.gameModel.setGameStatus(game.gStatus);
+                current.gameModel.setGameName(game.GameName);
+                current.gameModel.setPlayerName(current.gameView.getPlayerName());
+                current.gameModel.setPlayerId(game.callingPlayer);
                 this.sendMessage("Game '" + game.GameName + "' " +
                         (handler == "CreateGame" ? "created" : "joined") + "!");
                 Board.init(LINES, COLS);
@@ -220,7 +220,7 @@ function GameMVC(lines, cols, gName) {
                 current.gameView.renderBoard();
                 current.gameView.renderMinesLeft(game.minesLeft);
 
-                if (gModel.getPlayerId() == 1) {
+                if (current.gameModel.getPlayerId() == 1) {
                     current.gameView.showStartButton();
                 }
                 else {
@@ -232,7 +232,7 @@ function GameMVC(lines, cols, gName) {
 
         this.gameController.evtStartGame = function() {
             try {
-                var req = new HttpRequest("StartGame", gModel.getGameName(), 1);
+                var req = new HttpRequest("GameAsynchronous", "StartGame", current.gameModel.getGameName(), 1);
                 req.Request();
                 var game = req.getJSonObject();
             } catch (e) { alert(e); }
@@ -247,17 +247,17 @@ function GameMVC(lines, cols, gName) {
 
         this.gameController.evtRemovePlayer = function() {
             try {
-                var req = new HttpRequest("RemovePlayer", gModel.getGameName(), gModel.getPlayerId());
+                var req = new HttpRequest("GameAsynchronous", "RemovePlayer", current.gameModel.getGameName(), current.gameModel.getPlayerId());
                 req.Request();
             } catch (e) { alert(e); }
             location.reload(true);
         }
 
         this.gameController.evtCellClicked = function(cell) {
-            if ((parseInt(gModel.getActivePlayer()) + 1) == parseInt(gModel.getPlayerId())) {
+            if ((parseInt(current.gameModel.getActivePlayer()) + 1) == parseInt(current.gameModel.getPlayerId())) {
                 var pos = cellObj.getPos(jQuery(cell));
                 try {
-                    var req = new HttpRequest("Play", gModel.getGameName(), gModel.getPlayerId()
+                    var req = new HttpRequest("GameAsynchronous", "Play", current.gameModel.getGameName(), current.gameModel.getPlayerId()
                     , "posX", pos[0], "posY", pos[1]);
                     req.Request();
                 } catch (e) { alert(e); }
@@ -268,7 +268,7 @@ function GameMVC(lines, cols, gName) {
 
         this.gameController.evtRevealBoard = function() {
             try {
-                var req = new HttpRequest("RevealBoard", gModel.getGameName(), gModel.getPlayerId());
+                var req = new HttpRequest("GameAsynchronous", "RevealBoard", current.gameModel.getGameName(), current.gameModel.getPlayerId());
                 req.Request();
                 if (req != "") {
                     var cell = req.getJSonObject();
