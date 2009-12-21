@@ -26,7 +26,11 @@
       }
 
       function doSeelect() {
-          alert($("//mainP/myancor").innerHTML);
+
+          var e = $("#mainP");
+          //for (var key in e) { alert(key + ' :: ' + e[key]) };
+      
+          alert($("#mainP").innerHTML);
       }
       
   
@@ -43,7 +47,7 @@
     </div>
 </div>
 
-<p id="mainP"><a id="myancor" href="http://www.sapo.pt" target="_blank">o mey ancor</a></p>
+<p id="mainP">xddddd<a id="myancor" href="http://www.sapo.pt" target="_blank">o mey ancor</a></p>
 
 <input type="button" value="Add New Tab" onclick="javascript:addTab('/GameAsynchronous/GameBoard', 'Game');" />
 <input type="button" value="Select" onclick="javascript:doSeelect();" />
