@@ -8,17 +8,18 @@
   <script type="text/javascript" src="/Source/ui.core.js"></script>
   <script type="text/javascript" src="/Source/ui.tabs.js"></script>
   <script type="text/javascript">
-  $(document).ready(function(){
-    $("#tabs").tabs();
-});
+      var tabId = "#tabs";
+      var tabElementsCount;
+      $(document).ready(function() {
+          $(tabId).tabs();
+          tabElementsCount = $(tabId).tabs('length');
+      });
 
-function addNewTab() {
-    var tabElementsCount = $("#tabs").tabs('length');
-    
-    $("#tabs").tabs('add', "/GameAsynchronous/GameBoard", "Game");
-    $('#tabs').bind('tabsselect', function(event, ui) {
-        if (ui.index > 2 && ui.panel.innerHTML.length > 0) {
-            $("#tabs").tabs('url', ui.index, "");
+function addTab( url, label ) {
+    $(tabId).tabs('add', url, label );
+    $(tabId).bind('tabsselect', function(event, ui) {
+        if (ui.index > (tabElementsCount - 1) && ui.panel.innerHTML.length > 0) {
+            $(tabId).tabs('url', ui.index, "");
         }
     });    
 
@@ -30,25 +31,14 @@ function addNewTab() {
 <body style="font-size:62.5%;">
 <div id="tabs">
     <ul>
-        <li><a href="#fragment-1"><span>One</span></a></li>
-        <li><a href="#fragment-2"><span>Two</span></a></li>
-        <li><a href="#fragment-3"><span>Three</span></a></li>
+        <li><a href="#lobby"><span>Eng. Rirdo Neto</span></a></li>
     </ul>
-    <div id="fragment-1">
-        <p>First tab is active by default:</p>
-        <pre><code>$('#example').tabs();</code></pre>
-    </div>
-    <div id="fragment-2">
-        Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
-        Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
-    </div>
-    <div id="fragment-3">
-        Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
-        Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
-        Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+    <div id="lobby">
+        <p>Eng. Ricardo Neto - O html do lobby é aqui</p>
+        <pre><code>Sim.... aqui!!!!</code></pre>
     </div>
 </div>
-<input type="button" value="Add New Tab" onclick="javascript:addNewTab();" />
+<input type="button" value="Add New Tab" onclick="javascript:addTab('/GameAsynchronous/GameBoard', 'Game');" />
 <br/>
 <%= DateTime.Now.ToString() %>
 </body>
