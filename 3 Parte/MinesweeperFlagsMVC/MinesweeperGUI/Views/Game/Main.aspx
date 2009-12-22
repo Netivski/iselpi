@@ -9,25 +9,15 @@
     <link rel="Stylesheet" type="text/css" href="/Source/mineSweeper.css" />
 
     <script type="text/javascript" src="/Source/jquery-1.3.2.js"></script>
-
     <script type="text/javascript" src="/Source/ui.core.js"></script>
-
     <script type="text/javascript" src="/Source/ui.tabs.js"></script>
-
     <script type="text/javascript" src="/Source/Constants.js"></script>
-
     <script type="text/javascript" src="/Source/HttpRequest.js"></script>
-
     <script type="text/javascript" src="/source/LobbyMVC.js"></script>
-
     <script type="text/javascript" src="/Source/Cell.js"></script>
-
     <script type="text/javascript" src="/Source/Player.js"></script>
-
     <script type="text/javascript" src="/Source/BoardMVC.js"></script>
-
     <script type="text/javascript" src="/Source/GameMVC.js"></script>
-
     <script type="text/javascript">
 
         var tabId = "#tabs";
