@@ -53,9 +53,7 @@ namespace MinesweeperControllers
         }
         public ActionResult Lobby(string eMail)
         {
-            Minesweeper.Lobby.Current.LoadPlayer(eMail);
-            ViewData["eMail"] = eMail;
-            return View();
+            return View(Minesweeper.Lobby.Current.LoadPlayer(eMail));
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
@@ -67,9 +65,7 @@ namespace MinesweeperControllers
 
         public ActionResult Main(string eMail)
         {
-            Minesweeper.Lobby.Current.LoadPlayer(eMail);
-            ViewData["eMail"] = eMail;
-            return View();
+            return View(Minesweeper.Lobby.Current.LoadPlayer(eMail));
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
@@ -81,7 +77,7 @@ namespace MinesweeperControllers
                 if ((p = Minesweeper.Lobby.Current.GetPlayer(email)) != null)
                 {
                     Minesweeper.Lobby.Current.LoadPlayer(email);
-                    return View("Main", p);
+                    return new RedirectResult(string.Format("/Game/Main?eMail={0}", Server.UrlEncode(email)));
                 }
                 else
                 {

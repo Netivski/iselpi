@@ -5,9 +5,8 @@
 <head>
     <link type="text/css" href="http://jqueryui.com/latest/themes/base/ui.all.css" rel="stylesheet" />
 	<link type="text/css" href="/Source/Lobby.css" rel="Stylesheet" />
-	<link rel="Stylesheet" type="text/css" href="/Source/mineSweeper.css" />	
-	
-	 <script type="text/javascript" src="/Source/Constants.js"></script>
+	<link rel="Stylesheet" type="text/css" href="/Source/mineSweeper.css" />		
+	<script type="text/javascript" src="/Source/Constants.js"></script>
     <script type="text/javascript" src="/Source/HttpRequest.js"></script>
     <script type="text/javascript" src="/Source/Cell.js"></script>
     <script type="text/javascript" src="/Source/Player.js"></script>

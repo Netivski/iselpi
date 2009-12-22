@@ -4,12 +4,12 @@
 <html>
 <head>
     <title>Lobby</title>
-	<script type="text/javascript" src="../../source/LobbyMVC.js"></script>
-	<script type="text/javascript" src="../../source/HttpRequest.js"></script>
-	<script type="text/javascript" src="../../source/Constants.js"></script>
-	<script type="text/javascript" src="../../source/jquery-1.3.2.js"></script>
+	<script type="text/javascript" src="/source/LobbyMVC.js"></script>
+	<script type="text/javascript" src="/source/HttpRequest.js"></script>
+	<script type="text/javascript" src="/source/Constants.js"></script>
+	<script type="text/javascript" src="/source/jquery-1.3.2.js"></script>
 
-	<link href="../../Source/Lobby.css" type="text/css" rel="Stylesheet" />
+	<link href="/Source/Lobby.css" type="text/css" rel="Stylesheet" />
 </head>
 
 <body onload="Lobby.init('<%=Model.Name%>','<%=Model.EMail%>');">

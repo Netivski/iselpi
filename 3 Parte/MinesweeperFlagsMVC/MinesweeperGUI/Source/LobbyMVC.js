@@ -3,7 +3,7 @@
 
 var Lobby = new Object();
 
-Lobby.init = function(pName, eMail) {
+Lobby.init = function(pName, eMail) {  
 
     LobbyModel.init(pName, eMail);
     LobbyView.init();
@@ -34,8 +34,7 @@ var LobbyController = new Object();
 LobbyController.init = function() {
 
     var handlerClass = "Lobby";
-
-    LobbyView.renderProfile("http://www.istockphoto.com/file_thumbview_approve/5200069/2/istockphoto_5200069-wave-icon.jpg", LobbyModel.getPlayerName());
+    LobbyView.renderProfile("/Profile/GetPlayerPhoto?eMail=" + LobbyModel.getPlayerEMail(), LobbyModel.getPlayerName());
     LobbyView.renderOptions();
     LobbyView.renderFriendList();
     LobbyView.renderPlayerList();

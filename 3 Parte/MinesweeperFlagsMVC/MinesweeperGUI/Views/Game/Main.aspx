@@ -6,19 +6,18 @@
 <html>
 <head>
     <link type="text/css" href="http://jqueryui.com/latest/themes/base/ui.all.css" rel="stylesheet" />
-    <link type="text/css" href="/Source/Lobby.css" rel="Stylesheet" />
-
+	<link type="text/css" href="/Source/Lobby.css" rel="Stylesheet" />
+	<link rel="Stylesheet" type="text/css" href="/Source/mineSweeper.css" />		
+	<script type="text/javascript" src="/Source/Constants.js"></script>
+    <script type="text/javascript" src="/Source/HttpRequest.js"></script>
+    <script type="text/javascript" src="/Source/Cell.js"></script>
+    <script type="text/javascript" src="/Source/Player.js"></script>
+    <script type="text/javascript" src="/Source/BoardMVC.js"></script>
+    <script type="text/javascript" src="/Source/GameMVC.js"></script>
     <script type="text/javascript" src="/Source/jquery-1.3.2.js"></script>
-
     <script type="text/javascript" src="/Source/ui.core.js"></script>
-
     <script type="text/javascript" src="/Source/ui.tabs.js"></script>
-
-    <script type="text/javascript" src="/source/LobbyMVC.js"></script>
-
-    <script type="text/javascript" src="/source/HttpRequest.js"></script>
-
-    <script type="text/javascript" src="/source/Constants.js"></script>
+	<script type="text/javascript" src="/source/LobbyMVC.js"></script>
 
     <script type="text/javascript">
 
@@ -28,6 +27,8 @@
         $(document).ready(function() {
             $(tabId).tabs();
             tabElementsCount = $(tabId).tabs('length');
+
+            Lobby.init("<%=Html.Encode( Model.Name )%>", "<%=Html.Encode( Model.EMail )%>");
         });
 
         function addTab(url, label) {
@@ -49,8 +50,9 @@
     </script>
 
 </head>
-<body style="font-size: 62.5%;" onload="Lobby.init('<%=Model.Name %>','<%=Model.EMail%>');">
-    <div id="tabs">
+
+<body style="font-size: 62.5%;">
+    ****<div id="tabs">
         <ul id="tabStrip">
             <li><a href="#lobby"><span>Lobby</span></a></li>
         </ul>
