@@ -149,6 +149,7 @@ LobbyController.init = function() {
     // Events
 
     this.evtProceedToGame = function() {
+        alert( 'start !!!!' );
         var handler;
         var gameHandler = "GameAsynchronous";
 
