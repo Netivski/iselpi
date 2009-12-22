@@ -28,11 +28,11 @@ button
 	position: static;
 	width: 700px;
 	height: 510px;
-    /*background-image: url(../Images/LobbyBackGround.png);*/
-    background-image: url(../Images/BackGround.png);	
+    /*background-image: url(/Images/LobbyBackGround.png);
+    background-image: url(/Images/BackGround.png); */
 	text-align: center;
 	margin: 0px auto;
-	border: solid 1px Black;
+	/*border: solid 1px Black;*/
 }
 .divTabList
 {
