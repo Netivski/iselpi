@@ -17,7 +17,7 @@ namespace MinesweeperGUI
 
 
             Route route = new Route("{controller}/{action}", new MvcRouteHandler());
-            route.Defaults = new RouteValueDictionary(new { controller = "Home", action = "Index" });
+            route.Defaults = new RouteValueDictionary(new { controller = "Game", action = "Start" });
             
             routes.Add(route); 
         }
