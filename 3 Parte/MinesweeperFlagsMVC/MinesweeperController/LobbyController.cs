@@ -70,17 +70,17 @@ namespace MinesweeperControllers
         //------------------------------
         // Event Handlers
 
-        public ActionResult StartPublicGame(string gName, string eMail)
-        {
-            Lobby.Current.CreateGame(gName, "Name", eMail);
-            return new ContentResult();
-        }
+        //public ActionResult StartPublicGame(string gName, string eMail)
+        //{
+        //    Lobby.Current.CreateGame(gName, "Name", eMail);
+        //    return new ContentResult();
+        //}
 
-        public ActionResult StartPrivateGame(string gName, string eMail)
-        {
-            Lobby.Current.CreateGame(gName, "Name", eMail);
-            return new ContentResult();
-        }
+        //public ActionResult StartPrivateGame(string gName, string eMail)
+        //{
+        //    Lobby.Current.CreateGame(gName, "Name", eMail);
+        //    return new ContentResult();
+        //}
 
         public ActionResult SendInvite(string gName, string eMail, string friend)
         {

@@ -20,15 +20,20 @@ namespace Minesweeper
         int _currentPlayer;
         int _totalMines;
         int _minesLeft;
+        GameType _gType = GameType.Public;
 
-        public Game(string name, string playerName, string playerEMail, int cols, int rows)
+        public Game(string name, string playerName, string playerEMail, int cols, int rows) : this(name, playerName, playerEMail, cols, rows, GameType.Public) { }
+
+        public Game(string name, string playerName, string playerEMail, int cols, int rows, GameType type)
         {
-            this._name = name;
+            _name    = name;
             _sStatus = GameStatus.WAITING_FOR_PLAYERS;
+            _gType   = type;
             _players = new GamePlayer[MAX_PLAYERS];
-            _lines = rows;
-            _cols = cols;
-            _cells = new Cell[rows, cols];
+            _lines   = rows;
+            _cols    = cols;
+            _cells   = new Cell[rows, cols];
+            
             _playersCount = 0;
             _currentPlayer = 0;
             AddPlayer(playerName, playerEMail); //Owner (id = 1)
@@ -46,6 +51,13 @@ namespace Minesweeper
         {
             get { return _sStatus; }
         }
+
+        public GameType Type
+        {
+            get { return _gType;  }
+            set { _gType = value; } 
+        }
+
         public int CurrentPlayer { get { return _currentPlayer; } }
 
         private List<GamePlayer> ScoreList

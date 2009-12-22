@@ -6,9 +6,9 @@ namespace MinesweeperControllers
 {
     public class GameController : GameBaseController
     {
-        public ActionResult Create(string gName, string playerName, string playerEMail)
+        public ActionResult Create(string gName, string playerName, string playerEMail, GameType type)
         {
-            if (Minesweeper.Lobby.Current.CreateGame(gName, playerName, playerEMail))
+            if (Minesweeper.Lobby.Current.CreateGame(gName, playerName, playerEMail, type))
             {
                 return Show(gName, playerEMail);
             }
