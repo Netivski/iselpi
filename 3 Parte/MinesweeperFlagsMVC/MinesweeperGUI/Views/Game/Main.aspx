@@ -13,33 +13,16 @@
     <script type="text/javascript" src="/Source/ui.tabs.js"></script>
     <script type="text/javascript" src="/Source/Constants.js"></script>
     <script type="text/javascript" src="/Source/HttpRequest.js"></script>
+    <script type="text/javascript" src="/Source/Tab.js"></script>
     <script type="text/javascript" src="/source/LobbyMVC.js"></script>
     <script type="text/javascript" src="/Source/Cell.js"></script>
     <script type="text/javascript" src="/Source/Player.js"></script>
-    <script type="text/javascript" src="/Source/BoardMVC.js"></script>
-    <script type="text/javascript" src="/Source/GameMVC.js"></script>
+    <script type="text/javascript" src="/Source/BoardMVC.js"></script>    
+    <script type="text/javascript" src="/Source/GameMVC.js"></script>        
     <script type="text/javascript">
-
-        var tabId = "#tabs";
-        var tabElementsCount;
-
         $(document).ready(function() {
-            $(tabId).tabs();
-            tabElementsCount = $(tabId).tabs('length');
-
-            Lobby.init("<%=Html.Encode( Model.Name )%>", "<%=Html.Encode( Model.EMail )%>");
+            Lobby.init("<%=Html.Encode( Model.Name )%>", "<%=Html.Encode( Model.EMail )%>", "#tabs");
         });
-
-        function addTab(url, label) {
-            alert("URL=" + url);
-            $(tabId).tabs('add', url, label);
-            $(tabId).tabs({ cache: true });
-            $(tabId).bind('tabsselect', function(event, ui) {
-                if (ui.index > (tabElementsCount - 1) && ui.panel.innerHTML.length > 0) {
-                    $(tabId).tabs('url', ui.index, "");
-                }
-            });
-        }        
     </script>
 
 </head>
