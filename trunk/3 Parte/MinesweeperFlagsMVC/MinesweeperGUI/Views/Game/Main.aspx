@@ -39,13 +39,7 @@
                     $(tabId).tabs('url', ui.index, "");
                 }
             });
-        }
-
-        function doSeelect() {
-            var e = $("#mainP");
-            alert($("#mainP").innerHTML);
-        }
-        
+        }        
     </script>
 
 </head>
