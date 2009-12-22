@@ -24,7 +24,7 @@ namespace Minesweeper
         public Player(string name)
         {
             _name = name;
-            _status = PlayerStatus.Online;
+            _status = PlayerStatus.Offline;
             _photos = new Dictionary<string, Photo>();
             _myFriends = new List<string>();
             _refreshFriends = new List<Player>();

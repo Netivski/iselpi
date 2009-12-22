@@ -14,7 +14,11 @@ namespace Minesweeper
         Lobby()
         {
             games = new Dictionary<string, Game>();
-            players = new Dictionary<string, Player>();
+            players = new Dictionary<string, Player>(){
+                    {"26657@p3.pi",new Player("Ricardo","26657@p3.pi",new Photo(){Name="r"})},
+                    {"31923@p3.pi",new Player("Nuno","31923@p3.pi",new Photo(){Name="n"})},
+                    {"32223@p3.pi",new Player("Nuno","32223@p3.pi",new Photo(){Name="p"})}
+                };
         }
 
         static Lobby()
@@ -94,10 +98,10 @@ namespace Minesweeper
             {
                 try { rObj = players[eMail]; }
                 catch (KeyNotFoundException) { }
-                if (rObj == null)
-                    rObj = new Player(null, eMail);
+                if (rObj == null) return rObj;
             }
-            players.Values.Where(p => p.EMail != eMail).All(p => rObj.AddRefreshPlayers(p));
+            rObj.Status = PlayerStatus.Online;
+            players.Values.Where(p => p.EMail != eMail).Where(p => p.Online).All(p => rObj.AddRefreshPlayers(p));
             AddPlayer(rObj);
             UpdateRefreshPlayers(rObj);
             return rObj;

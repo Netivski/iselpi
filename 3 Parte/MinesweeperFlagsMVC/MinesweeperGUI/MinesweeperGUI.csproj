@@ -102,6 +102,7 @@
     <Content Include="Source\Profile.css" />
     <Content Include="Views\GameAsynchronous\GameBoard.aspx" />
     <Content Include="Views\Game\Lobby.aspx" />
+    <Content Include="Views\Game\Main.aspx" />
     <Content Include="Views\Game\Show.aspx" />
     <Content Include="Views\Game\Start.aspx" />
     <Content Include="Views\Lobby\Lobby.htm" />
@@ -154,6 +155,9 @@
           <IISUrl>
           </IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>

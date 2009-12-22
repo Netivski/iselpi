@@ -1,4 +1,5 @@
-﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<string>" %>
+﻿<%@ Import Namespace="Minesweeper" %>
+<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<Player>" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">	
 <html>
 <head>
@@ -11,7 +12,7 @@
 	<link href="../../Source/Lobby.css" type="text/css" rel="Stylesheet" />
 </head>
 
-<body onload="Lobby.init('<%=ViewData["eMail"]%>');">
+<body onload="Lobby.init('<%=Model.Name%>','<%=Model.EMail%>');">
     <div class="divBackGround">
         <div class="divTabList">
             <div class="divTab"></div>

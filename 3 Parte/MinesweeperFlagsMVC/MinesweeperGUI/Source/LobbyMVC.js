@@ -3,9 +3,9 @@
 
 var Lobby = new Object();
 
-Lobby.init = function(pName) {
+Lobby.init = function(pName, eMail) {
 
-    LobbyModel.init(pName);
+    LobbyModel.init(pName, eMail);
     LobbyView.init();
     LobbyController.init();
     LobbyController.startPooling();
@@ -15,12 +15,16 @@ Lobby.init = function(pName) {
 // Lobby Model ---------------------------------------------------------------------------------------
 
 var LobbyModel = new Object();
-LobbyModel.init = function(pName) {
+LobbyModel.init = function(pName, eMail) {
 
     var _pName = pName;
+    var _eMail = eMail;
 
     this.setPlayerName = function(pName) { _pName = pName; }
     this.getPlayerName = function() { return _pName; }
+
+    this.setPlayerEMail = function(eMail) { _eMail = eMail; }
+    this.getPlayerEMail = function() { return _eMail; }
 }
 
 
@@ -31,7 +35,7 @@ LobbyController.init = function() {
 
     var handlerClass = "Lobby";
 
-    LobbyView.renderProfile("http://www.istockphoto.com/file_thumbview_approve/5200069/2/istockphoto_5200069-wave-icon.jpg", "Snack");
+    LobbyView.renderProfile("http://www.istockphoto.com/file_thumbview_approve/5200069/2/istockphoto_5200069-wave-icon.jpg", LobbyModel.getPlayerName());
     LobbyView.renderOptions();
     LobbyView.renderFriendList();
     LobbyView.renderPlayerList();
@@ -71,7 +75,7 @@ LobbyController.init = function() {
     }
 
     var poolGamesRefresh = function() {
-        var req = new HttpRequest(handlerClass, "RefreshGames", undefined, 0, "eMail", LobbyModel.getPlayerName());
+        var req = new HttpRequest(handlerClass, "RefreshGames", undefined, 0, "eMail", LobbyModel.getPlayerEMail());
         req.Request();
         if (req != "") {
             jSon = req.getJSonObject();
@@ -86,7 +90,7 @@ LobbyController.init = function() {
     }
 
     var poolPlayersRefresh = function() {
-        var req = new HttpRequest(handlerClass, "RefreshPlayers", undefined, 0, "eMail", LobbyModel.getPlayerName());
+    var req = new HttpRequest(handlerClass, "RefreshPlayers", undefined, 0, "eMail", LobbyModel.getPlayerEMail());
         req.Request();
         if (req != "") {
             jSon = req.getJSonObject();
@@ -101,7 +105,7 @@ LobbyController.init = function() {
     }
 
     var poolFriendsRefresh = function() {
-        var req = new HttpRequest(handlerClass, "RefreshFriends", undefined, 0, "eMail", LobbyModel.getPlayerName());
+    var req = new HttpRequest(handlerClass, "RefreshFriends", undefined, 0, "eMail", LobbyModel.getPlayerEMail());
         req.Request();
         if (req != "") {
             jSon = req.getJSonObject();
@@ -114,7 +118,7 @@ LobbyController.init = function() {
     }
 
     var poolMessagesRefresh = function() {
-        var req = new HttpRequest(handlerClass, "RefreshMessages", undefined, 0, "eMail", LobbyModel.getPlayerName());
+    var req = new HttpRequest(handlerClass, "RefreshMessages", undefined, 0, "eMail", LobbyModel.getPlayerEMail());
         req.Request();
         if (req != "") {
             messages = req.getJSonObject();
@@ -124,7 +128,7 @@ LobbyController.init = function() {
     }
 
     var poolInvitesRefresh = function() {
-        var req = new HttpRequest(handlerClass, "RefreshInvites", undefined, 0, "eMail", LobbyModel.getPlayerName());
+    var req = new HttpRequest(handlerClass, "RefreshInvites", undefined, 0, "eMail", LobbyModel.getPlayerEMail());
         req.Request();
         if (req != "") {
             invites = req.getJSonObject();
@@ -134,7 +138,7 @@ LobbyController.init = function() {
     }
 
     var poolProfileRefresh = function() {
-        var req = new HttpRequest(handlerClass, "RefreshProfile", undefined, 0, "eMail", LobbyModel.getPlayerName());
+    var req = new HttpRequest(handlerClass, "RefreshProfile", undefined, 0, "eMail", LobbyModel.getPlayerEMail());
         req.Request();
         if (req != "") {
             //Update lobby view with profile updates (name, img,...)
@@ -164,13 +168,13 @@ LobbyController.init = function() {
 
         try {
             var req = new HttpRequest(handlerClass, handler, LobbyView.getGameName(), 0,
-                "eMail", LobbyModel.getPlayerName());
+                "eMail", LobbyModel.getPlayerEMail());
             req.Request();
         } catch (e) { alert(e); }
 
         try {
             var req = new HttpRequest(gameHandler, "StartGame", LobbyView.getGameName(), 0,
-                "eMail", LobbyModel.getPlayerName());
+                "eMail", LobbyModel.getPlayerEMail());
             req.Request();
             var game = req.getJSonObject();
         } catch (e) { alert(e); }
@@ -191,7 +195,7 @@ LobbyController.init = function() {
         else {
             try {
                 var req = new HttpRequest("Game", "Show", LobbyView.getGameName(), 0,
-                "eMail", LobbyModel.getPlayerName());
+                "eMail", LobbyModel.getPlayerEMail());
                 req.Request();
                 $("<div/>").attr("id", game.GameName).html(req.getResponseText()).appendTo("body");
             } catch (e) { alert(e); }
@@ -219,7 +223,7 @@ LobbyController.init = function() {
     this.evtSendInvite = function(gName, pName) {
         try {
             var req = new HttpRequest(handlerClass, "SendInvite", gName, 0, "eMail"
-                , LobbyModel.getPlayerName(), "friend", pName);
+                , LobbyModel.getPlayerEMail(), "friend", pName);
             req.Request();
         }
         catch (e) { alert(e); }
@@ -228,7 +232,7 @@ LobbyController.init = function() {
     this.evtAddFriend = function() {
         try {
             var req = new HttpRequest(handlerClass, "AddFriend", undefined, 0, "eMail"
-				, LobbyModel.getPlayerName(), "friend", LobbyView.getSelectedPlayer());
+				, LobbyModel.getPlayerEMail(), "friend", LobbyView.getSelectedPlayer());
             req.Request();
         } catch (e) { alert(e); }
     }
@@ -244,7 +248,7 @@ LobbyController.init = function() {
         for (var i = 0; i < selFriend.length; i++) {
             try {
                 var req = new HttpRequest(handlerClass, "RemoveFriend", undefined, 0, "eMail"
-				, LobbyModel.getPlayerName(), "friend", selFriend[i]);
+				, LobbyModel.getPlayerEMail(), "friend", selFriend[i]);
                 req.Request();
             } catch (e) { alert(e); }
         }
@@ -255,7 +259,7 @@ LobbyController.init = function() {
     this.evtJoinGame = function() {
         try {
             var req = new HttpRequest(handlerClass, "JoinGame", undefined, 0, "playerName"
-				, LobbyModel.getPlayerName(), "gName", LobbyView.getSelectedGame());
+				, LobbyModel.getPlayerEMail(), "gName", LobbyView.getSelectedGame());
             req.Request();
         } catch (e) { alert(e); }
     }
@@ -263,7 +267,7 @@ LobbyController.init = function() {
     this.evtEditProfile = function() {
         try {
             var req = new HttpRequest(handlerClass, "EditProfile", undefined, 0, "playerName"
-				, LobbyModel.getPlayerName(), "pName", LobbyView.getSelectedGame());
+				, LobbyModel.getPlayerEMail(), "pName", LobbyView.getSelectedGame());
             req.Request();
         } catch (e) { alert(e); }
     }
@@ -273,7 +277,7 @@ LobbyController.init = function() {
             return;
         try {
             var req = new HttpRequest(handlerClass, "SendMessage", undefined, 0, "eMail"
-				, LobbyModel.getPlayerName(), "msg", LobbyView.getMsgInput());
+				, LobbyModel.getPlayerEMail(), "msg", LobbyView.getMsgInput());
             req.Request();
         } catch (e) { alert(e); }
         LobbyView.clearMsgInput();
@@ -284,7 +288,7 @@ LobbyController.init = function() {
             return;
         try {
             var req = new HttpRequest(handlerClass, "SendPrivateMessage", undefined, 0, "eMail"
-				, LobbyModel.getPlayerName(), "eMailTo", LobbyView.getSelectedPlayerTo()
+				, LobbyModel.getPlayerEMail(), "eMailTo", LobbyView.getSelectedPlayerTo()
 				, "msg", "*" + LobbyView.getMsgInput());
             req.Request();
         } catch (e) { alert(e); }
