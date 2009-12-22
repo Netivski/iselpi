@@ -150,11 +150,11 @@ LobbyController.init = function() {
 
     this.evtProceedToGame = function() {
         var isPublicGame = LobbyView.isPublicGame();
-        var gName        = LobbyView.getGameName();
+        var gName = LobbyView.getGameName();
 
-        if ( gName == "") return;
+        if (gName == "") return;
 
-        if (!isPublicGame){
+        if (!isPublicGame) {
             handler = "StartPrivateGame";
             selFriendCount = LobbyView.getSelFriendCount();
             if (selFriendCount < 1 || selFriendCount > 4) {
@@ -162,8 +162,8 @@ LobbyController.init = function() {
                 return;
             }
         }
-                                 
-        LobbyView.startGame( gName, LobbyModel.getPlayerName(), LobbyModel.getPlayerEMail(), (isPublicGame ? 1: 0) );        
+
+        LobbyView.startGame(gName, LobbyModel.getPlayerName(), LobbyModel.getPlayerEMail(), (isPublicGame ? 1 : 0));
         LobbyView.hideGameForm();
     }
 
@@ -230,11 +230,7 @@ LobbyController.init = function() {
     }
 
     this.evtEditProfile = function() {
-        try {
-            var req = new HttpRequest(handlerClass, "EditProfile", undefined, 0, "playerName"
-				, LobbyModel.getPlayerEMail(), "pName", LobbyView.getSelectedGame());
-            req.Request();
-        } catch (e) { alert(e); }
+        window.location.href = "/Profile/Edit?eMail=" + escape(LobbyModel.getPlayerEMail());
     }
 
     this.evtSendMessage = function() {
