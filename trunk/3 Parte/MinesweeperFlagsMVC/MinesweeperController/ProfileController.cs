@@ -9,13 +9,6 @@ namespace MinesweeperControllers
 {
     public class ProfileController : GameBaseController
     {
-        [AcceptVerbs(HttpVerbs.Get)]
-        //public ActionResult Create(string eMail)
-        //{
-        //    if (eMail != null)
-        //        ViewData.Model = Lobby.Current.LoadPlayer(eMail);
-        //    return new ViewResult() { ViewData = ViewData };
-        //}
         public ActionResult Create()
         {
             return View();
@@ -64,10 +57,16 @@ namespace MinesweeperControllers
             return new EmptyResult();
         }
 
-        public ActionResult Show(string eMail)
+        public ActionResult Edit(string eMail)
         {
             ViewData.Model = Lobby.Current.LoadPlayer(eMail);
-            return new ViewResult() { ViewData = ViewData };
+            return View();
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Edit(string eMail, string name, bool online)
+        {
+            return Create(eMail, name, online);
         }
     }
 }

@@ -90,7 +90,6 @@
                 </div>
             </div>
         </div>
-        <input type="button" value="Add New Tab" onclick="javascript:addTab('/GameAsynchronous/GameBoard', 'Game');" />
     </div>
 </body>
 </html>
