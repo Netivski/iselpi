@@ -52,21 +52,17 @@
 </head>
 
 <body style="font-size: 62.5%;">
-    ****<div id="tabs">
+    <div id="tabs">
         <ul id="tabStrip">
             <li><a href="#lobby"><span>Lobby</span></a></li>
         </ul>
         <div id="lobby">
             <div class="divLobbyBackGround">
                 <div class="divTabList">
-                    <div class="divTab">
-                    </div>
-                    <div class="divTab">
-                    </div>
-                    <div class="divTab">
-                    </div>
-                    <div class="divTab">
-                    </div>
+                    <div class="divTab"> tab 1 </div>
+                    <div class="divTab"> tab 2 </div>
+                    <div class="divTab"> tab 3</div>
+                    <div class="divTab"> tab 4</div>
                 </div>
                 <div class="divPlayerInfo">
                     <div class="divTitles">
