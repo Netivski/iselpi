@@ -36,7 +36,7 @@ namespace MinesweeperControllers
             if (photo != null) nPlayer.AddPhoto(new Photo() { Name = photo.FileName, ContentType = photo.ContentType, Image = photo.InputStream });
 
             Lobby.Current.AddPlayer(nPlayer);            
-            return new RedirectResult( string.Format("/Game/Lobby?eMail={0}", Server.UrlEncode( eMail ) ) );
+            return new RedirectResult( string.Format("/Game/Main?eMail={0}", Server.UrlEncode( eMail ) ) );
         }
 
         public ActionResult GetPlayerPhoto(string eMail)
