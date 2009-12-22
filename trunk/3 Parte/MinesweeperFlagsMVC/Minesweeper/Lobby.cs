@@ -60,14 +60,14 @@ namespace Minesweeper
         //--------------------------
         // Games Management
 
-        public bool CreateGame(string gName, string pName, string pEMail)
+        public bool CreateGame(string gName, string pName, string pEMail, GameType type)
         {
             if (gName == null) throw new ArgumentNullException("gName");
             if (pName == null) throw new ArgumentNullException("pName");
             if (pEMail == null) throw new ArgumentNullException("pEMail");
             if (games.ContainsKey(gName)) return false;
 
-            Game game = new Game(gName, pName, pEMail, COLS, ROWS);
+            Game game = new Game(gName, pName, pEMail, COLS, ROWS, type);
             games.Add(gName, game);
             UpdateRefreshGames(game);
             return true;
