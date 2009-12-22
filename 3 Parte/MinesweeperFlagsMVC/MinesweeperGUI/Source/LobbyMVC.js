@@ -184,8 +184,16 @@ LobbyController.init = function() {
             LobbyView.setFocusGameName();
         }
         else {
+            try {
+                var req = new HttpRequest("Game", "Show", LobbyView.getGameName(), 0,
+                "eMail", LobbyModel.getPlayerEMail());
+                req.Request();
+                var gameView = req.getResponseText();
+            } catch (e) { alert(e); }
+
             addTab("Show?gName=" + game.GameName + "&eMail=" + LobbyModel.getPlayerEMail(), game.GameName);
         }
+        LobbyView.hideGameForm();
     }
 
     this.evtStartPublicGame = function() {
