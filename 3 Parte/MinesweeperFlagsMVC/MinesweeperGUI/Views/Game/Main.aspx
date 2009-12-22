@@ -1,4 +1,5 @@
-﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<string>" %>
+﻿<%@ Import Namespace="Minesweeper" %>
+<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<Player>" %>
 
 <!DOCTYPE html>
 <html>
@@ -34,15 +35,13 @@
         }
 
         function doSeelect() {
-
             var e = $("#mainP");
-            //for (var key in e) { alert(key + ' :: ' + e[key]) };
-
             alert($("#mainP").innerHTML);
         }
+        
     </script>
 </head>
-<body onload="Lobby.init('<%= ViewData["eMail"]%>');">
+<body style="font-size: 62.5%;" onload="Lobby.init('<%=Model.Name %>','<%=Model.EMail%>');">
     <div id="tabs">
         <ul>
             <li><a href="#lobby"><span>Lobby</span></a></li>
