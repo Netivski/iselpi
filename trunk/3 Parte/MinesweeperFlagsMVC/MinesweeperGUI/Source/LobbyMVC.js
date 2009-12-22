@@ -3,10 +3,10 @@
 
 var Lobby = new Object();
 
-Lobby.init = function(pName, eMail) {  
+Lobby.init = function(pName, eMail, tabId) {  
 
     LobbyModel.init(pName, eMail);
-    LobbyView.init();
+    LobbyView.init(tabId);
     LobbyController.init();
     LobbyController.startPooling();
 }
@@ -149,15 +149,12 @@ LobbyController.init = function() {
     // Events
 
     this.evtProceedToGame = function() {
-        alert( 'start !!!!' );
-        var handler;
-        var gameHandler = "GameAsynchronous";
+        var isPublicGame = LobbyView.isPublicGame();
+        var gName        = LobbyView.getGameName();
 
-        if (LobbyView.getGameName() == "") return;
+        if ( gName == "") return;
 
-        if (LobbyView.isPublicGame())
-            handler = "StartPublicGame";
-        else {
+        if (!isPublicGame){
             handler = "StartPrivateGame";
             selFriendCount = LobbyView.getSelFriendCount();
             if (selFriendCount < 1 || selFriendCount > 4) {
@@ -165,34 +162,8 @@ LobbyController.init = function() {
                 return;
             }
         }
-
-        try {
-            var req = new HttpRequest(handlerClass, handler, LobbyView.getGameName(), 0,
-                "eMail", LobbyModel.getPlayerEMail());
-            req.Request();
-        } catch (e) { alert(e); }
-
-        try {
-            var req = new HttpRequest(gameHandler, "StartGame", LobbyView.getGameName(), 0,
-                "eMail", LobbyModel.getPlayerEMail());
-            req.Request();
-            var game = req.getJSonObject();
-        } catch (e) { alert(e); }
-
-        if (game.gStatus == INVALID_NAME) {
-            this.sendMessage("Game named '" + game.GameName + "' already exists!");
-            LobbyView.setFocusGameName();
-        }
-        else {
-            try {
-                var req = new HttpRequest("Game", "Show", LobbyView.getGameName(), 0,
-                "eMail", LobbyModel.getPlayerEMail());
-                req.Request();
-                var gameView = req.getResponseText();
-            } catch (e) { alert(e); }
-
-            addTab("Show?gName=" + game.GameName + "&eMail=" + LobbyModel.getPlayerEMail(), game.GameName);
-        }
+                                 
+        LobbyView.startGame( gName, LobbyModel.getPlayerName(), LobbyModel.getPlayerEMail(), (isPublicGame ? 1: 0) );        
         LobbyView.hideGameForm();
     }
 
@@ -302,7 +273,30 @@ LobbyController.init = function() {
 // Lobby View ----------------------------------------------------------------------------------------
 
 var LobbyView = new Object();
-LobbyView.init = function() {
+LobbyView.init = function(tabId) {
+    var tabElementsCount;
+    $(tabId).tabs();
+    tabElementsCount = $(tabId).tabs('length');
+
+    var addTab = function(url, label) {
+        $(tabId).tabs('add', url, label);
+        $(tabId).tabs({ cache: true });
+        $(tabId).bind('tabsselect', function(event, ui) {
+            if (ui.index > (tabElementsCount - 1) && ui.panel.innerHTML.length > 0) {
+                $(tabId).tabs('url', ui.index, "");
+            }
+        });
+    }
+
+
+    this.startGame = function(gName, playerName, playerEMail, type) {
+        var url = "/Game/Create"
+                  + "?gName=" + escape(gName)
+                  + "&playerName=" + escape(playerName)
+                  + "&playerEMail=" + escape(playerEMail)
+                  + "&type=" + escape(type)
+        addTab(url, escape(gName));
+    }
 
 
     // --------------------------------
