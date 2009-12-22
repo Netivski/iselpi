@@ -79,12 +79,12 @@
                 <div class="divMessageBoard">
                     <div class="divTitles">
                         Message Box</div>
-                    <textarea cols="20" id="msgBoard" readonly="readonly" rows="20"></textarea>
+                    <textarea cols="20" rows="11" id="msgBoard" readonly="readonly"></textarea>
                 </div>
                 <div class="divPlayerMessage">
                     <div class="divTitles">
                         Message</div>
-                    <textarea cols="20" rows="20" id="msgInput"></textarea>
+                    <textarea cols="20" rows="11" id="msgInput"></textarea>
                     <input type="button" id="SendPrivate" value="Send To" />
                     <select id="msgDestList" />
                     <input type="button" id="SendAll" value="Send To All" />
