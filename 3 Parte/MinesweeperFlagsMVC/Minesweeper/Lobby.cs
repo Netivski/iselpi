@@ -41,10 +41,18 @@ namespace Minesweeper
         //--------------------------
         // Players Refresh Structures Management
 
+        private void UpdatePlayersOnNewPlayer(Player player)
+        {
+            foreach (Player p in players.Values)
+                if (p != player && p.Online)
+                    player.AddRefreshPlayers(p);
+        }
+
         private void UpdateRefreshPlayers(Player player)
         {
-            players.Values.Where(p => p.EMail != player.EMail)
-                .All(p => p.AddRefreshPlayers(player));
+            foreach (Player p in players.Values)
+                if (p != player && p.Online)
+                    p.AddRefreshPlayers(player);
         }
 
         private void UpdateRefreshGames(Game game)
@@ -101,8 +109,7 @@ namespace Minesweeper
                 if (rObj == null) return rObj;
             }
             rObj.Status = PlayerStatus.Online;
-            players.Values.Where(p => p.EMail != eMail).Where(p => p.Online).All(p => rObj.AddRefreshPlayers(p));
-            AddPlayer(rObj);
+            UpdatePlayersOnNewPlayer(rObj);
             UpdateRefreshPlayers(rObj);
             return rObj;
         }
@@ -118,9 +125,11 @@ namespace Minesweeper
         public bool AddPlayer(Player player)
         {
             if (player == null) throw new ArgumentNullException("player");
-            if (players.ContainsValue(player)) return false;
+            if (players.ContainsValue(player))
+            {
+                return false;
+            }
             players.Add(player.EMail, player);
-            UpdateRefreshPlayers(player);
             return true;
         }
 
