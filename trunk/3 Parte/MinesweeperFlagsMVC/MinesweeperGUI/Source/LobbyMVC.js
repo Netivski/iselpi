@@ -3,6 +3,7 @@
 
 var Lobby = new Object();
 
+Lobby.init = function(pName, eMail, tabId) {
 
     LobbyModel.init(pName, eMail);
     LobbyView.init(tabId);
