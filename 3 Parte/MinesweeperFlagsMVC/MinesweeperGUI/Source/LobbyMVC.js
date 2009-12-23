@@ -153,10 +153,12 @@ LobbyController.init = function() {
         var gName = LobbyView.getGameName();
         if (gName == "") return;
 
-        selFriendCount = LobbyView.getSelFriendCount();
-        if (selFriendCount < 1 || selFriendCount > 4) {
-            this.sendMessage("Minimum number of invites for private game is 1, maximum is 3!");
-            return;
+        if (!isPublicGame) {
+            selFriendCount = LobbyView.getSelFriendCount();
+            if (selFriendCount < 1 || selFriendCount > 4) {
+                this.sendMessage("Minimum number of invites for private game is 1, maximum is 3!");
+                return;
+            } 
         }
 
         try {
@@ -497,7 +499,7 @@ LobbyView.init = function(tabId) {
     this.addInvite = function(invite) {
         var listDiv = $("#invList");
         if ($("#inv_" + invite.sender + "").length == 0) {
-            var invItem = $("<dt/>").attr("id", "inv_" + invite.sender).append(invite.msg);
+            var invItem = $("<dt/>").attr("id", "inv_" + invite.gName).append(invite.msg);
             var yesOption = $("<button/>").text(" Yes ").click(function() {
                 LobbyController.evtAcceptInvite(invite.gName);
             }).appendTo(invItem);

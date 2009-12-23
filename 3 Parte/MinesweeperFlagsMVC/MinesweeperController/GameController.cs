@@ -14,7 +14,7 @@ namespace MinesweeperControllers
 
         public ActionResult Join(string gName, string pName, string eMail)
         {
-            if (CurrentGame != null && CurrentGame.GetPlayer(eMail) != null)
+            if (CurrentGame != null && CurrentGame.GetPlayer(eMail) == null)
             {
                 CurrentGame.AddPlayer(pName, eMail);
                 return Show(gName, eMail);
