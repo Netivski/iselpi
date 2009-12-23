@@ -43,7 +43,8 @@
                 </div>
             </div>
             <div class="divProfileLine" style="text-align: center">
-                <input type="submit" value="Save Profile" />
+                <input type="submit" value="Save Profile" /><br />
+                <%=ViewData["message"] %>
             </div>
         <% } %>        
     </div>

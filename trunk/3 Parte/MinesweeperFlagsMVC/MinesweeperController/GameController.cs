@@ -57,15 +57,15 @@ namespace MinesweeperControllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Start()
+        public ActionResult Start(string message, string dummy)
         {
-            ViewData["message"] = "";
+            ViewData["message"] = message;
             return View();
         }
 
         public ActionResult Main(string eMail)
         {
-            return View(Minesweeper.Lobby.Current.LoadPlayer(eMail));
+            return View(Minesweeper.Lobby.Current.GetPlayer(eMail));
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
