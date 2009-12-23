@@ -158,7 +158,7 @@ LobbyController.init = function() {
             if (selFriendCount < 1 || selFriendCount > 4) {
                 this.sendMessage("Minimum number of invites for private game is 1, maximum is 3!");
                 return;
-            } 
+            }
         }
 
         try {
@@ -205,7 +205,6 @@ LobbyController.init = function() {
         var gName = LobbyView.getSelectedGame();
 
         if (gName == "") return;
-
         LobbyView.joinGame(gName, LobbyModel.getPlayerName(), LobbyModel.getPlayerEMail());
     }
 
