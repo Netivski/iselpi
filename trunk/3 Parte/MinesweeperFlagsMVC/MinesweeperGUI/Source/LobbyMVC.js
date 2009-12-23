@@ -3,7 +3,6 @@
 
 var Lobby = new Object();
 
-Lobby.init = function(pName, eMail, tabId) {  
 
     LobbyModel.init(pName, eMail);
     LobbyView.init(tabId);
@@ -51,7 +50,7 @@ LobbyController.init = function() {
         if (!poolingActive) return;
         try {
             poolPlayersRefresh();
-            //poolGamesRefresh();
+            poolGamesRefresh();
             poolFriendsRefresh();
             poolMessagesRefresh();
             poolInvitesRefresh();
@@ -151,18 +150,32 @@ LobbyController.init = function() {
     this.evtProceedToGame = function() {
         var isPublicGame = LobbyView.isPublicGame();
         var gName = LobbyView.getGameName();
-
         if (gName == "") return;
 
-        if (!isPublicGame) {
-            handler = "StartPrivateGame";
-            selFriendCount = LobbyView.getSelFriendCount();
-            if (selFriendCount < 1 || selFriendCount > 4) {
-                this.sendMessage("Minimum number of invites for private game is 1, maximum is 3!");
+        selFriendCount = LobbyView.getSelFriendCount();
+        if (selFriendCount < 1 || selFriendCount > 4) {
+            this.sendMessage("Minimum number of invites for private game is 1, maximum is 3!");
+            return;
+        }
+
+        try {
+            var req = new HttpRequest("Game", "ReserveGameName", gName, 0, "eMail", LobbyModel.getPlayerEMail());
+            req.Request();
+            if (req.getResponseText() != gName) {
+                LobbyView.hideGameForm();
                 return;
             }
         }
-        
+        catch (e) { alert(e); }
+
+        if (!isPublicGame) {
+            selectedFriends = LobbyView.getSelectedFriends();
+            for (var i = 0; i < selectedFriends.length; i++) {
+                alert(selectedFriends[0]);
+                this.evtSendInvite(gName, selectedFriends[0]);
+            }
+        }
+
         LobbyView.startGame(gName, LobbyModel.getPlayerName(), LobbyModel.getPlayerEMail(), (isPublicGame ? 1 : 0));
         LobbyView.hideGameForm();
     }
@@ -185,6 +198,14 @@ LobbyController.init = function() {
         }
     }
 
+    this.evtJoinGame = function() {
+        var gName = LobbyView.getSelectedGame();
+
+        if (gName == "") return;
+
+        LobbyView.joinGame(gName, LobbyModel.getPlayerName(), LobbyModel.getPlayerEMail());
+    }
+
     this.evtSendInvite = function(gName, pName) {
         try {
             var req = new HttpRequest(handlerClass, "SendInvite", gName, 0, "eMail"
@@ -192,6 +213,20 @@ LobbyController.init = function() {
             req.Request();
         }
         catch (e) { alert(e); }
+    }
+
+    this.evtAcceptInvite = function(gName) {
+        LobbyView.joinGame(gName, LobbyModel.getPlayerName(), LobbyModel.getPlayerEMail());
+        LobbyView.removeInvite(gName);
+    }
+
+    this.evtRefuseInvite = function(pName) {
+        try {
+            var req = new HttpRequest(handlerClass, "RefuseInvite", undefined, 0, "eMail"
+				, LobbyModel.getPlayerEMail(), "friend", pName);
+            req.Request();
+        } catch (e) { alert(e); }
+        LobbyView.removeinvite(gName);
     }
 
     this.evtAddFriend = function() {
@@ -207,9 +242,7 @@ LobbyController.init = function() {
             this.sendMessage("At least one friend should be selected in order to proceed with removal!");
             return false;
         }
-        selFriend = LobbyView.getSelectedFriends();
-        this.evtSendInvite("xpto", selFriend[0]);
-        return;
+
         for (var i = 0; i < selFriend.length; i++) {
             try {
                 var req = new HttpRequest(handlerClass, "RemoveFriend", undefined, 0, "eMail"
@@ -219,14 +252,6 @@ LobbyController.init = function() {
         }
         LobbyView.removeFriend(selFriend[i]);
 
-    }
-
-    this.evtJoinGame = function() {
-        try {
-            var req = new HttpRequest(handlerClass, "JoinGame", undefined, 0, "playerName"
-				, LobbyModel.getPlayerEMail(), "gName", LobbyView.getSelectedGame());
-            req.Request();
-        } catch (e) { alert(e); }
     }
 
     this.evtEditProfile = function() {
@@ -270,6 +295,7 @@ LobbyController.init = function() {
 
 var LobbyView = new Object();
 LobbyView.init = function(tabId) {
+
     var tabElementsCount;
     $(tabId).tabs();
     tabElementsCount = $(tabId).tabs('length');
@@ -284,16 +310,25 @@ LobbyView.init = function(tabId) {
         });
     }
 
+    this.joinGame = function(gName, playerName, playerEMail) {
+        var url = "/Game/Join"
+                  + "?gName=" + escape(gName)
+                  + "&pName=" + escape(playerName)
+                  + "&eMail=" + escape(playerEMail)
+        addTab(url, escape(gName));
+    }
 
     this.startGame = function(gName, playerName, playerEMail, type) {
         var url = "/Game/Create"
                   + "?gName=" + escape(gName)
-                  + "&playerName=" + escape(playerName)
-                  + "&playerEMail=" + escape(playerEMail)
+                  + "&pName=" + escape(playerName)
+                  + "&eMail=" + escape(playerEMail)
                   + "&type=" + escape(type)
         addTab(url, escape(gName));
     }
 
+    var encodeEmail = function(email) { return email.replace(".", "DOT_SYMBOL").replace("@", "AT_SYMBOL"); }
+    var decodeEmail = function(email) { return email.replace("DOT_SYMBOL", ".").replace("AT_SYMBOL", "@"); }
 
     // --------------------------------
     // Profile Information
@@ -357,16 +392,18 @@ LobbyView.init = function(tabId) {
 
     this.addFriend = function(player) {
         var listDiv = $("#frList");
-        if ($("#fr_" + player.email + "").length == 0) {
-            var friendItem = $('<input type="checkbox" id="' + player.email + '" name="friendListItem"</input>&nbsp;');
-            $("<dt/>").attr("id", "fr_" + player.email).toggleClass(player.status).append(friendItem).append($("<span/>").text(player.email)).appendTo(listDiv);
+        var val = encodeEmail(player.email);
+
+        if ($("#fr_" + val + "").length == 0) {
+            var friendItem = $('<input type="checkbox" id="' + val + '" name="friendListItem"</input>&nbsp;');
+            $("<dt/>").attr("id", "fr_" + val).toggleClass(player.status).append(friendItem).append($("<span/>").text(player.email)).appendTo(listDiv);
         }
-        $("#fr_" + player.email + "").removeClass().toggleClass(player.status);
+        $("#fr_" + val + "").removeClass().toggleClass(player.status);
         if (getFriendCount() > 0) showRemoveFriendButton();
     }
 
     this.removeFriend = function(eMail) {
-        $("#fr_" + eMail + "").remove();
+        $("#fr_" + encodeEmail(eMail) + "").remove();
         if (getFriendCount() == 0) hideRemoveFriendButton();
     }
 
@@ -381,7 +418,7 @@ LobbyView.init = function(tabId) {
         var outValues = new Array();
         selectedFriends = $("input[name='friendListItem']:checked");
         for (var i = 0; i < selectedFriends.length; i++) {
-            outValues[i] = $(selectedFriends[i]).attr("id");
+            outValues[i] = decodeEmail($(selectedFriends[i]).attr("id"));
         }
         return outValues;
     }
@@ -400,17 +437,21 @@ LobbyView.init = function(tabId) {
 
     this.addPlayer = function(player) {
         var listDiv = $("#plList");
-        if ($("#pl_" + player.email + "").length == 0) {
+        var val = encodeEmail(player.email);
+
+        if ($("#pl_" + val + "").length == 0) {
             var playerItem = $('<input type="radio" id="playerListItem" name="playerListItem" value="' + player.email + '">' + player.email + '</input><br>');
-            $("<dt/>").attr("id", "pl_" + player.email).append(playerItem).appendTo(listDiv);
+            $("<dt/>").attr("id", "pl_" + val + "").append(playerItem).appendTo(listDiv);
             this.addPlayerTo(player);
         }
         if (getPlayerCount() > 0) showAddPlayerButton();
     }
 
     this.removePlayer = function(player) {
-        $("#pl_" + player.email + "").remove();
-        this.removePlayerTo(player);
+        var listDiv = $("#plList");
+        var val = encodeEmail(player.email);
+
+        $("#pl_" + val + "").remove();
         if (getPlayerCount() == 0) hideAddPlayerButton();
     }
 

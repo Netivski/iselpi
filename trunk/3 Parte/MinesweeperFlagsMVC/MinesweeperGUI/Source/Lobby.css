@@ -2,6 +2,7 @@
 {
 	color: White;
 	font-family: Verdana;
+	background-color:Black;
 }
 button
 {
@@ -13,6 +14,7 @@ button
 	margin: 1%;
 	text-align:center;
 	font-weight: bold;
+	font-size: 90%;
 	filter: alpha(opacity=85);
 	-moz-opacity: 0.85;
 	-khtml-opacity: 0.85;
@@ -23,51 +25,25 @@ button
 	font-weight: bold;
 	font-size: small;
 }
+.divTabs
+{
+	position: static;
+	width: 800px;
+	height: 600px;
+	text-align: center;
+	margin: 0px auto;
+}
 .divLobbyBackGround
 {
 	position: static;
 	width: 700px;
-	height: 510px;
-    /*background-image: url(/Images/LobbyBackGround.png);
-    background-image: url(/Images/BackGround.png); */
+	height: 550px;
+    /*background-image: url(/Images/BackGround.png); */
 	text-align: center;
 	margin: 0px auto;
 	/*border: solid 1px Black;*/
 }
-.divTabList
-{
-	position: relative;
-	float: left;
-	left: 2%;
-	top: 2%;
-	width: 96%;
-	height: 5%;	
-	background-color: White;	
-	vertical-align: middle;
-	filter: alpha(opacity=65);
-	-moz-opacity: 0.65;
-	-khtml-opacity: 0.65;
-	opacity: 0.65;	
-}
-.divTabList .divTab
-{
-	position: relative;
-	float: left;
-	top: 2%;
-	left: 1%;
-	width: 15%;
-	height: 90%;	
-	margin-right: 5px;
-	background-color: Black;	
-	font-weight: bold;
-	font-size: 95%;
-	text-align: center;	
-	vertical-align: bottom;	
-	filter: alpha(opacity=65);
-	-moz-opacity: 0.65;
-	-khtml-opacity: 0.65;
-	opacity: 0.65;	
-}
+
 .divPlayerInfo
 {
 	position: relative;
@@ -77,7 +53,6 @@ button
 	width: 25%;
 	height: 88%;	
 	font-weight: bold;
-	font-size: 85%;
 	background-color: #5B5B5B;
 	filter: alpha(opacity=85);
 	-moz-opacity: 0.85;
@@ -91,6 +66,7 @@ button
 	left: 25%;
 	top: 2%;
 	width: 50%;	
+	height: 80px;
 	max-height: 80px;
 	border: solid 2px White;
 	background-color: Black;
@@ -108,7 +84,7 @@ button
 	position: relative;
 	clear: left;
 	left: 5%;
-	top: 4%;
+	top: 3%;
 	max-width: 90%;
 	font-weight:bold;
 	font-size: medium;
@@ -146,7 +122,6 @@ button
 	top: 8%;
 	width: 90%;
 	height: 38%;
-	/*background-color: Black;*/
 	padding-top: 2%;
 	padding-bottom: 2%;
 }

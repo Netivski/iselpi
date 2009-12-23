@@ -8,8 +8,6 @@
     <link rel="Stylesheet" type="text/css" href="/Source/Profile.css" />	
 </head>
 <body>
-  <h1>Adicionar Perfil</h1>
-  
   <div class="divBackGround">
     <div class="divTittle">
         Registering in MineSweeper 2000&Half

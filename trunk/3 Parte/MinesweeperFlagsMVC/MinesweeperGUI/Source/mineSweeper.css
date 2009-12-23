@@ -20,8 +20,8 @@
 	position: static;
 	width: 620px;
 	height: 510px;
-	background-image: url(../Images/BackGround.png);
-	background-position: top center;
+	/*background-image: url(../Images/BackGround.png);*/
+	/*background-position: top center;*/
 	text-align: center;
 	margin: 0px auto;
 }
