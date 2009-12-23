@@ -24,7 +24,7 @@ function Cell(gCtrl) {
         else if (type == TYPE_BOMB) {
             setClass(cell, BOMB_CELL);
         }
-        else {
+        else {            
             if (value > 0) {
                 setValue(cell, value);
                 setClass(cell, NUMBER_CELL);

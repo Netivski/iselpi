@@ -18,7 +18,6 @@ function BoardMVC(lines, cols, cell) {
     // Board Controller ---------------------------------------------------------------------------------
     this.boardController = function() {
         if (this.boardController.getLines != undefined) return;
-        alert("Board controler init!");
         this.boardController.getLines = function() { return current.boardModel.getLines(); }
         this.boardController.getCols = function() { return current.boardModel.getCols(); }
 
