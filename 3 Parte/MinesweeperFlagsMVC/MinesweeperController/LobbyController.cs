@@ -66,50 +66,56 @@ namespace MinesweeperControllers
             return new ContentResult() { Content = Generic.GetJSon(rObj), ContentType = "text/x-json" };
         }
 
+        public ActionResult RefreshGames(string eMail)
+        {
+            Player p = Lobby.Current.GetPlayer(eMail);
+            List<Game> rObj = null;
+            if (p != null)
+            {
+                rObj = p.GetRefreshGames();
+            }
+            return new ContentResult() { Content = Generic.GetJSon(rObj), ContentType = "text/x-json" };
+        }
+
 
         //------------------------------
         // Event Handlers
 
-        //public ActionResult StartPublicGame(string gName, string eMail)
-        //{
-        //    Lobby.Current.CreateGame(gName, "Name", eMail);
-        //    return new ContentResult();
-        //}
-
-        //public ActionResult StartPrivateGame(string gName, string eMail)
-        //{
-        //    Lobby.Current.CreateGame(gName, "Name", eMail);
-        //    return new ContentResult();
-        //}
-
         public ActionResult SendInvite(string gName, string eMail, string friend)
         {
             Lobby.Current.Invite(gName, eMail, friend);
-            return new ContentResult();
+            return new EmptyResult();
         }
 
+        public ActionResult RefuseInvite(string gName, string eMail, string friend)
+        {
+            Lobby.Current.GetPlayer(friend).AddMessage(
+                new Message("Player " + Lobby.Current.GetPlayer(eMail).Name + " refused "
+                    + " invite for game " + gName + ".",eMail));
+            return new EmptyResult();
+        }
         public ActionResult AddFriend(string eMail, string friend)
         {
             Lobby.Current.GetPlayer(eMail).AddFriend(friend);
-            return new ContentResult();
+            return new EmptyResult();
         }
 
         public ActionResult RemoveFriend(string eMail, string friend)
         {
             Lobby.Current.GetPlayer(eMail).RemoveFriend(friend);
-            return new ContentResult();
+            return new EmptyResult();
         }
 
         public ActionResult SendMessage(string eMail, string msg)
         {
             Lobby.Current.UpdateRefreshMessages(new Message(msg, eMail));
-            return new ContentResult();
+            return new EmptyResult();
         }
 
         public ActionResult SendPrivateMessage(string eMail, string eMailTo, string msg)
         {
             Lobby.Current.GetPlayer(eMailTo).AddMessage((new Message(msg, eMail)));
-            return new ContentResult();
+            return new EmptyResult();
         }
 
 

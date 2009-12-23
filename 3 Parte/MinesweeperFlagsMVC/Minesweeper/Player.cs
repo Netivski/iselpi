@@ -195,6 +195,12 @@ namespace Minesweeper
             return false;
         }
 
+        public bool UpdateRefreshFriends()
+        {
+            _myFriends.ForEach(p => AddRefreshFriends(p));
+            return true;
+        }
+
         public List<Player> GetRefreshFriends()
         {
             List<Player> retList;

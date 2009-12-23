@@ -5,6 +5,7 @@
 <html>
 <head>
     <link type="text/css" href="http://jqueryui.com/latest/themes/base/ui.all.css" rel="stylesheet" />
+    <link rel="Stylesheet" type="text/css" href="/Source/tabs-ui.css" />
     <link rel="Stylesheet" type="text/css" href="/Source/Lobby.css" />
     <link rel="Stylesheet" type="text/css" href="/Source/mineSweeper.css" />
 
@@ -26,46 +27,37 @@
 
 </head>
 <body style="font-size: 62.5%;">
-    <div id="tabs" class="divLobbyBackGround">
+    <div id="tabs" class="divTabs">
         <ul id="tabStrip">
             <li><a href="#lobby"><span>Lobby</span></a></li>
         </ul>
-        <div id="lobby">
+        <div id="lobby" class="divLobbyBackGround">
             <div class="divPlayerInfo">
-                <div class="divTitles">
-                    My Information</div>
-                <div class="divPhoto">
-                </div>
-                <div class="divPlayerName">
-                </div>
+                <div class="divTitles">My Information</div>
+                <div class="divPhoto"></div>
+                <div class="divPlayerName"></div>
                 <div class="divPlayerOptions">
-                    <div class="divTitles">
-                        Menu</div>
+                    <div class="divTitles">Menu</div>
                 </div>
                 <div class="divPlayerFriendsList">
-                    <div class="divTitles">
-                        My Friends</div>
+                    <div class="divTitles">My Friends</div>
                     <dl id="frList">
                     </dl>
                 </div>
             </div>
             <div class="divCommunication">
-                <div class="divTitles">
-                    Communications</div>
+                <div class="divTitles">Communications</div>
                 <div class="divInviteBoard">
-                    <div class="divTitles">
-                        Incoming Invites</div>
+                    <div class="divTitles">Incoming Invites</div>
                     <dl id="invList">
                     </dl>
                 </div>
                 <div class="divMessageBoard">
-                    <div class="divTitles">
-                        Message Box</div>
+                    <div class="divTitles">Message Box</div>
                     <textarea cols="20" rows="11" id="msgBoard" readonly="readonly"></textarea>
                 </div>
                 <div class="divPlayerMessage">
-                    <div class="divTitles">
-                        Message</div>
+                    <div class="divTitles">Message</div>
                     <textarea cols="20" rows="11" id="msgInput"></textarea>
                     <input type="button" id="SendPrivate" value="Send To" />
                     <select id="msgDestList" />
@@ -73,19 +65,14 @@
                 </div>
             </div>
             <div class="divOnLists">
-                <div class="divTitles">
-                    Online Board</div>
+                <div class="divTitles">Online Board</div>
                 <div class="divPlayersOnList">
-                    <div class="divTitles">
-                        Players Online</div>
-                    <dl id="plList">
-                    </dl>
+                    <div class="divTitles">Players Online</div>
+                    <dl id="plList"></dl>
                 </div>
                 <div class="divGameOnList">
-                    <div class="divTitles">
-                        Games Available</div>
-                    <dl id="gList">
-                    </dl>
+                    <div class="divTitles">Games Available</div>
+                    <dl id="gList"></dl>
                 </div>
             </div>
         </div>

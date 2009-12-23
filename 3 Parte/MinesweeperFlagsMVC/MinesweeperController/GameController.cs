@@ -6,29 +6,39 @@ namespace MinesweeperControllers
 {
     public class GameController : GameBaseController
     {
-        public ActionResult Create(string gName, string playerName, string playerEMail, GameType type)
+        public ActionResult Create(string gName, string pName, string eMail, GameType type)
         {
-            if (Minesweeper.Lobby.Current.CreateGame(gName, playerName, playerEMail, type))
-            {
-                return Show(gName, playerEMail);
-            }
+            Minesweeper.Lobby.Current.CreateGame(gName, pName, eMail, type);
+            return Show(gName, eMail);
+        }
 
+        public ActionResult Join(string gName, string pName, string eMail)
+        {
+            if (CurrentGame != null && CurrentGame.GetPlayer(eMail) != null)
+            {
+                CurrentGame.AddPlayer(pName, eMail);
+                return Show(gName, eMail);
+            }
 
             return new EmptyResult();
         }
 
-        public ActionResult Join(string gName, string playerName, string playerEMail)
+        public ActionResult ReserveGameName(string gName, string eMail)
         {
-            if (CurrentGame != null)
+            string retContent = null;
+            if (!Minesweeper.Lobby.Current.ContainsGame(gName))
             {
-                CurrentGame.AddPlayer(playerName, playerEMail);
-                return Show(gName, playerEMail);
+                Minesweeper.Lobby.Current.ReserveGame(gName);
+                retContent = gName;
             }
-
-
-            return new EmptyResult();
+            else
+            {
+                Minesweeper.Lobby.Current.GetPlayer(eMail).AddMessage(
+                    new Message("Game " + gName + " is currently in use!", "MS2500")
+                );
+            }
+            return new ContentResult() { Content = retContent, ContentType = "text" };
         }
-
 
         ActionResult Show(string gName, string eMail)
         {
@@ -65,7 +75,9 @@ namespace MinesweeperControllers
 
         public ActionResult Main(string eMail)
         {
-            return View(Minesweeper.Lobby.Current.GetPlayer(eMail));
+            Player p = Minesweeper.Lobby.Current.LoadPlayer(eMail);
+            p.UpdateRefreshFriends();
+            return View(p);
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
@@ -76,7 +88,7 @@ namespace MinesweeperControllers
                 Player p = null;
                 if ((p = Minesweeper.Lobby.Current.GetPlayer(email)) != null)
                 {
-                    Minesweeper.Lobby.Current.LoadPlayer(email);
+                    //Minesweeper.Lobby.Current.LoadPlayer(email);
                     return new RedirectResult(string.Format("/Game/Main?eMail={0}", Server.UrlEncode(email)));
                 }
                 else

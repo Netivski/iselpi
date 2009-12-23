@@ -55,9 +55,15 @@ namespace Minesweeper
                     p.AddRefreshPlayers(player);
         }
 
+        private void UpdateGamesOnNewPlayer(Player player)
+        {
+            games.Values.Where(g => g != null && (g.Status == GameStatus.WAITING_FOR_PLAYERS ||
+                g.Status == GameStatus.WAITING_FOR_START)).All(g => player.AddRefreshGames(g));
+        }
+
         private void UpdateRefreshGames(Game game)
         {
-            players.Values.All(p => p.AddRefreshGames(game));
+            players.Values.Where(p => p.Online).All(p => p.AddRefreshGames(game));
         }
 
         public void UpdateRefreshMessages(Message msg)
@@ -73,13 +79,16 @@ namespace Minesweeper
             if (gName == null) throw new ArgumentNullException("gName");
             if (pName == null) throw new ArgumentNullException("pName");
             if (pEMail == null) throw new ArgumentNullException("pEMail");
-            if (games.ContainsKey(gName)) return false;
 
             Game game = new Game(gName, pName, pEMail, COLS, ROWS, type);
-            games.Add(gName, game);
-            UpdateRefreshGames(game);
+            games[gName] = game;
+            if (type == GameType.Public)
+                UpdateRefreshGames(game);
             return true;
         }
+
+        public bool ContainsGame(string gName) { return games.ContainsKey(gName); }
+        public void ReserveGame(string gName) { games.Add(gName, null); }
 
         public IEnumerable<string> GetActiveGames()
         {
@@ -110,6 +119,7 @@ namespace Minesweeper
             }
             rObj.Status = PlayerStatus.Online;
             UpdatePlayersOnNewPlayer(rObj);
+            UpdateGamesOnNewPlayer(rObj);
             UpdateRefreshPlayers(rObj);
             return rObj;
         }

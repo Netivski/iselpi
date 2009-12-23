@@ -2,7 +2,8 @@
 {
 	font-family: Verdana;
 	color: White;
-	text-align: center
+	text-align: center;
+	background:black;
 }
 a:link, a:visited, a:hover, a:active
 {
@@ -16,12 +17,12 @@ h1
 .divBackGround
 {
 	position: static;
+	padding-top:5%;
 	width: 600px;
-	height: 410px;    
+	height: 410px;  
     background-image: url(../Images/BackGround.png);	
 	text-align: center;
 	margin: 0px auto;
-	border: solid 1px Black;
 }
 .divEmailLogin
 {
