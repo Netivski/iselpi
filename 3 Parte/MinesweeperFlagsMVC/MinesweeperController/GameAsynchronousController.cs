@@ -37,6 +37,7 @@ namespace MinesweeperControllers
             game.activePlayer = CurrentGame.CurrentPlayer;
             game.gStatus = CurrentGame.Status;
             game.playersCount = CurrentGame.PlayersCount;
+            game.playersCount = 7;
 
             return new ContentResult() { Content = game.ToJSon(), ContentType = "text/x-json" };
         }
