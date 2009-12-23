@@ -260,9 +260,6 @@ function GameMVC(lines, cols, gName) {
                 var req = new HttpRequest("GameAsynchronous", "StartGame", current.gameModel.getGameName(), 1);
                 req.Request();
                 var game = req.getJSonObject();
-
-                for (var key in game) alert("game[" + key + "] = " + game[key]);
-
             } catch (e) { alert(e); }
 
             if (game.gStatus == STARTED) {
