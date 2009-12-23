@@ -47,7 +47,9 @@ function Cell(gCtrl) {
         return cell;
     }
 
-    this.getPos   = function(cell) { return $(cell).attr("id").split(","); }
+    this.getPos = function(cell) {
+        return $(cell).attr("id").split(",");
+    }
     this.getValue = function(cell) { return $(cell).attr("value"); }
     this.isMine   = function(cell) { return $(cell).attr("type") == TYPE_MINE; }
     this.isHidden = function(cell) { return $(cell).attr("class") == HIDDEN_CELL; }
