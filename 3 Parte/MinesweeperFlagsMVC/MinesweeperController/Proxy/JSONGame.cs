@@ -13,6 +13,7 @@ namespace MinesweeperControllers.Proxy
         public int callingPlayer;
         public int minesLeft;
         public GameStatus gStatus;
+        public int playersCount;
 
         public JSONGame(String gName)
         {
@@ -21,11 +22,13 @@ namespace MinesweeperControllers.Proxy
             callingPlayer = 0;
             minesLeft = 0;
             gStatus = GameStatus.INVALID_NAME;
+            playersCount = 0;
+
         }
 
         public string ToJSon()
         {
-            return "{\"GameName\":\"" + GameName + "\", \"activePlayer\":\"" + activePlayer
+            return "{\"PlayersCount\":\"" + playersCount + "\",\"GameName\":\"" + GameName + "\", \"activePlayer\":\"" + activePlayer
                 + "\", \"callingPlayer\":\"" + callingPlayer + "\", \"minesLeft\":\"" + minesLeft
                 + "\", \"gStatus\":\"" + (int)gStatus + "\"}";
 

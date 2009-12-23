@@ -58,6 +58,8 @@ namespace Minesweeper
             set { _gType = value; } 
         }
 
+        public int PlayersCount { get { return _playersCount; } }
+
         public int CurrentPlayer { get { return _currentPlayer; } }
 
         private List<GamePlayer> ScoreList

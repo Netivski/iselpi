@@ -36,6 +36,7 @@ namespace MinesweeperControllers
             game.minesLeft = CurrentGame.MinesLeft;
             game.activePlayer = CurrentGame.CurrentPlayer;
             game.gStatus = CurrentGame.Status;
+            game.playersCount = CurrentGame.PlayersCount;
 
             return new ContentResult() { Content = game.ToJSon(), ContentType = "text/x-json" };
         }
@@ -71,6 +72,7 @@ namespace MinesweeperControllers
             game.callingPlayer = playerId;
             game.minesLeft = CurrentGame.MinesLeft;
             game.gStatus = CurrentGame.Status;
+            game.playersCount = CurrentGame.PlayersCount;
 
             return new ContentResult() { Content = game.ToJSon(), ContentType = "text/x-json" };
         }

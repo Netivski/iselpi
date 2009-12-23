@@ -162,7 +162,7 @@ LobbyController.init = function() {
                 return;
             }
         }
-
+        
         LobbyView.startGame(gName, LobbyModel.getPlayerName(), LobbyModel.getPlayerEMail(), (isPublicGame ? 1 : 0));
         LobbyView.hideGameForm();
     }

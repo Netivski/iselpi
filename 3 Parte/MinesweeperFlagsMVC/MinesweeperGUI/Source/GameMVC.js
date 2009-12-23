@@ -45,22 +45,23 @@ function GameMVC(lines, cols, gName) {
         var board = new BoardMVC(lines, cols, cellObj);
         var playerObj = new Player(current.gameController);
 
-        board.init();       
+        board.init();
 
-        this.gameController.startGame = function(gName, pName, pEMail, pId, isOwner) {            
+        this.gameController.startGame = function(gName, pName, pEMail, pId, isOwner) {
             current.gameModel.setGameName(gName);
             current.gameModel.setPlayerName(pName);
             current.gameModel.setPlayerEMail(pEMail);
             current.gameModel.setPlayerId(pId);
             current.gameModel.setIsOwner(isOwner);
-            
-            current.gameView.renderOptions();           
 
-            if (current.gameModel.getIsOwner()) {                
+            current.gameView.renderOptions();
+
+            if (current.gameModel.getIsOwner()) {
                 current.gameView.showStartButton();
             } else {
                 current.gameView.showMsgButton("Waiting to Start");
-            }            
+            }
+
             current.gameController.startPooling();
         }
 
@@ -73,9 +74,29 @@ function GameMVC(lines, cols, gName) {
         var pooling = function() {
             if (!poolingActive) return;
             try {
-                poolPlayerRefresh();
-                poolCellRefresh();
-                poolGameRefresh();
+
+                if (current.gameModel.getGameStatus() == -1) {
+                    if (current.gameModel.getIsOwner()) { // Verifica se há mais do que 1 Jogador
+                        var req = new HttpRequest("GameAsynchronous", "RefreshGameInfo", current.gameModel.getGameName(), current.gameModel.getPlayerId());
+                        req.Request();
+                        if (req != "") {
+                            var game = req.getJSonObject();
+                            if (game.PlayersCount > 1) {
+                                current.gameView.activateStartGameButton();
+                            }
+                        }
+                    } else { // Verifica que o jogo já iniciou
+
+                    }
+
+                    //$("#StartButton").attr("enable", "true").
+
+                } else {
+                    poolPlayerRefresh();
+                    poolCellRefresh();
+                    poolGameRefresh();
+                }
+
                 //poolMessageRefresh(); - not implemented
             }
             finally { if (poolingActive) setTimeout(gName + ".gameController.doWork()", 1000); }
@@ -86,7 +107,7 @@ function GameMVC(lines, cols, gName) {
         }
 
         this.gameController.startPooling = function() {
-            poolingActive = true;            
+            poolingActive = true;
             pooling();
         }
 
@@ -238,6 +259,9 @@ function GameMVC(lines, cols, gName) {
                 var req = new HttpRequest("GameAsynchronous", "StartGame", current.gameModel.getGameName(), 1);
                 req.Request();
                 var game = req.getJSonObject();
+
+                for (var key in game) alert("game[" + key + "] = " + game[key]);
+
             } catch (e) { alert(e); }
 
             if (game.gStatus == STARTED) {
@@ -308,6 +332,10 @@ function GameMVC(lines, cols, gName) {
             BoardView.render();
         }
 
+        this.gameView.activateStartGameButton = function() {
+            $("#StartButton").attr("disabled", "");
+        }
+
 
         // --------------------------------
         // Options Menu
@@ -317,7 +345,7 @@ function GameMVC(lines, cols, gName) {
             $("<button/>").attr("id", "MsgButton").appendTo(optionsDiv).css("display", "none");
             //$("<button/>").click(function() { current.gameController.evtListGames(); }).attr("id", "ListButton").text("List Available Games").appendTo(optionsDiv).css("display", "none");
             //$("<button/>").click(function() { current.gameController.evtNewGame(); }).attr("id", "CreateButton").text("Start New Game").appendTo(optionsDiv).css("display", "none");
-            $("<button/>").click(function() { current.gameController.evtStartGame(); }).attr("id", "StartButton").text("Start Game").appendTo(optionsDiv).css("display", "none");
+            $("<button/>").click(function() { current.gameController.evtStartGame(); }).attr("disabled", "disabled").attr("id", "StartButton").text("Start Game").appendTo(optionsDiv).css("display", "none");
             $("<button/>").click(function() { current.gameController.evtRevealBoard() }).attr("id", "RevealButton").text("Reveal game board").appendTo(optionsDiv).css("display", "none");
             $("<button/>").click(function() { location.reload(true) }).attr("id", "RestartButton").text("Back to Lobby").appendTo(optionsDiv).css("display", "none");
             optionsDiv.css("display", "block");
@@ -365,11 +393,11 @@ function GameMVC(lines, cols, gName) {
             poolingActive = false;
         }
 
-//        this.gameView.hideCreateButton = function() { $("#CreateButton").hide("slow"); }
-//        this.gameView.showCreateButton = function() { $("#CreateButton").show("slow"); }
+        //        this.gameView.hideCreateButton = function() { $("#CreateButton").hide("slow"); }
+        //        this.gameView.showCreateButton = function() { $("#CreateButton").show("slow"); }
 
-//        this.gameView.hideListButton = function() { $("#ListButton").hide("slow"); }
-//        this.gameView.showListButton = function() { $("#ListButton").show("slow"); }
+        //        this.gameView.hideListButton = function() { $("#ListButton").hide("slow"); }
+        //        this.gameView.showListButton = function() { $("#ListButton").show("slow"); }
 
         this.gameView.hideStartButton = function() { $("#StartButton").hide("slow"); }
         this.gameView.showStartButton = function() {
@@ -399,78 +427,78 @@ function GameMVC(lines, cols, gName) {
         // --------------------------------
         // Player Form
 
-//        this.gameView.renderPlayerForm = function() {
-//            var formDiv = $("<div/>").addClass("divInputName").attr("id", "addPlayerForm").css("display", "none").attr("valign", "middle");
-//            $("<input/>").attr("id", "playerNameInput").attr("maxLength", "10").appendTo(formDiv);
-//            $("<button/>").click(function() { current.gameController.evtProceedToGame(); }).text("Ok").attr({ align: "center", id: "btnProceed" }).appendTo(formDiv);
-//            $("<button/>").click(function() { current.gameView.showMainOptions(); }).text("Back").attr({ align: "center", id: "btnBack" }).appendTo(formDiv);
-//            formDiv.appendTo($(".divOptions"));
-//        }
+        //        this.gameView.renderPlayerForm = function() {
+        //            var formDiv = $("<div/>").addClass("divInputName").attr("id", "addPlayerForm").css("display", "none").attr("valign", "middle");
+        //            $("<input/>").attr("id", "playerNameInput").attr("maxLength", "10").appendTo(formDiv);
+        //            $("<button/>").click(function() { current.gameController.evtProceedToGame(); }).text("Ok").attr({ align: "center", id: "btnProceed" }).appendTo(formDiv);
+        //            $("<button/>").click(function() { current.gameView.showMainOptions(); }).text("Back").attr({ align: "center", id: "btnBack" }).appendTo(formDiv);
+        //            formDiv.appendTo($(".divOptions"));
+        //        }
 
-//        this.gameView.showPlayerForm = function() {
-//            $(".divInputName").show("slow");
-//            setTimeout('$("#playerNameInput").focus();', 500);
-//        }
+        //        this.gameView.showPlayerForm = function() {
+        //            $(".divInputName").show("slow");
+        //            setTimeout('$("#playerNameInput").focus();', 500);
+        //        }
 
-//        this.gameView.hidePlayerForm = function() {
-//            $(".divInputName").hide("slow");
-//            setTimeout('$("#playerNameInput").val("");');
-//        }
+        //        this.gameView.hidePlayerForm = function() {
+        //            $(".divInputName").hide("slow");
+        //            setTimeout('$("#playerNameInput").val("");');
+        //        }
 
-//        this.gameView.getPlayerName = function() { return $("#playerNameInput").val(); }
-//        this.gameView.setFocusPlayerName = function() { $("#playerNameInput").focus(); }
+        //        this.gameView.getPlayerName = function() { return $("#playerNameInput").val(); }
+        //        this.gameView.setFocusPlayerName = function() { $("#playerNameInput").focus(); }
 
 
         // --------------------------------
         // Game Form
 
-//        this.gameView.renderGameForm = function() {
-//            var gameForm = $("<div/>").addClass("divGameForm").attr("id", "gameForm").css("display", "none").attr("valign", "middle");
-//            $("<div>").text("Game Name").appendTo(gameForm);
-//            $("<input/>").attr("id", "gameNameInput").attr("maxLength", "20").appendTo(gameForm);
-//            gameForm.appendTo($(".divOptions"));
-//        }
+        //        this.gameView.renderGameForm = function() {
+        //            var gameForm = $("<div/>").addClass("divGameForm").attr("id", "gameForm").css("display", "none").attr("valign", "middle");
+        //            $("<div>").text("Game Name").appendTo(gameForm);
+        //            $("<input/>").attr("id", "gameNameInput").attr("maxLength", "20").appendTo(gameForm);
+        //            gameForm.appendTo($(".divOptions"));
+        //        }
 
-//        this.gameView.showGameForm = function() {
-//            $(".divGameForm").show("slow");
-//            setTimeout('$("#gameForm").focus();', 1000);
-//        }
+        //        this.gameView.showGameForm = function() {
+        //            $(".divGameForm").show("slow");
+        //            setTimeout('$("#gameForm").focus();', 1000);
+        //        }
 
-//        this.gameView.hideGameForm = function() {
-//            $(".divGameForm").hide("slow");
-//            setTimeout('$("#gameNameInput").val("");');
-//        }
+        //        this.gameView.hideGameForm = function() {
+        //            $(".divGameForm").hide("slow");
+        //            setTimeout('$("#gameNameInput").val("");');
+        //        }
 
-//        this.gameView.getGameName = function() { return $("#gameNameInput").val(); }
-//        this.gameView.setGameName = function(name) { $("#gameNameInput").val(name); }
-//        this.gameView.setFocusGameName = function() { $("#gameNameInput").focus(); }
+        //        this.gameView.getGameName = function() { return $("#gameNameInput").val(); }
+        //        this.gameView.setGameName = function(name) { $("#gameNameInput").val(name); }
+        //        this.gameView.setFocusGameName = function() { $("#gameNameInput").focus(); }
 
 
         // --------------------------------
         // Games List
 
-//        this.gameView.renderGamesList = function() {
-//            var listDiv = $("<div/>").addClass("divGamesList").attr({ id: "gamesList", valign: "middle" }).css("display", "none");
-//            listDiv.appendTo($(".divOptions"));
-//        }
+        //        this.gameView.renderGamesList = function() {
+        //            var listDiv = $("<div/>").addClass("divGamesList").attr({ id: "gamesList", valign: "middle" }).css("display", "none");
+        //            listDiv.appendTo($(".divOptions"));
+        //        }
 
-//        this.gameView.populateGamesList = function(jSon) {
-//            $("#gamesList").empty();
-//            if (jSon == "") {
-//                $("<span/>").text("No games available!").appendTo($("#gamesList"));
-//            }
-//            else {
-//                for (var i = 0; i < jSon.length; i++) {
-//                    var gameItem = $('<input type="radio" id="gameListItem" name="gameListItem" value="' + jSon[i] + '">' + jSon[i] + '</input><br>');
-//                    gameItem.click(function() { current.gameController.evtGameSelected(); });
-//                    gameItem.appendTo($("<span/>")).appendTo($("#gamesList"));
-//                }
-//            }
-//        }
+        //        this.gameView.populateGamesList = function(jSon) {
+        //            $("#gamesList").empty();
+        //            if (jSon == "") {
+        //                $("<span/>").text("No games available!").appendTo($("#gamesList"));
+        //            }
+        //            else {
+        //                for (var i = 0; i < jSon.length; i++) {
+        //                    var gameItem = $('<input type="radio" id="gameListItem" name="gameListItem" value="' + jSon[i] + '">' + jSon[i] + '</input><br>');
+        //                    gameItem.click(function() { current.gameController.evtGameSelected(); });
+        //                    gameItem.appendTo($("<span/>")).appendTo($("#gamesList"));
+        //                }
+        //            }
+        //        }
 
-//        this.gameView.showGamesList = function() { $(".divGamesList").show("slow"); }
-//        this.gameView.hideGamesList = function() { $(".divGamesList").hide("slow"); }
-//        this.gameView.getSelectedGame = function() { return ($("input[name='gameListItem']:checked").val()); }
+        //        this.gameView.showGamesList = function() { $(".divGamesList").show("slow"); }
+        //        this.gameView.hideGamesList = function() { $(".divGamesList").hide("slow"); }
+        //        this.gameView.getSelectedGame = function() { return ($("input[name='gameListItem']:checked").val()); }
 
 
         // --------------------------------
