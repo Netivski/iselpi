@@ -72,6 +72,7 @@ function GameMVC(lines, cols, gName) {
         var pooling = function() {
             if (!poolingActive) return;
             try {
+                poolPlayerRefresh();
 
                 if (current.gameModel.getGameStatus() == -1) {
                     var game = null;
@@ -138,6 +139,7 @@ function GameMVC(lines, cols, gName) {
                 if (current.gameModel.getGameStatus() == WAITING_FOR_PLAYERS && game.gStatus == STARTED) {
                     current.gameView.hideOptions();
                     current.gameModel.setGameStatus(game.gStatus);
+                    board.init();
                     board.boardController.start();
                 }
                 else if (game.gStatus == GAME_OVER) {
@@ -253,6 +255,7 @@ function GameMVC(lines, cols, gName) {
         }
 
         this.gameController.evtStartGame = function() {
+            current.gameController.stopPooling();
             try {
                 var req = new HttpRequest("GameAsynchronous", "StartGame", current.gameModel.getGameName(), 1);
                 req.Request();
@@ -270,6 +273,7 @@ function GameMVC(lines, cols, gName) {
                 playerObj.activatePlayer(game.activePlayer);
                 current.gameView.hideOptions();
             }
+            current.gameController.startPooling();
         }
 
         this.gameController.evtRemovePlayer = function() {

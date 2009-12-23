@@ -49,7 +49,7 @@ namespace MinesweeperControllers
         public ActionResult Play(int playerId, int posX, int posY)
         {
             playerId -= - 1;
-            if (playerId == CurrentGame.CurrentPlayer && CurrentGame.Status != GameStatus.GAME_OVER)
+            if (CurrentGame.Status != GameStatus.GAME_OVER)
             {
                 CurrentGame.Play(playerId, posX, posY);
             }

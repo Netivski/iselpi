@@ -22,18 +22,19 @@ namespace Minesweeper
         int _minesLeft;
         GameType _gType = GameType.Public;
 
-        public Game(string name, string playerName, string playerEMail, int cols, int rows) : this(name, playerName, playerEMail, cols, rows, GameType.Public) { }
+        public Game(string name, string playerName, string playerEMail, int cols, int rows)
+            : this(name, playerName, playerEMail, cols, rows, GameType.Public) { }
 
         public Game(string name, string playerName, string playerEMail, int cols, int rows, GameType type)
         {
-            _name    = name;
+            _name = name;
             _sStatus = GameStatus.WAITING_FOR_PLAYERS;
-            _gType   = type;
+            _gType = type;
             _players = new GamePlayer[MAX_PLAYERS];
-            _lines   = rows;
-            _cols    = cols;
-            _cells   = new Cell[rows, cols];
-            
+            _lines = rows;
+            _cols = cols;
+            _cells = new Cell[rows, cols];
+
             _playersCount = 0;
             _currentPlayer = 0;
             AddPlayer(playerName, playerEMail); //Owner (id = 1)
@@ -54,8 +55,8 @@ namespace Minesweeper
 
         public GameType Type
         {
-            get { return _gType;  }
-            set { _gType = value; } 
+            get { return _gType; }
+            set { _gType = value; }
         }
 
         public int PlayersCount { get { return _playersCount; } }
