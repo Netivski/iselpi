@@ -13,7 +13,6 @@
     <script type="text/javascript" src="/Source/ui.tabs.js"></script>
     <script type="text/javascript" src="/Source/Constants.js"></script>
     <script type="text/javascript" src="/Source/HttpRequest.js"></script>
-    <script type="text/javascript" src="/Source/Tab.js"></script>
     <script type="text/javascript" src="/source/LobbyMVC.js"></script>
     <script type="text/javascript" src="/Source/Cell.js"></script>
     <script type="text/javascript" src="/Source/Player.js"></script>
