@@ -43,9 +43,7 @@ function GameMVC(lines, cols, gName) {
 
         var cellObj = new Cell(current.gameController);
         var board = new BoardMVC(lines, cols, cellObj);
-        var playerObj = new Player(current.gameController);
-
-        board.init();
+        var playerObj = new Player(current.gameController);        
 
         this.gameController.startGame = function(gName, pName, pEMail, pId, isOwner) {
             current.gameModel.setGameName(gName);
@@ -82,7 +80,7 @@ function GameMVC(lines, cols, gName) {
                         if (req != "") {
                             var game = req.getJSonObject();
                             if (game.PlayersCount > 1) {
-                                current.gameView.activateStartGameButton();
+                                current.gameView.enableStartGameButton();
                             }
                         }
                     } else { // Verifica que o jogo já iniciou
@@ -266,7 +264,9 @@ function GameMVC(lines, cols, gName) {
 
             if (game.gStatus == STARTED) {
                 current.gameModel.setGameStatus(STARTED);
-                board.controller.start();
+                
+                board.init();
+                board.boardController.start();
                 playerObj.activatePlayer(game.activePlayer);
                 current.gameView.hideOptions();
             }
@@ -306,7 +306,7 @@ function GameMVC(lines, cols, gName) {
             } catch (e) { alert(e); }
 
             current.gameView.hideOptions();
-            board.controller.revealBoard();
+            board.boardController.revealBoard();
         }
 
         // --------------------------------
@@ -332,9 +332,14 @@ function GameMVC(lines, cols, gName) {
             BoardView.render();
         }
 
-        this.gameView.activateStartGameButton = function() {
+        this.gameView.enableStartGameButton = function() {
             $("#StartButton").attr("disabled", "");
         }
+
+        this.gameView.hideStartGameButton = function() {
+            $("#StartButton").attr("disabled", "");
+        }
+        
 
 
         // --------------------------------
