@@ -43,7 +43,7 @@ function GameMVC(lines, cols, gName) {
 
         var cellObj = new Cell(current.gameController);
         var board = new BoardMVC(lines, cols, cellObj);
-        var playerObj = new Player(current.gameController);        
+        var playerObj = new Player(current.gameController);
 
         this.gameController.startGame = function(gName, pName, pEMail, pId, isOwner) {
             current.gameModel.setGameName(gName);
@@ -74,17 +74,17 @@ function GameMVC(lines, cols, gName) {
             try {
 
                 if (current.gameModel.getGameStatus() == -1) {
+                    var game = null;
+                    var req = new HttpRequest("GameAsynchronous", "RefreshGameInfo", current.gameModel.getGameName(), current.gameModel.getPlayerId());
+                    req.Request();
+                    if (req != "") game = req.getJSonObject();
+
                     if (current.gameModel.getIsOwner()) { // Verifica se há mais do que 1 Jogador
-                        var req = new HttpRequest("GameAsynchronous", "RefreshGameInfo", current.gameModel.getGameName(), current.gameModel.getPlayerId());
-                        req.Request();
-                        if (req != "") {
-                            var game = req.getJSonObject();
-                            if (game.PlayersCount > 1) {
-                                current.gameView.enableStartGameButton();
-                            }
+                        if (game.PlayersCount > 1) {
+                            current.gameView.enableStartGameButton();
                         }
                     } else { // Verifica que o jogo já iniciou
-
+                        current.gameModel.setGameStatus(game.gStatus);
                     }
 
                     //$("#StartButton").attr("enable", "true").
@@ -264,7 +264,7 @@ function GameMVC(lines, cols, gName) {
 
             if (game.gStatus == STARTED) {
                 current.gameModel.setGameStatus(STARTED);
-                
+
                 board.init();
                 board.boardController.start();
                 playerObj.activatePlayer(game.activePlayer);
