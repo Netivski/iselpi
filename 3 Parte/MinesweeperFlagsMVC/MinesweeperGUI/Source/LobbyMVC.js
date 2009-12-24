@@ -499,7 +499,7 @@ LobbyView.init = function(tabId) {
         if ($("#inv_" + invite.sender + "").length == 0) {
             var invItem = $("<dt/>").attr("id", "inv_" + invite.gName).append(invite.msg);
             var yesOption = $("<button/>").text(" Yes ").click(function() {
-                alert(""+invite.gName);
+                //alert(""+invite.gName);
                 LobbyController.evtAcceptInvite(invite.gName);
             }).appendTo(invItem);
             var noOption = $("<button/>").text(" No ").click(function() {
