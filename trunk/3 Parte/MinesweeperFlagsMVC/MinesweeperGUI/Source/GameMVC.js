@@ -301,7 +301,7 @@ function GameMVC(lines, cols, gName) {
                 if (req != "") {
                     var cell = req.getJSonObject();                    
                     for (var i = 0; i < cell.length; i++) {
-                        cellObj.update(boardView.getCellByPos(cell[i].posX, cell[i].posY), cell[i].type, cell[i].owner, cell[i].value);
+                        cellObj.update(board.boardView.getCellByPos(cell[i].posX, cell[i].posY), cell[i].type, cell[i].owner, cell[i].value);
                     }
                 }
             } catch (e) { alert(e); }
