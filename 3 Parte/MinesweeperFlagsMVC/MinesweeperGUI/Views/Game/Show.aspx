@@ -1,4 +1,5 @@
 ﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage" %>
+
 <%@ Import Namespace="MinesweeperGUI.ExtensionMethods" %>
 
 <script type="text/javascript">
@@ -6,7 +7,14 @@
         $(document).ready(function() {
             <%=ViewData["gKey"]%> = new GameMVC(LINES, COLS, "<%=ViewData["gKey"]%>");
             <%=ViewData["gKey"]%>.init();
-            <%=ViewData["gKey"]%>.gameController.startGame("<%= Html.Encode(ViewData["gName"])%>", "<%= Html.Encode(ViewData["pName"])%>", "<%= Html.Encode(ViewData["pEMail"])%>", <%= Html.Encode(ViewData["pId"])%>, <%=Html.Encode(Html.JavaScriptBooleanValue((bool)ViewData["isOwner"]))%> );
+            <%=ViewData["gKey"]%>.gameController.startGame(
+                    "<%= Html.Encode(ViewData["gName"])%>",
+                    "<%= Html.Encode(ViewData["pName"])%>",
+                    "<%= Html.Encode(ViewData["pEMail"])%>",
+                    <%= Html.Encode(ViewData["pId"])%>,
+                    <%=Html.Encode(Html.JavaScriptBooleanValue((bool)ViewData["isOwner"]))%>
+                    
+                    );
         });
 </script>
 
@@ -24,6 +32,7 @@
     <div class="divOptions">
     </div>
     <div id="divMessageBoard" class="divMessageBoard">
-        <div class="divMessage">.: GR9 - MineSweeper Two Thousand And a Half :.</div>
+        <div class="divMessage">
+            .: GR9 - MineSweeper Two Thousand And a Half :.</div>
     </div>
 </div>
