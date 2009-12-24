@@ -16,7 +16,7 @@
                     <%= ViewData["message"] %>
             <% } %>   
             <br /> 
-            <a href="../Profile/Create">Register in MineSweeper 2000&Half</a>
+            <a href="../../Profile/Create">Register in MineSweeper 2000&Half</a>
         </div>
     </div>
 </body>
