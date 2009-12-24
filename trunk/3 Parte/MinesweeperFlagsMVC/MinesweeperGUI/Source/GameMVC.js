@@ -143,7 +143,7 @@ function GameMVC(lines, cols, gName) {
                     board.boardController.start();
                 }
                 else if (game.gStatus == GAME_OVER) {
-                    stopPooling();
+                    current.gameController.stopPooling();
                     current.gameView.renderGameOver("Game over! Player '" + game.activePlayer + "' won!");
                 }
             }
@@ -196,13 +196,13 @@ function GameMVC(lines, cols, gName) {
                 req.Request();
                 current.gameView.populateGamesList(req.getJSonObject());
             } catch (e) { alert(e); }
-            current.gameView.hideCreateButton();
+            //current.gameView.hideCreateButton();
             current.gameView.showPlayerForm();
             current.gameView.showGamesList();
         }
 
         this.gameController.evtNewGame = function() {
-            current.gameView.hideListButton();
+//            current.gameView.hideListButton();
             current.gameView.showGameForm();
             current.gameView.showPlayerForm();
         }
@@ -362,8 +362,8 @@ function GameMVC(lines, cols, gName) {
 
         this.gameView.renderGameOver = function(msg) {
             current.gameView.renderOptions();
-            current.gameView.hideCreateButton();
-            current.gameView.hideListButton();
+            //current.gameView.hideCreateButton();
+//            current.gameView.hideListButton();
             current.gameView.showRestartButton();
             current.gameView.showRevealButton();
             current.gameView.showMsgButton(msg);
