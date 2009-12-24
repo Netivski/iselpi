@@ -6,14 +6,7 @@ function Cell(gCtrl) {
     var setValue  = function(cell, val) { $(cell).attr("value", "" + val + ""); }
     var setClass  = function(cell, cellClass) { $(cell).attr("class", cellClass); }
     var setId     = function(cell, id) { $(cell).attr("id", id); }
-    var showLabel = function(cell) {
-        try {
-            $(cell).append(current.getValue(cell));
-        } catch (e) {
-            alert(e);
-            alert(cell);
-        }
-    }
+    var showLabel = function(cell) { $(cell).append(current.getValue(cell)); }
     
 
     // Public Members ---------------------------------------------------------------------------------------
