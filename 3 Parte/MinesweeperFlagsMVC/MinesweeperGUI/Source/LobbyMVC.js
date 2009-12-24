@@ -173,9 +173,8 @@ LobbyController.init = function() {
 
         if (!isPublicGame) {
             selectedFriends = LobbyView.getSelectedFriends();
-            for (var i = 0; i < selectedFriends.length; i++) {
-                alert(selectedFriends[0]);
-                this.evtSendInvite(gName, selectedFriends[0]);
+            for (var i = 0; i < selectedFriends.length; i++) {                
+                this.evtSendInvite(gName, selectedFriends[i]);
             }
         }
 
@@ -500,6 +499,7 @@ LobbyView.init = function(tabId) {
         if ($("#inv_" + invite.sender + "").length == 0) {
             var invItem = $("<dt/>").attr("id", "inv_" + invite.gName).append(invite.msg);
             var yesOption = $("<button/>").text(" Yes ").click(function() {
+                alert(""+invite.gName);
                 LobbyController.evtAcceptInvite(invite.gName);
             }).appendTo(invItem);
             var noOption = $("<button/>").text(" No ").click(function() {
