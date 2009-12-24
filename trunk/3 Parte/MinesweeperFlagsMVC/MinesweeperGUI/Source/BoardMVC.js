@@ -28,7 +28,8 @@ function BoardMVC(lines, cols, cell) {
                     cell.addEventListener(currCell);
                 }
             }
-        }
+        }        
+        
     }
     
     // Board View ---------------------------------------------------------------------------------------

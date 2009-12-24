@@ -299,15 +299,15 @@ function GameMVC(lines, cols, gName) {
                 var req = new HttpRequest("GameAsynchronous", "RevealBoard", current.gameModel.getGameName(), current.gameModel.getPlayerId());
                 req.Request();
                 if (req != "") {
-                    var cell = req.getJSonObject();
+                    var cell = req.getJSonObject();                    
                     for (var i = 0; i < cell.length; i++) {
-                        cellObj.update(BoardView.getCellByPos(cell[i].posX, cell[i].posY), cell[i].type, cell[i].owner, cell[i].value);
+                        cellObj.update(boardView.getCellByPos(cell[i].posX, cell[i].posY), cell[i].type, cell[i].owner, cell[i].value);
                     }
                 }
             } catch (e) { alert(e); }
 
             current.gameView.hideOptions();
-            board.boardController.revealBoard();
+            //board.boardController.revealBoard();
         }
 
         // --------------------------------
