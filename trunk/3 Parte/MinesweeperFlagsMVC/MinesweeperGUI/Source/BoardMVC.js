@@ -55,7 +55,6 @@ function BoardMVC(lines, cols, cell) {
 
     }
 
-
     this.init = function() {
         current.boardModel();
         current.boardView();
