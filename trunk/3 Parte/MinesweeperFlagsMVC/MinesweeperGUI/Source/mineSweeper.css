@@ -193,7 +193,8 @@
 	text-align: center;
 	font-family: Verdana;
 	font-weight: bold;
-	font-size: smaller;
+	font-size: small;
+	color: Black;
 }
 .divBackGround .divArena .divCell_Flag_P1
 {
