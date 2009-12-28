@@ -62,6 +62,7 @@
     <Compile Include="Lobby.cs" />
     <Compile Include="GameStatus.cs" />
     <Compile Include="Player.cs" />
+    <Compile Include="Security\Cryptography.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="main.cd" />
