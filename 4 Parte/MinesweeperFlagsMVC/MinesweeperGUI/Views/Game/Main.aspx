@@ -33,9 +33,7 @@
         </ul>
         <div id="lobby" class="divLobbyBackGround">
             <div class="divPlayerInfo">
-                <div class="divTitles">My Information</div>
-                <div class="divPhoto"></div>
-                <div class="divPlayerName"></div>
+                <% Html.RenderPartial("MyInformation"); %>
                 <div class="divPlayerOptions">
                     <div class="divTitles">Menu</div>
                 </div>

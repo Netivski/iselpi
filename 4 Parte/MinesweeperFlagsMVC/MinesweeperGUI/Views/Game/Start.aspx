@@ -11,7 +11,7 @@
         <div class="divEmailLogin">
             <% using(Html.BeginForm()) { %>
                     Please enter your e-mail<br />
-                    <%= Html.TextBox("Email")%>
+                    <%= Html.TextBox("Email")%>&nbsp;<%= Html.Password("Pwd")%>
                     <input type="submit" value="OK" /><br />            
                     <%= ViewData["message"] %>
             <% } %>   

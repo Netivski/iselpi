@@ -107,6 +107,7 @@
     <Content Include="Views\Profile\Edit.aspx" />
     <Content Include="Views\Profile\Show.aspx" />
     <Content Include="Views\Profile\Create.aspx" />
+    <Content Include="Views\Shared\MyInformation.ascx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
