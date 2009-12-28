@@ -3,6 +3,7 @@ using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using Minesweeper.ExtensionMethods;
 
 namespace Minesweeper
 {
@@ -10,6 +11,7 @@ namespace Minesweeper
     {
         string _name;
         string _eMail;
+        byte[] _pwd;
         PlayerStatus _status;
         Dictionary<string, Photo> _photos;
         List<string> _myFriends;
@@ -34,11 +36,19 @@ namespace Minesweeper
             _refreshInvites = new List<Invite>();
         }
 
+        public Player(string name, string eMail, string pwd):this(name, eMail) 
+        {
+            if (pwd != null)
+            {
+                StorePassword(pwd);
+            }
+        }
+
         public Player(string name, string eMail)
             : this(name)
         {
             _eMail = eMail;
-        }
+        }        
 
         public Player(string name, string eMail, Photo photo)
             : this(name, eMail)
@@ -66,6 +76,18 @@ namespace Minesweeper
 
         public bool Online { get { return _status == PlayerStatus.Online; } }
         public bool Offline { get { return !Online; } }
+
+        //---------------------------------
+        // Password
+        void StorePassword(string pwd)
+        {
+            _pwd = Security.Cryptography.Encrypt(pwd);
+        }
+
+        public bool IsValidPassword( string pwd )        
+        {
+            return _pwd.EqualsTo(Security.Cryptography.Encrypt(pwd));
+        }
 
 
         //---------------------------------
@@ -167,7 +189,7 @@ namespace Minesweeper
             Player friend = Lobby.Current.GetPlayer(eMail);
             if (friend == null)
             {
-                friend = new Player(null, eMail, null);
+                friend = new Player(null, eMail, (string)null);
                 friend.Status = PlayerStatus.Offline;
             }
             lock (_refreshFriends)

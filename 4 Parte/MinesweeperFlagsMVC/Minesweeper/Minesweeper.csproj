@@ -49,6 +49,7 @@
     <Compile Include="CellMine.cs" />
     <Compile Include="CellNumber.cs" />
     <Compile Include="CellType.cs" />
+    <Compile Include="ExtensionMethods\ByteExtensionMethods.cs" />
     <Compile Include="GamePlayer.cs" />
     <Compile Include="GameType.cs" />
     <Compile Include="Invite.cs" />
