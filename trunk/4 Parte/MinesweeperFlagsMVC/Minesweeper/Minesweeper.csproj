@@ -54,6 +54,7 @@
     <Compile Include="GameType.cs" />
     <Compile Include="Invite.cs" />
     <Compile Include="IToJSon.cs" />
+    <Compile Include="Login.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="MessageType.cs" />
     <Compile Include="Photo.cs" />

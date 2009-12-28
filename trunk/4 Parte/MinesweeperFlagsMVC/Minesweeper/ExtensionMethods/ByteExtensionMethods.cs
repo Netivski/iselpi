@@ -16,12 +16,5 @@ namespace Minesweeper.ExtensionMethods
 
             return true;
         }
-
-
-        public static bool XXXXX(this int instance, int arg1)
-        {
-            return true;
-        }
-
     }
 }

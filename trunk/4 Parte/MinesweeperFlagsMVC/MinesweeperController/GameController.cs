@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
 using Minesweeper;
+using MinesweeperControllers.ExtensionMethods;
 
 namespace MinesweeperControllers
 {
@@ -84,18 +85,26 @@ namespace MinesweeperControllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Start(string email, string pwd)
         {
-            if (email != null && email.Contains("@") && email.Contains("."))
+            if (email != null && email.IsEMail())
             {
                 Player p = null;
                 if ((p = Minesweeper.Lobby.Current.GetPlayer(email)) != null)
-                {                    
-                    return new RedirectResult(string.Format("/Game/Main?eMail={0}", Server.UrlEncode(email)));
+                {
+                    if (p.DoLogin(pwd) == Minesweeper.Login.Ok)
+                    {
+                        return new RedirectResult(string.Format("/Game/Main?eMail={0}", Server.UrlEncode(email)));
+                    }
+                    else
+                    {
+                        ViewData["message"] = "Invalid username or password.";
+                    }
                 }
                 else
                 {
-                    ViewData["message"] = "E-mail " + email + " is not registered!";
-                    return View();
+                    ViewData["message"] = "E-mail " + email + " is not registered!";                    
                 }
+
+                return View();
             }
 
             ViewData["message"] = "Please insert a valid e-mail!";

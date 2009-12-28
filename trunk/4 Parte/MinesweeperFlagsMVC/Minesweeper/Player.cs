@@ -84,9 +84,14 @@ namespace Minesweeper
             _pwd = Security.Cryptography.Encrypt(pwd);
         }
 
-        public bool IsValidPassword( string pwd )        
+        bool IsValidPassword( string pwd )        
         {
             return _pwd.EqualsTo(Security.Cryptography.Encrypt(pwd));
+        }
+
+        public Login DoLogin( string pwd )
+        {
+            return IsValidPassword( pwd )? Login.Ok: Login.INVALID_USERNAME_OR_PASSWORD;
         }
 
 
