@@ -104,8 +104,6 @@
     <Content Include="Views\Game\Main.aspx" />
     <Content Include="Views\Game\Show.aspx" />
     <Content Include="Views\Game\Start.aspx" />
-    <Content Include="Views\Lobby\Lobby.htm" />
-    <Content Include="Views\Lobby\Lobby_CSS_Tester.htm" />
     <Content Include="Views\Profile\Edit.aspx" />
     <Content Include="Views\Profile\Show.aspx" />
     <Content Include="Views\Profile\Create.aspx" />

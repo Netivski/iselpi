@@ -15,7 +15,7 @@
         <div>
             <img src="/Profile/GetPlayerPhoto?eMail=<%=Model.EMail%>" /></div>
         <div class="divProfile">
-            <% using (Html.BeginForm("Create", "Profile", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            <% using (Html.BeginForm("Edit", "Profile", FormMethod.Post, new { enctype = "multipart/form-data" }))
                { %>
             <div class="divProfileLine">
                 <div class="divProfileText">

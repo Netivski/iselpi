@@ -16,7 +16,7 @@ namespace MinesweeperControllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Create(string eMail, string name, bool online)
+        public ActionResult Create(string eMail, string pwd, string name, bool online)
         {
             HttpPostedFileBase photo = Request.Files[0];
             if (Lobby.Current.LoadPlayer(eMail) != null)
@@ -25,7 +25,7 @@ namespace MinesweeperControllers
                 return View();
             }
             Player nPlayer; // nPlayer == New Player
-            nPlayer = new Player(name, eMail);
+            nPlayer = new Player(name, eMail, pwd);
             nPlayer.Status = (online ? PlayerStatus.Online : PlayerStatus.Offline);
             if (photo != null) nPlayer.AddPhoto(new Photo() { Name = photo.FileName, ContentType = photo.ContentType, Image = photo.InputStream });
             Lobby.Current.AddPlayer(nPlayer);
@@ -70,7 +70,18 @@ namespace MinesweeperControllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Edit(string eMail, string name, bool online)
         {
-            return Create(eMail, name, online);
+            Player player; 
+            HttpPostedFileBase photo = Request.Files[0];
+            if (( player = Lobby.Current.GetPlayer(eMail)) == null)
+            {
+                return new RedirectResult("/Profile/Create");
+
+            }
+
+            player.Name = name;
+            player.Status = (online ? PlayerStatus.Online : PlayerStatus.Offline);
+            if (photo != null && photo.ContentLength > 0) player.AddPhoto(new Photo() { Name = photo.FileName, ContentType = photo.ContentType, Image = photo.InputStream });
+            return new RedirectResult(string.Format("/Game/Main?eMail={0}", eMail));
         }
     }
 }

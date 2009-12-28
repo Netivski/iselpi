@@ -23,6 +23,12 @@
                 </div>
             </div>
             <div class="divProfileLine">
+                <div class="divProfileText">Password:</div>
+                <div class="divProfileControls">
+                    <%= Html.Password("Pwd")%>
+                </div>
+            </div>
+            <div class="divProfileLine">
                 <div class="divProfileText">Name:</div>
                 <div class="divProfileControls">
                     <%= Html.TextBox("Name")%>
