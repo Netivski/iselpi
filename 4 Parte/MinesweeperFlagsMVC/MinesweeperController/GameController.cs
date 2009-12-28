@@ -66,13 +66,6 @@ namespace MinesweeperControllers
             return View(Minesweeper.Lobby.Current.LoadPlayer(eMail));
         }
 
-        [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Start(string message, string dummy)
-        {
-            ViewData["message"] = message;
-            return View();
-        }
-
         public ActionResult Main(string eMail)
         {
             Player p = Minesweeper.Lobby.Current.LoadPlayer(eMail);
@@ -80,15 +73,22 @@ namespace MinesweeperControllers
             return View(p);
         }
 
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult Start(string message)
+        {
+            ViewData["message"] = message;
+            return View();
+        }
+
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Start(string email)
+        public ActionResult Start(string email, string pwd)
         {
             if (email != null && email.Contains("@") && email.Contains("."))
             {
                 Player p = null;
                 if ((p = Minesweeper.Lobby.Current.GetPlayer(email)) != null)
-                {
-                    //Minesweeper.Lobby.Current.LoadPlayer(email);
+                {                    
                     return new RedirectResult(string.Format("/Game/Main?eMail={0}", Server.UrlEncode(email)));
                 }
                 else
@@ -97,6 +97,7 @@ namespace MinesweeperControllers
                     return View();
                 }
             }
+
             ViewData["message"] = "Please insert a valid e-mail!";
             return View();
         }

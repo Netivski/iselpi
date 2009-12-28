@@ -60,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExtensionMethods\StringExtensionMethods.cs" />
     <Compile Include="GameAsynchronousController.cs" />
     <Compile Include="GameBaseController.cs" />
     <Compile Include="GameController.cs" />
