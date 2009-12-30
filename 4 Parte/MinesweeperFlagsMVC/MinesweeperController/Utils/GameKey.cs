@@ -4,21 +4,18 @@ namespace MinesweeperControllers.Utils
 {
     internal static class GameKey
     {
-        static int    count;
-        static object monitor;
+        static int count;
 
         static GameKey()
         {
             count = 0;
-            monitor = new object();
         }
 
         public static string GetKey()
         {
-            int v;
-            lock (monitor) v = ++count;
 
-            return string.Format( "g{0}", v.ToString("00000000") );
+            //Nota - o formato tem que ter um g e 9 - {0} . utilizado no método getPos da class cell. Ficheiro Cell.js
+            return string.Format( "g{0}", System.Threading.Interlocked.Increment(ref count).ToString("000000000") );
         }
     }
 }

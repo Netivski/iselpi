@@ -41,9 +41,9 @@ namespace MinesweeperControllers
             return new ContentResult() { Content = game.ToJSon(), ContentType = "text/x-json" };
         }
 
-        public ActionResult ListActiveGames()
+        public ActionResult ListActiveGames( string eMail )
         {
-            return new ContentResult() { Content = Utils.JSon.Serialize<IEnumerable<string>>(Minesweeper.Lobby.Current.GetActiveGames()), ContentType = "text/x-json" };
+            return new ContentResult() { Content = Utils.JSon.Serialize<IEnumerable<string>>(Minesweeper.Lobby.Current.GetActiveGames(eMail)), ContentType = "text/x-json" };
         }
 
         public ActionResult Play(int playerId, int posX, int posY)

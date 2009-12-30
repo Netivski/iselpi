@@ -299,11 +299,16 @@ namespace Minesweeper
         {
             if (game == null) throw new ArgumentNullException("game");
 
-            lock (_refreshGames)
+            if (!game.IsOwner(EMail))
             {
-                _refreshGames.Add(game);
-                return true;
+                lock (_refreshGames)
+                {
+                    _refreshGames.Add(game);
+                    return true;
+                }
             }
+
+            return true; //para não parar o iterador :-(
         }
 
         public List<Game> GetRefreshGames()

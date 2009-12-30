@@ -90,10 +90,10 @@ namespace Minesweeper
         public bool ContainsGame(string gName) { return games.ContainsKey(gName); }
         public void ReserveGame(string gName) { games.Add(gName, null); }
 
-        public IEnumerable<string> GetActiveGames()
+        public IEnumerable<string> GetActiveGames( string eMail )
         {
             return (from g in games.Keys
-                    where (games[g].Status == GameStatus.WAITING_FOR_PLAYERS)
+                    where (games[g].Status == GameStatus.WAITING_FOR_PLAYERS && games[g].IsOwner(eMail))
                     select g);
         }
 

@@ -1,4 +1,4 @@
-function Cell(gCtrl) {
+function Cell(gCtrl, gKey) {
     var current = this; 
     
     // Private Members --------------------------------------------------------------------------------------
@@ -40,16 +40,22 @@ function Cell(gCtrl) {
         jQuery(cell).click(function() { gCtrl.evtCellClicked(cell); });
     }
 
+    this.getId = function(x, y) {
+        var id = "" + x + "," + y + "";
+        return getRealId(gKey, id);
+    }
+
     this.create = function(isMine, x, y) {
         var cell = $("<div></div>");
         setClass(cell, HIDDEN_CELL);
-        setId(cell, ("" + x + "," + y + ""));
+        setId(cell, this.getId(x, y));
         return cell;
     }
 
     this.getPos = function(cell) {
-        return $(cell).attr("id").split(",");
+        return $(cell).attr("id").substring(10).split(",");
     }
+            
     this.getValue = function(cell) { return $(cell).attr("value"); }
     this.isMine   = function(cell) { return $(cell).attr("type") == TYPE_MINE; }
     this.isHidden = function(cell) { return $(cell).attr("class") == HIDDEN_CELL; }
