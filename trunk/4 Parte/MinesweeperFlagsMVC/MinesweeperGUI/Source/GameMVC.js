@@ -1,5 +1,4 @@
-function GameMVC(lines, cols, gName) {
-
+function GameMVC(lines, cols, gKey) {
     var current = this;
 
     // Game Model ---------------------------------------------------------------------------------------
@@ -13,6 +12,7 @@ function GameMVC(lines, cols, gName) {
         var _pId = 0;
         var _activePlayer = 0;
         var _isOwner = false;
+        var _playerCount = 0;
 
         this.gameModel.setGameName = function(gName) { _gName = gName; }
         this.gameModel.getGameName = function() { return _gName; }
@@ -34,6 +34,9 @@ function GameMVC(lines, cols, gName) {
 
         this.gameModel.setIsOwner = function(isOwner) { _isOwner = isOwner; }
         this.gameModel.getIsOwner = function() { return (_isOwner == true); }
+
+        this.gameModel.setPlayerCount = function(playerCount) { _playerCount = playerCount; }
+        this.gameModel.getPlayerCount = function() { return _playerCount; }        
     }
 
     // Game Controller ----------------------------------------------------------------------------------
@@ -41,9 +44,9 @@ function GameMVC(lines, cols, gName) {
     this.gameController = function() {
         if (this.gameController.doWork != undefined) return;
 
-        var cellObj = new Cell(current.gameController);
-        var board = new BoardMVC(lines, cols, cellObj);
-        var playerObj = new Player(current.gameController);
+        var cellObj = new Cell(current.gameController, gKey);
+        var board = new BoardMVC(lines, cols, cellObj, gKey);
+        var playerObj = new Player(current.gameController, gKey);
 
         this.gameController.startGame = function(gName, pName, pEMail, pId, isOwner) {
             current.gameModel.setGameName(gName);
@@ -80,6 +83,8 @@ function GameMVC(lines, cols, gName) {
                     req.Request();
                     if (req != "") game = req.getJSonObject();
 
+                    current.gameModel.setPlayerCount(game.PlayersCount);
+
                     if (current.gameModel.getIsOwner()) { // Verifica se há mais do que 1 Jogador
                         if (game.PlayersCount > 1) {
                             current.gameView.enableStartGameButton();
@@ -93,7 +98,7 @@ function GameMVC(lines, cols, gName) {
                     poolGameRefresh();
                 }
             }
-            finally { if (poolingActive) setTimeout(gName + ".gameController.doWork()", 1000); }
+            finally { if (poolingActive) setTimeout(gKey + ".gameController.doWork()", 1000); }
         }
 
         this.gameController.doWork = function() {
@@ -155,6 +160,9 @@ function GameMVC(lines, cols, gName) {
             }
         }
 
+        this.gameController.getPlayerCount = function() {
+            return current.gameModel.getPlayerCount();
+        }
 
         // --------------------------------    
         // Events
@@ -235,7 +243,7 @@ function GameMVC(lines, cols, gName) {
         var poolingActive = false;
 
         this.gameView.renderBoard = function() {
-            $("." + BOARD_CLASS).empty();
+            $("." + getRealId(gKey, BOARD_CLASS)).empty();
             BoardView.render();
         }
 
@@ -252,7 +260,7 @@ function GameMVC(lines, cols, gName) {
         // Options Menu
 
         this.gameView.renderOptions = function() {
-            var optionsDiv = $(".divOptions");
+            var optionsDiv = $("#" + getRealId(gKey, "divOptions"));
             $("<button/>").attr("id", "MsgButton").appendTo(optionsDiv).css("display", "none");
             $("<button/>").click(function() { current.gameController.evtStartGame(); }).attr("disabled", "disabled").attr("id", "StartButton").text("Start Game").appendTo(optionsDiv).css("display", "none");
             $("<button/>").click(function() { current.gameController.evtRevealBoard() }).attr("id", "RevealButton").text("Reveal game board").appendTo(optionsDiv).css("display", "none");
@@ -265,7 +273,7 @@ function GameMVC(lines, cols, gName) {
             current.gameView.showMsgButton(msg);
         }
 
-        this.gameView.hideOptions = function() { $(".divOptions").hide("slow"); setTimeout("$('.divOptions').empty();", 300); }
+        this.gameView.hideOptions = function() { $("#" + getRealId( gKey, "divOptions")).hide("slow"); setTimeout("$('.divOptions').empty();", 300); }
 
         this.gameView.showMainOptions = function() {
             current.gameView.hideOptions();
@@ -279,7 +287,7 @@ function GameMVC(lines, cols, gName) {
                 current.gameView.showListButton()
                 current.gameView.showCreateButton();
             }
-            finally { if (poolingActive) setTimeout(gName + ".gameView.doWork()", 1000); }
+            finally { if (poolingActive) setTimeout(gKey + ".gameView.doWork()", 1000); }
         }
 
         this.gameView.doWork = function() {
@@ -309,7 +317,7 @@ function GameMVC(lines, cols, gName) {
         // Messages
 
         this.gameView.renderMessage = function(msg) {
-            $("." + MSGBOARD_CLASS + " ." + MSG_CLASS).text(msg);
+            $("#" + getRealId( gKey, MSGBOARD_CLASS ) + " #" + getRealId( gKey, MSG_CLASS)).text(msg);
         }
 
 
@@ -317,8 +325,8 @@ function GameMVC(lines, cols, gName) {
         // Mines Left
 
         this.gameView.renderMinesLeft = function(minesLeft) {
-            $("." + SCORE_LABEL).text("Mines Left");
-            $("." + SCORE_VALUE).text(minesLeft);
+            $("#" + getRealId(gKey, SCORE_LABEL)).text("Mines Left");
+            $("#" + getRealId(gKey, SCORE_VALUE)).text(minesLeft);
         }
 
     }

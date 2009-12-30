@@ -67,4 +67,9 @@
 	var PL_ACTIVE = "divPlayerActive"
 
 
-// ------------------------------------------------------
+	// ------------------------------------------------------
+
+
+	function getRealId(gKey, varId) {
+	    return gKey + varId;
+	}

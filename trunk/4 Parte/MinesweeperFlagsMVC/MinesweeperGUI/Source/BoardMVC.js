@@ -1,4 +1,4 @@
-function BoardMVC(lines, cols, cell) {
+function BoardMVC(lines, cols, cell, gKey) {
 
     var current = this; 
 
@@ -35,14 +35,14 @@ function BoardMVC(lines, cols, cell) {
     // Board View ---------------------------------------------------------------------------------------
     this.boardView = function() {
         if (this.boardView.render != undefined) return;
-        
-        this.boardView.render = function() {
+
+        this.boardView.render = function() {                
             var cellWidth = $("." + HIDDEN_CELL).css("width");
             var width = (cellWidth * current.boardController.getCols());
 
             for (var i = 0; i < current.boardController.getLines(); i++) {
-                for (var j = 0; j < current.boardController.getCols(); j++) {
-                    cell.create(undefined, j, i).appendTo($("." + BOARD_CLASS));
+                for (var j = 0; j < current.boardController.getCols(); j++) {                
+                    cell.create(undefined, j, i).appendTo($("#" + getRealId( gKey,  BOARD_CLASS )));
                 }
             }
         }
@@ -50,7 +50,8 @@ function BoardMVC(lines, cols, cell) {
         this.boardView.getCellByPos = function(posX, posY) {
             if (posX >= current.boardController.getCols() || posY >= current.boardController.getLines() || posX < 0 || posY < 0)
                 return null;
-            return document.getElementById("" + posX + "," + posY + "");
+                
+            return document.getElementById( cell.getId(posX, posY) );
         }
 
     }

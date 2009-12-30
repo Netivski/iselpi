@@ -1,6 +1,5 @@
 ﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage" %>
-
-<%@ Import Namespace="MinesweeperGUI.ExtensionMethods" %>
+<%@ Import Namespace="MinesweeperGUI.ExtensionMethods"    %>
 
 <script type="text/javascript">
         var <%=ViewData["gKey"]%> = null;        
@@ -17,22 +16,16 @@
                     );
         });
 </script>
-
 <div class="divBackGround">
-    <div id="divPlayerBoard" class="divPlayerBoard">
+    <div id="<%=ViewData["gKey"]%>divPlayerBoard" class="divPlayerBoard"/>
+    <div id="<%=ViewData["gKey"]%>divArena" class="divArena"/>    
+    <div id="<%=ViewData["gKey"]%>divScoreBoard" class="divScoreBoard">
+        <div id="divScoreLabel" class="divScoreLabel"/>
+        <div id="divScoreValue" class="divScoreValue"/>
     </div>
-    <div id="divArena" class="divArena">
-    </div>
-    <div id="divScoreBoard" class="divScoreBoard">
-        <div class="divScoreLabel">
-        </div>
-        <div class="divScoreValue">
-        </div>
-    </div>
-    <div class="divOptions">
-    </div>
-    <div id="divMessageBoard" class="divMessageBoard">
-        <div class="divMessage">
+    <div id="<%=ViewData["gKey"]%>divOptions" class="divOptions"/>
+    <div id="<%=ViewData["gKey"]%>divMessageBoard" class="divMessageBoard">
+        <div id="divMessage" class="divMessage">
             .: GR9 - MineSweeper Two Thousand And a Half :.</div>
     </div>
 </div>
