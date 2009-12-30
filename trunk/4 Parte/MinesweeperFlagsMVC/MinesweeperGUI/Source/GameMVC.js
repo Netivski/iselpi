@@ -248,11 +248,11 @@ function GameMVC(lines, cols, gKey) {
         }
 
         this.gameView.enableStartGameButton = function() {
-            $("#StartButton").attr("disabled", "");
+            $("#" + getRealId(gKey, "StartButton")).attr("disabled", "");
         }
 
         this.gameView.hideStartGameButton = function() {
-            $("#StartButton").attr("disabled", "");
+            $("#" + getRealId(gKey, "StartButton")).attr("disabled", "");
         }
 
 
@@ -261,9 +261,9 @@ function GameMVC(lines, cols, gKey) {
 
         this.gameView.renderOptions = function() {
             var optionsDiv = $("#" + getRealId(gKey, "divOptions"));
-            $("<button/>").attr("id", "MsgButton").appendTo(optionsDiv).css("display", "none");
-            $("<button/>").click(function() { current.gameController.evtStartGame(); }).attr("disabled", "disabled").attr("id", "StartButton").text("Start Game").appendTo(optionsDiv).css("display", "none");
-            $("<button/>").click(function() { current.gameController.evtRevealBoard() }).attr("id", "RevealButton").text("Reveal game board").appendTo(optionsDiv).css("display", "none");
+            $("<button/>").attr("id", getRealId(gKey, "MsgButton")).appendTo(optionsDiv).css("display", "none");
+            $("<button/>").click(function() { current.gameController.evtStartGame(); }).attr("disabled", "disabled").attr("id", getRealId(gKey, "StartButton")).text("Start Game").appendTo(optionsDiv).css("display", "none");
+            $("<button/>").click(function() { current.gameController.evtRevealBoard() }).attr("id", getRealId(gKey, "RevealButton")).text("Reveal game board").appendTo(optionsDiv).css("display", "none");
             optionsDiv.css("display", "block");
         }
 
@@ -273,7 +273,13 @@ function GameMVC(lines, cols, gKey) {
             current.gameView.showMsgButton(msg);
         }
 
-        this.gameView.hideOptions = function() { $("#" + getRealId( gKey, "divOptions")).hide("slow"); setTimeout("$('.divOptions').empty();", 300); }
+        this.gameView.hideOptions = function() {
+            $("#" + getRealId(gKey, "divOptions")).hide("slow", current.gameView.clearOptions);
+        }
+
+        this.gameView.clearOptions = function() {
+            $("#" + getRealId(gKey, "divOptions")).empty();
+        }
 
         this.gameView.showMainOptions = function() {
             current.gameView.hideOptions();
@@ -303,21 +309,21 @@ function GameMVC(lines, cols, gKey) {
             poolingActive = false;
         }
 
-        this.gameView.hideStartButton = function() { $("#StartButton").hide("slow"); }
-        this.gameView.showStartButton = function() { $("#StartButton").show("slow"); }
+        this.gameView.hideStartButton = function() { $("#" + getRealId(gKey, "StartButton")).hide("slow"); }
+        this.gameView.showStartButton = function() { $("#" + getRealId(gKey, "StartButton")).show("slow"); }
 
-        this.gameView.hideMsgButton = function() { $("#WaitButton").hide("slow"); }
-        this.gameView.showMsgButton = function(msg) { $("#MsgButton").text(msg).show("slow"); }
+        this.gameView.hideMsgButton = function() { $("#" + getRealId(gKey, "WaitButton")).hide("slow"); }
+        this.gameView.showMsgButton = function(msg) { $("#" + getRealId(gKey, "MsgButton")).text(msg).show("slow"); }
 
-        this.gameView.hideRevealButton = function() { $("#RevealButton").hide("slow"); }
-        this.gameView.showRevealButton = function() { $("#RevealButton").show("slow"); }
+        this.gameView.hideRevealButton = function() { $("#" + getRealId(gKey, "RevealButton")).hide("slow"); }
+        this.gameView.showRevealButton = function() { $("#" + getRealId(gKey, "RevealButton")).show("slow"); }
 
 
         // --------------------------------
         // Messages
 
         this.gameView.renderMessage = function(msg) {
-            $("#" + getRealId( gKey, MSGBOARD_CLASS ) + " #" + getRealId( gKey, MSG_CLASS)).text(msg);
+            $("#" + getRealId(gKey, MSGBOARD_CLASS) + " #" + getRealId(gKey, MSG_CLASS)).text(msg);
         }
 
 
