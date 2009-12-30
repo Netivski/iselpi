@@ -16,6 +16,7 @@
                     );
         });
 </script>
+  
 <div class="divBackGround">
     <div id="<%=ViewData["gKey"]%>divPlayerBoard" class="divPlayerBoard"/>
     <div id="<%=ViewData["gKey"]%>divArena" class="divArena"/>    
