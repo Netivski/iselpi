@@ -6,6 +6,7 @@ using System.Threading;
 using System.Web;
 using System.IO;
 using System.Xml;
+using System.Web.SessionState;
 
 namespace MineSweeperLog
 {
@@ -52,63 +53,69 @@ namespace MineSweeperLog
         private void SerializeApplication(HttpApplication app)
         {
             _doc = new XmlDocument();
+            
+            //Cria o elemento raiz contendo informação do Registo de Log
+            XmlElement root = _doc.CreateElement("Log");
+            if (app.Context != null)
+            {
+                root.SetAttribute("TimeStamp", app.Context.Timestamp.ToString());
+                if (app.Context.Request != null)
+                    root.AppendChild(SerializeRequest(app.Context.Request));
+                if (app.Context.Response != null)
+                    root.AppendChild(SerializeResponse(app.Context.Response));
+                if (app.Context.AllErrors != null && app.Context.AllErrors.Length > 0)
+                {
+                    XmlElement errorsElem = _doc.CreateElement("Errors");
+                    for (Int32 i = 0; i < app.Context.AllErrors.Length; i++)
+                    {
+                        XmlElement error = _doc.CreateElement("Error");
+                        error.SetAttribute("Message", app.Context.AllErrors[i].Message);
+                        error.SetAttribute("Source", app.Context.AllErrors[i].Source);
+                        errorsElem.AppendChild(error);
+                    }
+                    root.AppendChild(errorsElem);
+                }
+            }
+            else
+            {
+                root.SetAttribute("DateTime", DateTime.Now.ToString());
+                root.SetAttribute("Info", "No Context");
+
+                if (app.Request != null)
+                    root.AppendChild(SerializeRequest(app.Request));
+                if (app.Response != null)
+                    root.AppendChild(SerializeResponse(app.Response));
+            }            
             try
             {
-                //Cria o elemento raiz contendo informação do Registo de Log
-                XmlElement root = _doc.CreateElement("Log");
-                if (app.Context != null)
+                if (app.Session != null)
                 {
-                    root.SetAttribute("TimeStamp", app.Context.Timestamp.ToString());
-                    if (app.Context.Request != null)
-                        root.AppendChild(SerializeRequest(app.Context.Request));
-                    if (app.Context.Response != null)
-                        root.AppendChild(SerializeResponse(app.Context.Response));
-                }
-                else
-                {
-                    root.SetAttribute("DateTime", DateTime.Now.ToString());
-                    root.SetAttribute("Info", "No Context");
-
-                    if (app.Request != null)
-                        root.AppendChild(SerializeRequest(app.Request));
-                    if (app.Response != null)
-                        root.AppendChild(SerializeResponse(app.Response));
-                }
-                try
-                {
-                    if (app.Session != null)
+                    XmlElement sessionElem = _doc.CreateElement("Session");
+                    sessionElem.SetAttribute("isCookieless", app.Session.IsCookieless.ToString());
+                    sessionElem.SetAttribute("isNewSession", app.Session.IsNewSession.ToString());
+                    sessionElem.SetAttribute("isReadOnly", app.Session.IsReadOnly.ToString());
+                    sessionElem.SetAttribute("isSynchronized", app.Session.IsSynchronized.ToString());
+                    if (app.Session.Keys.Count > 0)
                     {
-                        XmlElement sessionElem = _doc.CreateElement("Session");
-                        sessionElem.SetAttribute("isCookieless", app.Session.IsCookieless.ToString());
-                        sessionElem.SetAttribute("isNewSession", app.Session.IsNewSession.ToString());
-                        sessionElem.SetAttribute("isReadOnly", app.Session.IsReadOnly.ToString());
-                        sessionElem.SetAttribute("isSynchronized", app.Session.IsSynchronized.ToString());
-                        if (app.Session.Keys.Count > 0)
+                        XmlElement KeysElem = _doc.CreateElement("Keys");
+                        for (Int32 i = 0; i < app.Session.Keys.Count; i++)
                         {
-                            XmlElement KeysElem = _doc.CreateElement("Keys");
-                            for (Int32 i = 0; i < app.Session.Keys.Count; i++)
-                            {
-                                XmlElement key = _doc.CreateElement("key");
-                                key.InnerText = app.Session.Keys[i];
-                                KeysElem.AppendChild(key);
-                            }
-                            sessionElem.AppendChild(KeysElem);
+                            XmlElement key = _doc.CreateElement("key");
+                            key.InnerText = app.Session.Keys[i];
+                            KeysElem.AppendChild(key);
                         }
-                        sessionElem.SetAttribute("LCID", app.Session.LCID.ToString());
-                        sessionElem.SetAttribute("SessionMode", app.Session.Mode.ToString());
-                        sessionElem.SetAttribute("ID", app.Session.SessionID);
-                        sessionElem.SetAttribute("Timeout", app.Session.Timeout.ToString());
-                        root.AppendChild(sessionElem);
+                        sessionElem.AppendChild(KeysElem);
                     }
+                    sessionElem.SetAttribute("LCID", app.Session.LCID.ToString());
+                    sessionElem.SetAttribute("SessionMode", app.Session.Mode.ToString());
+                    sessionElem.SetAttribute("ID", app.Session.SessionID);
+                    sessionElem.SetAttribute("Timeout", app.Session.Timeout.ToString());
+                    root.AppendChild(sessionElem);
                 }
-                catch (Exception) { }
-                _doc.AppendChild(root);                
             }
-            catch (Exception e) {
-                XmlElement elemException = _doc.CreateElement("Excepção");
-                elemException.InnerText = e.Message;
-                _doc.AppendChild(elemException);             
-            }
+            catch (Exception) { }
+            _doc.AppendChild(root);                
+            
             lock (mon)
             {
                 _myStream = File.Open(appPath + "/LogFile_" + DateTime.Today.ToShortDateString() + ".xml", FileMode.Append);
