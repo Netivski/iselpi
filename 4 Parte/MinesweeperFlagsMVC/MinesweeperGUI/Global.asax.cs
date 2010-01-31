@@ -26,7 +26,6 @@ namespace MinesweeperGUI
         protected void Application_Start(object sender, EventArgs e)
         {
             RegisterRoutes(RouteTable.Routes);
-
         }
     }
 }

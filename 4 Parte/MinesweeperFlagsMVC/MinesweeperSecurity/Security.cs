@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web;
 using System.Diagnostics;
+using System.Threading;
 
 namespace MinesweeperSecurity
 {
@@ -8,6 +9,10 @@ namespace MinesweeperSecurity
     {
 
         public Security() { }
+        void context_BeginRequest(object sender, EventArgs e)
+        {
+            Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
+        }
 
         void OnAuthenticateRequest(object sender, EventArgs e)
         {
@@ -23,6 +28,8 @@ namespace MinesweeperSecurity
 
         public void Init(HttpApplication ctx)
         {
+            ctx.BeginRequest += new EventHandler(context_BeginRequest);
+
             ctx.AuthenticateRequest += new EventHandler(OnAuthenticateRequest);
             ctx.AuthorizeRequest    += new EventHandler(OnAuthorizeRequest);            
         }
