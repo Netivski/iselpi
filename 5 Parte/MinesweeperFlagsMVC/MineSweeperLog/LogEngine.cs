@@ -10,18 +10,17 @@ using System.Xml;
 namespace MineSweeperLog
 {
     public class LogEngine
-    {
-        private const Int32 MAX_THREADS = 10;
+    {        
         public static LogEngine Current;
         static LogEngine()
         {
             if (Current == null) Current = new LogEngine();
         }
 
-        String appPath;
-        XmlDocument _doc;
-        FileStream _myStream;
-        Object mon;
+        String appPath;         //Path to Log Folder under the application Folder
+        XmlDocument _doc;       //XmlDocument used to persist Log
+        FileStream _myStream;   //Stream used to write XML file
+        Object mon;             //Monitor used to sinchronize Log file access
 
         LogEngine()
         {            
@@ -75,6 +74,34 @@ namespace MineSweeperLog
                     if (app.Response != null)
                         root.AppendChild(SerializeResponse(app.Response));
                 }
+                try
+                {
+                    if (app.Session != null)
+                    {
+                        XmlElement sessionElem = _doc.CreateElement("Session");
+                        sessionElem.SetAttribute("isCookieless", app.Session.IsCookieless.ToString());
+                        sessionElem.SetAttribute("isNewSession", app.Session.IsNewSession.ToString());
+                        sessionElem.SetAttribute("isReadOnly", app.Session.IsReadOnly.ToString());
+                        sessionElem.SetAttribute("isSynchronized", app.Session.IsSynchronized.ToString());
+                        if (app.Session.Keys.Count > 0)
+                        {
+                            XmlElement KeysElem = _doc.CreateElement("Keys");
+                            for (Int32 i = 0; i < app.Session.Keys.Count; i++)
+                            {
+                                XmlElement key = _doc.CreateElement("key");
+                                key.InnerText = app.Session.Keys[i];
+                                KeysElem.AppendChild(key);
+                            }
+                            sessionElem.AppendChild(KeysElem);
+                        }
+                        sessionElem.SetAttribute("LCID", app.Session.LCID.ToString());
+                        sessionElem.SetAttribute("SessionMode", app.Session.Mode.ToString());
+                        sessionElem.SetAttribute("ID", app.Session.SessionID);
+                        sessionElem.SetAttribute("Timeout", app.Session.Timeout.ToString());
+                        root.AppendChild(sessionElem);
+                    }
+                }
+                catch (Exception) { }
                 _doc.AppendChild(root);                
             }
             catch (Exception e) {
@@ -97,14 +124,15 @@ namespace MineSweeperLog
                 root.SetAttribute("Method", req.HttpMethod);
             if (req.Url != null)
                 root.SetAttribute("Url", req.Url.ToString());
-            if (req.QueryString != null)
+            if (req.QueryString.Count> 0)
             {
                 XmlElement qs = _doc.CreateElement("QueryString");
+                qs.SetAttribute("Count", req.QueryString.Count.ToString());
                 for (int i = 0; i < req.QueryString.Count; i++)
                 {
-                    qs.InnerText += req.QueryString[i];
-                    if (i < req.QueryString.Count)
-                        qs.InnerText += ", ";
+                    XmlElement paramElem = _doc.CreateElement(req.QueryString.Keys[i]);
+                    paramElem.InnerText += req.QueryString[i];
+                    qs.AppendChild(paramElem);
                 }
                 root.AppendChild(qs);
             }
@@ -112,7 +140,7 @@ namespace MineSweeperLog
                 root.SetAttribute("Controller", req.CurrentExecutionFilePath);
             if (req.Browser != null)
                 root.SetAttribute("Browser", req.Browser.Browser);
-            if (req.Cookies != null)
+            if (req.Cookies.Count > 0)
             {
                 XmlElement cookies = _doc.CreateElement("Cookies");
                 cookies.SetAttribute("Count", req.Cookies.Count.ToString());
@@ -120,7 +148,7 @@ namespace MineSweeperLog
                 for (int i = 0; i < req.Cookies.Count; i++)
                 {
                     sb.Append(req.Cookies[0].Name);
-                    if (i < req.Cookies.Count)
+                    if (i < req.Cookies.Count - 1)
                         sb.Append(", ");
                 }
                 cookies.InnerText = sb.ToString();
@@ -147,7 +175,7 @@ namespace MineSweeperLog
                 for (int i = 0; i < res.Cookies.Count; i++)
                 {
                     sb.Append(res.Cookies[0].Name);
-                    if (i < res.Cookies.Count)
+                    if (i < res.Cookies.Count - 1)
                         sb.Append(", ");
                 }
                 cookies.InnerText = sb.ToString();
@@ -155,6 +183,12 @@ namespace MineSweeperLog
             }
             if (res.Status != null)
                 root.SetAttribute("Status", res.Status);
+
+            if(res.Charset != null)
+                root.SetAttribute("Charset", res.Charset);
+
+            if (res.ContentEncoding != null)
+                root.SetAttribute("ContentEncoding", res.ContentEncoding.WebName);
             
             return root;
         }
