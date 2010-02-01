@@ -22,16 +22,24 @@ namespace MineSweeperLog
         XmlDocument _doc;       //XmlDocument used to persist Log
         FileStream _myStream;   //Stream used to write XML file
         Object mon;             //Monitor used to sinchronize Log file access
+        LogExecutor _exec;      //Framework Executor
+        //IDictionary<string, Delegate> _loggedCalls;
 
         LogEngine()
         {            
             mon = new object();
+            _exec = new LogExecutor(20);
         }
         
         
         public void LogApplication(object application)
         {
             //if (application == null) throw new ArgumentNullException("LogEngine: ctx");
+            if (application == null) return;
+            _exec.Execute(InitLog, application);            
+        }
+        private void InitLog(object application)
+        {
             if (application == null) return;
             HttpApplication app = (HttpApplication)application;
 
@@ -41,7 +49,6 @@ namespace MineSweeperLog
 
             SerializeApplication(app);
         }
-
         private void SetAppPath(HttpContext ctx)
         {
             if (!Directory.Exists(ctx.Server.MapPath("/Log")))
@@ -54,7 +61,6 @@ namespace MineSweeperLog
         {
             _doc = new XmlDocument();
 
-            
             //Cria o elemento raiz contendo informação do Registo de Log
             XmlElement root = _doc.CreateElement("Log");
             if (app.Context != null)
