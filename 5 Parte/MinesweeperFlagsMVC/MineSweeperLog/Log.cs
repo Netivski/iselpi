@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Threading;
+using System.Diagnostics;
 
 
 namespace MineSweeperLog
@@ -20,7 +21,24 @@ namespace MineSweeperLog
         public void Init(HttpApplication app)
         {
             //app.BeginRequest += new EventHandler(app_BeginRequest);
-            app.EndRequest += new EventHandler(app_EndRequest);
+            app.EndRequest += new EventHandler(app_EndRequest);         
+            app.PreSendRequestContent += new EventHandler(app_PreSendRequestContent);
+            
+        }
+
+        void app_PreSendRequestContent(object sender, EventArgs e)
+        {
+            HttpApplication app = (HttpApplication)sender;
+            System.Diagnostics.StackTrace st = new StackTrace(Thread.CurrentThread, false);           
+            StackFrame[] sfa = st.GetFrames();
+            String s = null;
+            for (int i = 0; i < sfa.Length; i++)
+            {
+                s += sfa[i].GetMethod().Name;
+                if (i < sfa.Length - 1)
+                    s += ", ";
+            }
+            String g = Environment.StackTrace;
             
         }
         void app_BeginRequest(object sender, EventArgs e)
