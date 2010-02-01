@@ -53,6 +53,7 @@ namespace MineSweeperLog
         private void SerializeApplication(HttpApplication app)
         {
             _doc = new XmlDocument();
+
             
             //Cria o elemento raiz contendo informação do Registo de Log
             XmlElement root = _doc.CreateElement("Log");
