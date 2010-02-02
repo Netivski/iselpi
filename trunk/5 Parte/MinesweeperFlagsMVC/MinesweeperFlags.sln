@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinesweeperSecurity", "Mine
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MineSweeperLog", "MineSweeperLog\MineSweeperLog.csproj", "{44509804-01DA-46EA-AE49-94D0FDCA69C5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StressToolCollector", "StressToolCollector\StressToolCollector.csproj", "{1F94CA66-A15A-4112-849C-CBC60E7456CA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{44509804-01DA-46EA-AE49-94D0FDCA69C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44509804-01DA-46EA-AE49-94D0FDCA69C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44509804-01DA-46EA-AE49-94D0FDCA69C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F94CA66-A15A-4112-849C-CBC60E7456CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F94CA66-A15A-4112-849C-CBC60E7456CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F94CA66-A15A-4112-849C-CBC60E7456CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F94CA66-A15A-4112-849C-CBC60E7456CA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
