@@ -21,19 +21,19 @@ namespace MineSweeperLog
 
         public void Init(HttpApplication app)
         {
-            //app.BeginRequest += new EventHandler(app_BeginRequest);
+            app.BeginRequest += new EventHandler(app_BeginRequest);
             app.EndRequest += new EventHandler(app_EndRequest);         
         }
         void app_BeginRequest(object sender, EventArgs e)
         {
             if (sender == null) throw new ArgumentNullException("sender");
-            LogEngine.Current.LogApplication((HttpApplication)sender);
-            //st = new StackTrace(Thread.CurrentThread, false);
+            LogEngine.Current.LogApplication(sender);
         }
         void app_EndRequest(object sender, EventArgs e)
         {
             if (sender == null) throw new ArgumentNullException("sender");
-            LogEngine.Current.LogApplication((HttpApplication)sender);
+            LogEngine.Current.LogApplication(sender);
+            #region"Try 1"
             //Try 1            
             //StackFrame[] sfa = st.GetFrames();
             //String s = null;
@@ -45,6 +45,7 @@ namespace MineSweeperLog
             //}            
             //It contains "only" the pipeline StackFrame
             //The Handler call is Asynchronous (IHttpAsyncHandler).... maybe if we caught MVCHandler call??...
+            #endregion
         }
         #endregion        
     }

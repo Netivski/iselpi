@@ -46,7 +46,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LogExecutor.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="LogEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
