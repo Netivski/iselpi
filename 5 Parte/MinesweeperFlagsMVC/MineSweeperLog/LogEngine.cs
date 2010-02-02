@@ -11,7 +11,8 @@ using System.Web.SessionState;
 namespace MineSweeperLog
 {
     public class LogEngine
-    {        
+    {   
+        delegate void logDelegate(object application);
         public static LogEngine Current;
         static LogEngine()
         {
@@ -22,22 +23,23 @@ namespace MineSweeperLog
         XmlDocument _doc;       //XmlDocument used to persist Log
         FileStream _myStream;   //Stream used to write XML file
         Object mon;             //Monitor used to sinchronize Log file access
-        LogExecutor _exec;      //Framework Executor
-        //IDictionary<string, Delegate> _loggedCalls;
+        
 
         LogEngine()
         {            
             mon = new object();
-            _exec = new LogExecutor(20);
         }
         
         
         public void LogApplication(object application)
         {
-            //if (application == null) throw new ArgumentNullException("LogEngine: ctx");
             if (application == null) return;
-            _exec.Execute(InitLog, application);            
+
+            logDelegate del = new logDelegate(this.InitLog);
+            AsyncCallback cb = new AsyncCallback(this.EndLog);
+            IAsyncResult res = del.BeginInvoke(application, cb, del);
         }
+
         private void InitLog(object application)
         {
             if (application == null) return;
@@ -49,6 +51,23 @@ namespace MineSweeperLog
 
             SerializeApplication(app);
         }
+
+        private void EndLog(IAsyncResult res)
+        {
+            logDelegate del = (logDelegate)res.AsyncState;
+            if (res.IsCompleted)//Fast Path
+            {
+                del.EndInvoke(res);
+                return;
+            }
+            lock (res.AsyncWaitHandle)
+            {
+                while (!res.IsCompleted)
+                    Monitor.Wait(res.AsyncWaitHandle);
+                del.EndInvoke(res);
+            }
+        }
+
         private void SetAppPath(HttpContext ctx)
         {
             if (!Directory.Exists(ctx.Server.MapPath("/Log")))
@@ -88,6 +107,7 @@ namespace MineSweeperLog
                 root.SetAttribute("DateTime", DateTime.Now.ToString());
                 root.SetAttribute("Info", "No Context");
 
+                
                 if (app.Request != null)
                     root.AppendChild(SerializeRequest(app.Request));
                 if (app.Response != null)
