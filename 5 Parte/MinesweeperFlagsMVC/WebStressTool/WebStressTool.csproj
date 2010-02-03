@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EndRequestEventArgs.cs" />
     <Compile Include="FormStressTool.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -80,6 +81,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Proxy\RequestItem.cs" />
+    <Compile Include="StressToolWorker.cs" />
+    <Compile Include="Utils\FileUtils.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
