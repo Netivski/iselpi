@@ -48,12 +48,6 @@
   <ItemGroup>
     <Compile Include="Collector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Proxy\ContentType.cs" />
-    <Compile Include="Proxy\Cookie.cs" />
-    <Compile Include="Proxy\Header.cs" />
-    <Compile Include="Proxy\Request.cs" />
-    <Compile Include="Proxy\Response.cs" />
-    <Compile Include="RequesItem.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
