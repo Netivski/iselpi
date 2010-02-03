@@ -36,7 +36,7 @@ namespace StressToolCollector
         public void Init(HttpApplication ctx)
         {
             ctx.BeginRequest += new EventHandler(BeginRequest);
-            ctx.EndRequest += new EventHandler(EndRequest);
+            ctx.EndRequest   += new EventHandler(EndRequest);
 
         }
 

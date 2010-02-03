@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Threading;
-using WebStressTool.HttpClient;
 using System.IO;
+using WebStressTool.HttpClient;
+using WebStressTool.Utils;
+
 
 namespace WebStressTool
 {
@@ -19,7 +21,18 @@ namespace WebStressTool
 
         protected void EndRequestInvoke(object sender, EventArgs e)
         {
-            txtResult.Text += "*";
+
+            if (txtResult.InvokeRequired)
+            {
+                txtResult.BeginInvoke(new BeginInvoke(delegate()
+                {
+                    txtResult.AppendText(((EndRequestEventArgs)e).State.ToString());
+                    txtResult.AppendText(Environment.NewLine);
+                }));
+
+                return;
+            }
+
             txtResult.AppendText(((EndRequestEventArgs)e).State.ToString());
             txtResult.AppendText(Environment.NewLine);
         }

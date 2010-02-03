@@ -47,7 +47,7 @@ namespace WebStressTool.HttpClient
             catch (Exception e)
             {
                 dataWriter.WriteLine(e.ToString());
-                if( EndRequest != null ) EndRequest( this, new EndRequestArgs( dataReader, dataWriter, RequestState.Error ));
+                if( EndRequest != null ) EndRequest.BeginInvoke( this, new EndRequestArgs( dataReader, dataWriter, RequestState.Error ), null, null);
             }
         }
 
@@ -64,7 +64,7 @@ namespace WebStressTool.HttpClient
             catch (Exception e)
             {
                 dataWriter.WriteLine(e.ToString());
-                if (EndRequest != null) EndRequest(this, new EndRequestArgs(dataReader, dataWriter, RequestState.Error));
+                if (EndRequest != null) EndRequest.BeginInvoke(this, new EndRequestArgs(dataReader, dataWriter, RequestState.Error), null, null);
             }
         }
 
@@ -80,7 +80,7 @@ namespace WebStressTool.HttpClient
             catch (Exception e)
             {
                 dataWriter.WriteLine(e.ToString());
-                if (EndRequest != null) EndRequest(this, new EndRequestArgs(dataReader, dataWriter, RequestState.Error));
+                if (EndRequest != null) EndRequest.BeginInvoke(this, new EndRequestArgs(dataReader, dataWriter, RequestState.Error), null, null);
             }
         }
 
@@ -101,13 +101,13 @@ namespace WebStressTool.HttpClient
                 {
                     workSocket.Shutdown(SocketShutdown.Both);
                     workSocket.Close();
-                    if (EndRequest != null) EndRequest(this, new EndRequestArgs(dataReader, dataWriter, RequestState.Success)); 
+                    if (EndRequest != null) EndRequest.BeginInvoke(this, new EndRequestArgs(dataReader, dataWriter, RequestState.Success), null, null); 
                 }
             }
             catch (Exception e)
             {
-                dataWriter.WriteLine(e.ToString());
-                if (EndRequest != null) EndRequest(this, new EndRequestArgs(dataReader, dataWriter, RequestState.Error));
+                if (dataWriter != null && dataWriter.BaseStream != null && dataWriter.BaseStream.CanWrite) dataWriter.WriteLine(e.ToString());
+                if (EndRequest != null) EndRequest.BeginInvoke(this, new EndRequestArgs(dataReader, dataWriter, RequestState.Error), null, null);
             }
         }
 
@@ -131,7 +131,7 @@ namespace WebStressTool.HttpClient
             catch (Exception e)
             {
                 dataWriter.WriteLine(e.ToString());
-                if (EndRequest != null) EndRequest(this, new EndRequestArgs(dataReader, dataWriter, RequestState.Error));
+                if (EndRequest != null) EndRequest.BeginInvoke(this, new EndRequestArgs(dataReader, dataWriter, RequestState.Error), null, null);
             }
         }
     }
