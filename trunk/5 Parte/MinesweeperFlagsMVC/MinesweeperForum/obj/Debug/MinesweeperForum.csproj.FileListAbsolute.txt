@@ -1,0 +1,12 @@
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\iselpi\5 Parte - Ricardo\MinesweeperFlagsMVC\MinesweeperForum\bin\Debug\MinesweeperForum.dll.config
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\iselpi\5 Parte - Ricardo\MinesweeperFlagsMVC\MinesweeperForum\bin\Debug\MinesweeperForum.dll
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\iselpi\5 Parte - Ricardo\MinesweeperFlagsMVC\MinesweeperForum\bin\Debug\MinesweeperForum.pdb
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\iselpi\5 Parte - Ricardo\MinesweeperFlagsMVC\MinesweeperForum\obj\Debug\ResolveAssemblyReference.cache
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\iselpi\5 Parte - Ricardo\MinesweeperFlagsMVC\MinesweeperForum\obj\Debug\MinesweeperForum.dll
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\iselpi\5 Parte - Ricardo\MinesweeperFlagsMVC\MinesweeperForum\obj\Debug\MinesweeperForum.pdb
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\5 Parte\MinesweeperFlagsMVC\MinesweeperForum\bin\Debug\MinesweeperForum.dll.config
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\5 Parte\MinesweeperFlagsMVC\MinesweeperForum\bin\Debug\MinesweeperForum.dll
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\5 Parte\MinesweeperFlagsMVC\MinesweeperForum\bin\Debug\MinesweeperForum.pdb
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\5 Parte\MinesweeperFlagsMVC\MinesweeperForum\obj\Debug\ResolveAssemblyReference.cache
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\5 Parte\MinesweeperFlagsMVC\MinesweeperForum\obj\Debug\MinesweeperForum.dll
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\5 Parte\MinesweeperFlagsMVC\MinesweeperForum\obj\Debug\MinesweeperForum.pdb

@@ -90,18 +90,18 @@ namespace MinesweeperControllers
                 Player p = null;
                 if ((p = Minesweeper.Lobby.Current.GetPlayer(email)) != null)
                 {
-                    if (p.DoLogin(pwd) == Minesweeper.Login.Ok)
-                    {
+                    //if (p.DoLogin(pwd) == Minesweeper.Login.Ok)
+                    //{
                         return new RedirectResult(string.Format("/Game/Main?eMail={0}", Server.UrlEncode(email)));
-                    }
-                    else
-                    {
-                        ViewData["message"] = "Invalid username or password.";
-                    }
+                    //}
+                    //else
+                    //{
+                    //    ViewData["message"] = "Invalid username or password.";
+                    //}
                 }
                 else
                 {
-                    ViewData["message"] = "E-mail " + email + " is not registered!";                    
+                    ViewData["message"] = "E-mail " + email + " is not registered!";
                 }
 
                 return View();
