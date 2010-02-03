@@ -56,13 +56,15 @@ namespace WebStressTool
             }
         }
 
-        public void Invoke()
+        public void Invoke( int count )
         {
             FileInfo[] requestItems = baseDirectory.GetFiles("*.req");
             if (requestItems != null)
             {
                 requestCount = requestItems.Length;
-                foreach (FileInfo request in requestItems) ThreadPool.QueueUserWorkItem(DoRequest, new RequestItem(request));
+                foreach (FileInfo request in requestItems)
+                    for (int i = 0; i < count; i++) 
+                        ThreadPool.QueueUserWorkItem(DoRequest, new RequestItem(request, i));
             }
         }
     }

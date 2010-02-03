@@ -41,7 +41,6 @@ namespace WebStressTool.HttpClient
                 IPEndPoint  remoteEP   = new IPEndPoint(ipAddress, requestUrl.Port);
 
                 workSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-
                 workSocket.BeginConnect(remoteEP, new AsyncCallback(ConnectCallback), this);            
             }
             catch (Exception e)
