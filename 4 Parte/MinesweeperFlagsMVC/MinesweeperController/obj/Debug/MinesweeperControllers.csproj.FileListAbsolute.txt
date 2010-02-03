@@ -1,0 +1,10 @@
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\iselpi\5 Parte - Ricardo\MinesweeperFlagsMVC\MinesweeperController\bin\Debug\MinesweeperControllers.dll
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\iselpi\5 Parte - Ricardo\MinesweeperFlagsMVC\MinesweeperController\bin\Debug\MinesweeperControllers.pdb
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\iselpi\5 Parte - Ricardo\MinesweeperFlagsMVC\MinesweeperController\bin\Debug\JsonExSerializer.dll
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\iselpi\5 Parte - Ricardo\MinesweeperFlagsMVC\MinesweeperController\bin\Debug\Minesweeper.dll
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\iselpi\5 Parte - Ricardo\MinesweeperFlagsMVC\MinesweeperController\bin\Debug\Minesweeper.pdb
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\iselpi\5 Parte - Ricardo\MinesweeperFlagsMVC\MinesweeperController\bin\Debug\JsonExSerializer.pdb
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\iselpi\5 Parte - Ricardo\MinesweeperFlagsMVC\MinesweeperController\bin\Debug\JsonExSerializer.xml
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\iselpi\5 Parte - Ricardo\MinesweeperFlagsMVC\MinesweeperController\obj\Debug\ResolveAssemblyReference.cache
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\iselpi\5 Parte - Ricardo\MinesweeperFlagsMVC\MinesweeperController\obj\Debug\MinesweeperControllers.dll
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\iselpi\5 Parte - Ricardo\MinesweeperFlagsMVC\MinesweeperController\obj\Debug\MinesweeperControllers.pdb
