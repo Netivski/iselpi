@@ -52,7 +52,7 @@ namespace WebStressTool
        
         private void button1_Click(object sender, EventArgs e)
         {
-            StressToolWorker worker = new StressToolWorker(new DirectoryInfo(@"D:\DSTS\Personal\my.life\ISEL\3 Ano\PI\Minesweeper Flags\Minesweeper Flags\5 Parte\MinesweeperFlagsMVC\"));
+            StressToolWorker worker = new StressToolWorker(new DirectoryInfo(fbdObject.SelectedPath));
             worker.EndInvoke        += OnEndInvoke;
             worker.EndRequestInvoke += EndRequestInvoke;
             worker.Invoke( requestCount.Value );
@@ -60,6 +60,22 @@ namespace WebStressTool
 
         private void FormStressTool_Load(object sender, EventArgs e)
         {
+            requestCount_Scroll( null, null );
+        }
+
+        private void requestCount_Scroll(object sender, EventArgs e)
+        {
+            lblRequestCount.Text =  requestCount.Value.ToString("000000000");
+
+        }
+
+        private void btnShowDialog_Click(object sender, EventArgs e)
+        {
+            fbdObject.SelectedPath = AppDomain.CurrentDomain.BaseDirectory;
+            fbdObject.ShowDialog();
+
+            txtBaseDirectory.Text = fbdObject.SelectedPath;
+            btnGo.Enabled = fbdObject.SelectedPath != null;
         }        
 
     }
