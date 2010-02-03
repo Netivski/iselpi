@@ -8,7 +8,6 @@ namespace StressToolCollector
 {
     public class Collector : IHttpModule
     {
-
         public Collector() { }
 
         string GetFilePath( Uri requestUrl )
@@ -26,18 +25,9 @@ namespace StressToolCollector
             ctx.Request.SaveAs(GetFilePath( ctx.Request.Url ), true); 
         }
 
-        void EndRequest(object sender, EventArgs e)
-        {
-            if (sender == null) throw new ArgumentNullException("sender");
-            HttpApplication context = (HttpApplication)sender;
-
-        }
-
         public void Init(HttpApplication ctx)
         {
             ctx.BeginRequest += new EventHandler(BeginRequest);
-            ctx.EndRequest   += new EventHandler(EndRequest);
-
         }
 
         public void Dispose() { /* do nothing */ }
