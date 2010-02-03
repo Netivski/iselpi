@@ -15,7 +15,6 @@ namespace MinesweeperGUI
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-
             Route route = new Route("{controller}/{action}", new MvcRouteHandler());
             route.Defaults = new RouteValueDictionary(new { controller = "Game", action = "Start" });
             

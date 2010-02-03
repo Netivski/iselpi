@@ -1,0 +1,14 @@
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\iselpi\5 Parte - Ricardo\MinesweeperFlagsMVC\MinesweeperGUI\bin\MinesweeperGUI.dll
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\iselpi\5 Parte - Ricardo\MinesweeperFlagsMVC\MinesweeperGUI\bin\MinesweeperGUI.pdb
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\iselpi\5 Parte - Ricardo\MinesweeperFlagsMVC\MinesweeperGUI\bin\Minesweeper.dll
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\iselpi\5 Parte - Ricardo\MinesweeperFlagsMVC\MinesweeperGUI\bin\MinesweeperControllers.dll
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\iselpi\5 Parte - Ricardo\MinesweeperFlagsMVC\MinesweeperGUI\bin\MinesweeperForum.dll
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\iselpi\5 Parte - Ricardo\MinesweeperFlagsMVC\MinesweeperGUI\bin\JsonExSerializer.dll
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\iselpi\5 Parte - Ricardo\MinesweeperFlagsMVC\MinesweeperGUI\bin\Minesweeper.pdb
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\iselpi\5 Parte - Ricardo\MinesweeperFlagsMVC\MinesweeperGUI\bin\MinesweeperControllers.pdb
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\iselpi\5 Parte - Ricardo\MinesweeperFlagsMVC\MinesweeperGUI\bin\MinesweeperForum.pdb
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\iselpi\5 Parte - Ricardo\MinesweeperFlagsMVC\MinesweeperGUI\bin\JsonExSerializer.pdb
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\iselpi\5 Parte - Ricardo\MinesweeperFlagsMVC\MinesweeperGUI\bin\JsonExSerializer.xml
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\iselpi\5 Parte - Ricardo\MinesweeperFlagsMVC\MinesweeperGUI\obj\Debug\ResolveAssemblyReference.cache
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\iselpi\5 Parte - Ricardo\MinesweeperFlagsMVC\MinesweeperGUI\obj\Debug\MinesweeperGUI.dll
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\iselpi\5 Parte - Ricardo\MinesweeperFlagsMVC\MinesweeperGUI\obj\Debug\MinesweeperGUI.pdb

@@ -1,0 +1,7 @@
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\iselpi\5 Parte - Ricardo\MinesweeperFlagsMVC\MinesweeperSecurity\bin\Debug\MinesweeperSecurity.dll
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\iselpi\5 Parte - Ricardo\MinesweeperFlagsMVC\MinesweeperSecurity\bin\Debug\MinesweeperSecurity.pdb
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\iselpi\5 Parte - Ricardo\MinesweeperFlagsMVC\MinesweeperSecurity\bin\Debug\Minesweeper.dll
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\iselpi\5 Parte - Ricardo\MinesweeperFlagsMVC\MinesweeperSecurity\bin\Debug\Minesweeper.pdb
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\iselpi\5 Parte - Ricardo\MinesweeperFlagsMVC\MinesweeperSecurity\obj\Debug\ResolveAssemblyReference.cache
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\iselpi\5 Parte - Ricardo\MinesweeperFlagsMVC\MinesweeperSecurity\obj\Debug\MinesweeperSecurity.dll
+C:\ISEL\_mobile\ISEL\5º Semestre\PI - Programação Internet\Trabalho\Repositório\iselpi\5 Parte - Ricardo\MinesweeperFlagsMVC\MinesweeperSecurity\obj\Debug\MinesweeperSecurity.pdb
