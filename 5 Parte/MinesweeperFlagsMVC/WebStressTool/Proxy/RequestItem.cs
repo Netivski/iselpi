@@ -9,10 +9,12 @@ namespace WebStressTool.Proxy
         string   hostName;
         int      port;
         Uri      requestUrl = null;
+        int      id;
 
-        public RequestItem(FileInfo requestFile)
+        public RequestItem(FileInfo requestFile, int id)
         {
             this.requestFile = requestFile;
+            this.id          = id;
 
             string[] aux = Path.GetFileNameWithoutExtension(requestFile.Name).Split('_');
             hostName     = aux[1];
@@ -22,7 +24,7 @@ namespace WebStressTool.Proxy
         public string HostName            { get { return hostName; } }
         public int    Port                { get { return port;     } }
         public string SourceFilePath      { get { return requestFile.FullName; } }
-        public string DestinationFilePath { get { return string.Format("{0}.resp", Path.Combine(requestFile.Directory.FullName, Path.GetFileNameWithoutExtension(SourceFilePath))); } }
+        public string DestinationFilePath { get { return string.Format("{0}{1}.resp", Path.Combine(requestFile.Directory.FullName, Path.GetFileNameWithoutExtension(SourceFilePath)), id.ToString("0000000000")); } }
         public Uri    RequestUrl
         {
             get
