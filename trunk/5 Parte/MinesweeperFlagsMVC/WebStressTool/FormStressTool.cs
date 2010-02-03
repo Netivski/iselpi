@@ -19,16 +19,21 @@ namespace WebStressTool
 
         protected void EndRequestInvoke(object sender, EventArgs e)
         {
+            txtResult.Text += "*";
+            txtResult.AppendText(((EndRequestEventArgs)e).State.ToString());
+            txtResult.AppendText(Environment.NewLine);
         }
        
         private void button1_Click(object sender, EventArgs e)
         {
+            StressToolWorker worker = new StressToolWorker(new DirectoryInfo(@"D:\DSTS\Personal\my.life\ISEL\3 Ano\PI\Minesweeper Flags\Minesweeper Flags\5 Parte\MinesweeperFlagsMVC\"));
+            worker.EndInvoke        += OnEndInvoke;
+            worker.EndRequestInvoke += EndRequestInvoke;
+            worker.Invoke();
         }
 
         private void FormStressTool_Load(object sender, EventArgs e)
         {
-            //new StressToolWorker(  
-
         }        
 
     }

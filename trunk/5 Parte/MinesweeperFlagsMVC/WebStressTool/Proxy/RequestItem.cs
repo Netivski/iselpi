@@ -14,15 +14,15 @@ namespace WebStressTool.Proxy
         {
             this.requestFile = requestFile;
 
-            string[] aux = requestFile.Name.Split('_');
+            string[] aux = Path.GetFileNameWithoutExtension(requestFile.Name).Split('_');
             hostName     = aux[1];
             port         = Convert.ToInt32( aux[2] );
         }
 
-        public string HostName           { get { return hostName; } }
-        public int    Port               { get { return port;     } }
-        public string SourceFilePath     { get { return requestFile.FullName; } }
-        public string DestinationFilePath{ get { return Path.Combine(Path.GetFileNameWithoutExtension(SourceFilePath), "resp"); }  }
+        public string HostName            { get { return hostName; } }
+        public int    Port                { get { return port;     } }
+        public string SourceFilePath      { get { return requestFile.FullName; } }
+        public string DestinationFilePath { get { return string.Format("{0}.resp", Path.Combine(requestFile.Directory.FullName, Path.GetFileNameWithoutExtension(SourceFilePath))); } }
         public Uri    RequestUrl
         {
             get

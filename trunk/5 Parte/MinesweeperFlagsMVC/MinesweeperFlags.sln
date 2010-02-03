@@ -16,10 +16,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebStressTool", "WebStressTool\WebStressTool.csproj", "{41D3F048-6DD8-43D9-B2E2-6A40BE10C2BD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebStressToolFiles", "WebStressToolFiles", "{65FAA5FA-9D99-4188-AE96-D4DCA36F03E2}"
-	ProjectSection(SolutionItems) = preProject
-		www.google.pt.req = www.google.pt.req
-		www.sapo.pt.req = www.sapo.pt.req
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
