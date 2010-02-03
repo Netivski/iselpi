@@ -9,8 +9,8 @@ namespace WebStressTool
 {
     internal class StressToolWorker
     {
-        public EventHandler EndInvoke;
-        public EventHandler EndRequestInvoke;
+        public EventHandler EndInvoke        = null;
+        public EventHandler EndRequestInvoke = null;
 
         DirectoryInfo baseDirectory; 
         volatile int  requestCount;
@@ -47,7 +47,7 @@ namespace WebStressTool
             finally
             {
                 System.Threading.Interlocked.Decrement(ref requestCount);
-                if (EndInvoke != null) EndInvoke( this, null );
+                if (requestCount == 0 && EndInvoke != null) EndInvoke(this, null);
             }
         }
 
