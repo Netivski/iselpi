@@ -5,16 +5,18 @@
 <html>
 <head>
     <link type="text/css" href="http://jqueryui.com/latest/themes/base/ui.all.css" rel="stylesheet" />
+    <link rel="Stylesheet" type="text/css" href="/Source/Forum.css" />
     <link rel="Stylesheet" type="text/css" href="/Source/tabs-ui.css" />
     <link rel="Stylesheet" type="text/css" href="/Source/Lobby.css" />
     <link rel="Stylesheet" type="text/css" href="/Source/mineSweeper.css" />
-
+    
     <script type="text/javascript" src="/Source/jquery-1.3.2.js"></script>
     <script type="text/javascript" src="/Source/ui.core.js"></script>
     <script type="text/javascript" src="/Source/ui.tabs.js"></script>
     <script type="text/javascript" src="/Source/Constants.js"></script>
     <script type="text/javascript" src="/Source/HttpRequest.js"></script>
     <script type="text/javascript" src="/source/LobbyMVC.js"></script>
+    <script type="text/javascript" src="/source/ForumMVC.js"></script>
     <script type="text/javascript" src="/Source/Cell.js"></script>
     <script type="text/javascript" src="/Source/Player.js"></script>
     <script type="text/javascript" src="/Source/BoardMVC.js"></script>    

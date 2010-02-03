@@ -148,6 +148,10 @@ LobbyController.init = function() {
     // --------------------------------    
     // Events
 
+    this.evtShowForum = function() {
+        LobbyView.showForum(LobbyModel.getPlayerName(), LobbyModel.getPlayerEMail());
+    }
+    
     this.evtProceedToGame = function() {
         var isPublicGame = LobbyView.isPublicGame();
         var gName = LobbyView.getGameName();
@@ -173,7 +177,7 @@ LobbyController.init = function() {
 
         if (!isPublicGame) {
             selectedFriends = LobbyView.getSelectedFriends();
-            for (var i = 0; i < selectedFriends.length; i++) {                
+            for (var i = 0; i < selectedFriends.length; i++) {
                 this.evtSendInvite(gName, selectedFriends[i]);
             }
         }
@@ -319,6 +323,13 @@ LobbyView.init = function(tabId) {
         addTab(url, escape(gName));
     }
 
+    this.showForum = function(playerName, playerEMail) {
+        var url = "/Forum/Main"
+                  + "?pName=" + escape(playerName)
+                  + "&eMail=" + escape(playerEMail)
+        addTab(url, "Forum");
+    }
+
     this.startGame = function(gName, playerName, playerEMail, type) {
         var url = "/Game/Create"
                   + "?gName=" + escape(gName)
@@ -347,6 +358,7 @@ LobbyView.init = function(tabId) {
     this.renderOptions = function() {
         var optionsDiv = $(".divPlayerOptions");
         $("<button/>").click(function() { LobbyController.evtEditProfile(); }).attr("id", "ProfileButton").text("Edit Profile").appendTo(optionsDiv);
+        $("<button/>").click(function() { LobbyController.evtShowForum(); }).attr("id", "ForumButton").text("Forum").appendTo(optionsDiv);
 
         var formDiv = $("<div/>").addClass("divGameForm").attr("id", "gameForm").css("display", "none").attr("valign", "middle");
         $("<input/>").attr("id", "gameNameInput").attr("maxLength", "20").appendTo(formDiv);

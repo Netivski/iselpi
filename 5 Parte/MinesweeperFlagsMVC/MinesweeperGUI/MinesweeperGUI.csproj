@@ -92,6 +92,8 @@
     <Content Include="Source\BoardMVC.js" />
     <Content Include="Source\Cell.js" />
     <Content Include="Source\Constants.js" />
+    <Content Include="Source\Forum.css" />
+    <Content Include="Source\ForumMVC.js" />
     <Content Include="Source\GameMVC.js" />
     <Content Include="Source\HttpRequest.js" />
     <Content Include="Source\jquery-1.3.2.js" />
@@ -100,6 +102,10 @@
     <Content Include="Source\mineSweeper.css" />
     <Content Include="Source\Player.js" />
     <Content Include="Source\Profile.css" />
+    <Content Include="Views\Forum\AddThread.ascx" />
+    <Content Include="Views\Forum\ListPosts.ascx" />
+    <Content Include="Views\Forum\ListThreads.ascx" />
+    <Content Include="Views\Forum\Main.aspx" />
     <Content Include="Views\GameAsynchronous\GameBoard.aspx" />
     <Content Include="Views\Game\Main.aspx" />
     <Content Include="Views\Game\Show.aspx" />
@@ -128,6 +134,10 @@
     <ProjectReference Include="..\MinesweeperController\MinesweeperControllers.csproj">
       <Project>{C8757F7B-822D-44A5-8F1E-B42BE7492840}</Project>
       <Name>MinesweeperControllers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MinesweeperForum\MinesweeperForum.csproj">
+      <Project>{85E12CB4-A638-4D65-A8C5-12CBE8200EC0}</Project>
+      <Name>MinesweeperForum</Name>
     </ProjectReference>
     <ProjectReference Include="..\Minesweeper\Minesweeper.csproj">
       <Project>{287F8AEF-02E3-4300-81F9-61D0A1B24A5A}</Project>
