@@ -2,6 +2,7 @@
 using System.Web;
 using System.Diagnostics;
 using System.Threading;
+using System.IO;
 
 namespace StressToolCollector
 {
@@ -10,12 +11,19 @@ namespace StressToolCollector
 
         public Collector() { }
 
+        string GetFilePath( Uri requestUrl )
+        {
+            string rValue = string.Format("{0}_{1}_{2}.req", DateTime.UtcNow.Ticks, requestUrl.Host, requestUrl.Port);
+
+            return System.IO.Path.Combine(Environment.GetEnvironmentVariable("tmp"), rValue);
+        }
+
         void BeginRequest(object sender, EventArgs e)
         {
             if (sender == null) throw new ArgumentNullException("sender");
             HttpApplication ctx = (HttpApplication)sender;
 
-            ctx.Request.SaveAs(string.Format(@"c:\temp\{0}.log", Guid.NewGuid()), true); 
+            ctx.Request.SaveAs(GetFilePath( ctx.Request.Url ), true); 
         }
 
         void EndRequest(object sender, EventArgs e)
