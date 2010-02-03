@@ -23,7 +23,12 @@ namespace WebStressTool
             this.baseDirectory = baseDirectory;
         }
 
-        protected void OnEndRequest(object sender, EventArgs args)
+        protected void OnEndInvoke()
+        {
+            if (EndInvoke != null) EndInvoke(this, null);
+        }
+
+        protected void OnEndRequestInvoke(object sender, EventArgs args)
         {
             EndRequestArgs eRequest = ((EndRequestArgs)args);
             eRequest.DataReader.Close();
@@ -31,7 +36,7 @@ namespace WebStressTool
             eRequest.DataWriter.Flush();
             eRequest.DataWriter.Close();
 
-            if (EndInvoke != null) EndInvoke(this, new EndRequestEventArgs ( eRequest.State) );
+            if (EndRequestInvoke != null) EndRequestInvoke(this, new EndRequestEventArgs(eRequest.State));
         }
 
 
@@ -41,13 +46,13 @@ namespace WebStressTool
             try
             {
                 AsynchronousHttpClient ac = new AsynchronousHttpClient(request.RequestUrl, new StreamReader(request.SourceFilePath), new StreamWriter( request.DestinationFilePath ));
-                ac.EndRequest += OnEndRequest;
+                ac.EndRequest += OnEndRequestInvoke;
                 ac.DoRequest();
             }
             finally
             {
                 System.Threading.Interlocked.Decrement(ref requestCount);
-                if (requestCount == 0 && EndInvoke != null) EndInvoke(this, null);
+                if (requestCount == 0) OnEndInvoke();
             }
         }
 

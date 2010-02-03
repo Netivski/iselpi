@@ -1,0 +1,10 @@
+GET /csi?v=3&s=webhp&action=&srt=719&e=17259,22766,23360&ei=N2dpS-nLBpX4-QaQw8mHCQ&expi=17259,22766,23360&rt=prt.80,xjsls.81,xjses.733,xjsee.765,xjs.770,ol.1086 HTTP/1.1
+Host: www.sapo.pt
+Connection: Close
+User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/532.5 (KHTML, like Gecko) Chrome/4.0.249.78 Safari/532.5
+Referer: http://localhost:7788/
+Accept: */*
+Accept-Encoding: gzip,deflate,sdch
+Accept-Language: pt-PT,pt;q=0.8,en-US;q=0.6,en;q=0.4
+Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.3
+

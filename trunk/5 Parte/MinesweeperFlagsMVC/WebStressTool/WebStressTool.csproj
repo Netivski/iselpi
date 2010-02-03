@@ -83,6 +83,7 @@
     </Compile>
     <Compile Include="Proxy\RequestItem.cs" />
     <Compile Include="StressToolWorker.cs" />
+    <Compile Include="Utils\DelegateUtils.cs" />
     <Compile Include="Utils\FileUtils.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
