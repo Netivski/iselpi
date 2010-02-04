@@ -1,10 +1,6 @@
 ﻿<%@ Import Namespace="MinesweeperForum" %>
-<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<IEnumerable<Thread>>" %>
-<%--    <link rel="Stylesheet" type="text/css" href="/Source/Forum.css" />
-    <script type="text/javascript" src="/Source/jquery-1.3.2.js"></script>
-    <script type="text/javascript" src="/source/ForumMVC.js"></script>
-    <script type="text/javascript" src="/source/HttpRequest.js"></script>
---%>
+<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage" %>
+
 <script type="text/javascript">
     $(document).ready(function() {
         Forum.init(<%="'"+ViewData["pName"]+"'"%>,<%="'"+ViewData["eMail"]+"'"%>);

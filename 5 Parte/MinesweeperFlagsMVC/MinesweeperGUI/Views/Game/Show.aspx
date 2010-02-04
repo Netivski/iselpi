@@ -21,8 +21,8 @@
     <div id="<%=ViewData["gKey"]%>divPlayerBoard" class="divPlayerBoard"/>
     <div id="<%=ViewData["gKey"]%>divArena" class="divArena"/>    
     <div id="<%=ViewData["gKey"]%>divScoreBoard" class="divScoreBoard">
-        <div id="divScoreLabel" class="divScoreLabel"/>
-        <div id="divScoreValue" class="divScoreValue"/>
+        <div id="<%=ViewData["gKey"]%>divScoreLabel" class="divScoreLabel"/>
+        <div id="<%=ViewData["gKey"]%>divScoreValue" class="divScoreValue"/>
     </div>
     <div id="<%=ViewData["gKey"]%>divOptions" class="divOptions"/>
     <div id="<%=ViewData["gKey"]%>divMessageBoard" class="divMessageBoard">
