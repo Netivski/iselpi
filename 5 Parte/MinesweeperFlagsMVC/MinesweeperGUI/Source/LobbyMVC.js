@@ -362,7 +362,7 @@ LobbyView.init = function(tabId) {
     this.renderOptions = function() {
         var optionsDiv = $(".divPlayerOptions");
         $("<button/>").click(function() { LobbyController.evtEditProfile(); }).attr("id", "ProfileButton").text("Edit Profile").appendTo(optionsDiv);
-        //$("<button/>").click(function() { LobbyController.evtShowForum(); }).attr("id", "ForumButton").text("Forum").appendTo(optionsDiv);
+        $("<button/>").click(function() { LobbyController.evtShowForum(); }).attr("id", "ForumButton").text("Forum").appendTo(optionsDiv);
 
         var formDiv = $("<div/>").addClass("divGameForm").attr("id", "gameForm").css("display", "none").attr("valign", "middle");
         $("<input/>").attr("id", "gameNameInput").attr("maxLength", "20").appendTo(formDiv);
