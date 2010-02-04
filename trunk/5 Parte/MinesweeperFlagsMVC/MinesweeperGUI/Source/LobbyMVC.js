@@ -305,7 +305,10 @@ LobbyView.init = function(tabId) {
     $(tabId).tabs();
     tabElementsCount = $(tabId).tabs('length');
 
+    this.removeTab = function (tabIdx) { $('#tabs').tabs('remove',tabIdx); }
+
     var addTab = function(url, label) {
+        //$(tabId).tabs('add', url, label + '<a href="javascript:LobbyView.removeTab(' + $(tabId).tabs('length') + ')">X</a>');
         $(tabId).tabs('add', url, label);
         $(tabId).tabs({ cache: true });
         $(tabId).bind('tabsselect', function(event, ui) {
@@ -328,7 +331,7 @@ LobbyView.init = function(tabId) {
                   + "?pName=" + escape(playerName)
                   + "&eMail=" + escape(playerEMail)
         addTab(url, "Forum");
-		LobbyView.hideForumButton();
+        LobbyView.hideForumButton();
     }
 
     this.startGame = function(gName, playerName, playerEMail, type) {
@@ -359,7 +362,7 @@ LobbyView.init = function(tabId) {
     this.renderOptions = function() {
         var optionsDiv = $(".divPlayerOptions");
         $("<button/>").click(function() { LobbyController.evtEditProfile(); }).attr("id", "ProfileButton").text("Edit Profile").appendTo(optionsDiv);
-        $("<button/>").click(function() { LobbyController.evtShowForum(); }).attr("id", "ForumButton").text("Forum").appendTo(optionsDiv);
+        //$("<button/>").click(function() { LobbyController.evtShowForum(); }).attr("id", "ForumButton").text("Forum").appendTo(optionsDiv);
 
         var formDiv = $("<div/>").addClass("divGameForm").attr("id", "gameForm").css("display", "none").attr("valign", "middle");
         $("<input/>").attr("id", "gameNameInput").attr("maxLength", "20").appendTo(formDiv);

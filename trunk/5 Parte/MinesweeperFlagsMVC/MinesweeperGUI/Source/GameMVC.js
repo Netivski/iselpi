@@ -192,7 +192,9 @@ function GameMVC(lines, cols, gKey) {
                 var req = new HttpRequest("GameAsynchronous", "RemovePlayer", current.gameModel.getGameName(), current.gameModel.getPlayerId());
                 req.Request();
             } catch (e) { alert(e); }
-            location.reload(true);
+            current.gameController.stopPooling();
+            current.gameView.renderPlayerQuit("Game over! You suck!");
+            //location.reload(true);
         }
 
         this.gameController.evtCellClicked = function(cell) {
@@ -267,6 +269,9 @@ function GameMVC(lines, cols, gKey) {
             optionsDiv.css("display", "block");
         }
 
+        this.gameView.renderPlayerQuit = function(msg) {
+            current.gameView.showMsgButton(msg);
+        }
         this.gameView.renderGameOver = function(msg) {
             current.gameView.renderOptions();
             current.gameView.showRevealButton();
