@@ -1,4 +1,4 @@
-﻿<%@ Import Namespace="MinesweeperForum" %>
+﻿    <%@ Import Namespace="MinesweeperForum" %>
 <%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<IEnumerable<Post>>" %>
 
 <div id="postListTitle"><%=ViewData["title"] %></div>
