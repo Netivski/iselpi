@@ -1,17 +1,13 @@
 ﻿<%@ Import Namespace="MinesweeperForum" %>
 <%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<IEnumerable<Post>>" %>
 
-Id:<%=ViewData["thId"]%><br />
-Title: <%=ViewData["title"] %>
+<div id="postListTitle"><%=ViewData["title"] %></div>
 
 <% foreach (Post p in Model){ %>
-    <ul>
-        Id:<%=p.Id %><br />
-        ThreadId:<%=p.ThreadId %><br />
-        Publisher:<% =p.Publisher %><br />
-        Date: <%=p.AddDate %><br />
-        Message: <% =p.Body %><br />
-        
-        <%=Html.ActionLink("Delete Post", "DeletePost", new { postId = p.Id })%>
-    </ul>
+    <div id="post">
+        <div id="postTitle"><% =p.Publisher %></div>
+        <div id="postBody"><% =Server.HtmlDecode(p.Body) %></div>
+        <div id="postFooter">Added on <%=p.AddDate %></div>
+    </div>
+    <div id="postSeparator"></div>
 <% } %>

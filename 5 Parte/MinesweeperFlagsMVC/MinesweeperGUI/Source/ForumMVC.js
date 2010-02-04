@@ -8,6 +8,7 @@ Forum.init = function(pName, eMail) {
     ForumModel.init(pName, eMail);
     ForumView.init();
     ForumController.init();
+    ForumController.evtListThreads();
 }
 
 
@@ -38,17 +39,11 @@ ForumController.init = function() {
 
     var handlerClass = "Forum";
     ForumView.renderNav();
+
 	//ForumView.hideAddPostButton();
 
     // --------------------------------    
     // Events
-
-	
-	this.evtMainWindow = function() {
-        ForumView.hideAddThreadButton();
-        ForumView.hideAddPostButton();
-        ForumView.renderContent("");
-    }
 	
     this.evtListThreads = function() {
         try {
@@ -59,6 +54,8 @@ ForumController.init = function() {
         catch (e) { alert(e); }
 		ForumModel.setCurrThread(0);
 		ForumView.showAddThreadButton();
+		ForumView.hideAddPostButton();
+
     }
 
     this.evtListPosts = function(thId) {
@@ -144,8 +141,7 @@ ForumView.init = function() {
     // Navigation
     this.renderNav = function() {
         var navDiv = $("#forumNav");
-		$("<button/>").click(function() { ForumController.evtMainWindow(); }).attr("id","MainButton").text("Main").appendTo(navDiv);
-		$("<button/>").click(function() { ForumController.evtListThreads(); }).attr("id","ThListButton").text("List Threads").appendTo(navDiv);
+		$("<button/>").click(function() { ForumController.evtListThreads(); }).attr("id","ThListButton").text("Thread List").appendTo(navDiv);
 		$("<button/>").click(function() { ForumController.evtAddThread(); }).attr("id","ThAddButton").text("Add Thread").hide().appendTo(navDiv);
 		$("<button/>").click(function() { ForumController.evtAddPost(); }).attr("id","PostAddButton").text("Add Post").hide().appendTo(navDiv);
 		this.hideAddPostButton();

@@ -20,7 +20,7 @@ button
 	-khtml-opacity: 0.85;
 	opacity: 0.85;
 }
-#forumBackGround
+.forumBackGround
 {
 	position: static;
 	width: 700px;
@@ -72,7 +72,7 @@ button
 	vertical-align:middle;
 	text-align:center;
 	color:#f5f5f5;
-	font-size:larger;
+	font-size:x-large;
 
 }
 .forumContent #thread
@@ -123,10 +123,59 @@ button
 	height:40%;
 	background-color:#454545;
 	font-weight:normal;
-	font-size:smaller;
+	font-size:x-small;
 	text-align:right;
 }
 .forumContent #threadSeparator
+{
+	position:relative;
+	height:2%;
+}
+
+.forumContent #postListTitle
+{
+	position:relative;
+	height:10%;
+	vertical-align:middle;
+	text-align:center;
+	color:#f5f5f5;
+	font-size:x-large;
+
+}
+.forumContent #post
+{
+	height:60px;
+	background-color:#292929;
+	font-weight:normal;
+	font-size:small;
+}
+
+.forumContent #post #postTitle
+{
+	height:30%;
+	position:relative;
+	text-align:left;
+	background-color:Gray;
+}
+
+
+.forumContent #post #postBody
+{
+	height:50%;
+	background-color:White;
+	color:Black;
+}
+
+.forumContent #post #postFooter
+{
+	position:relative;
+	height:20%;
+	background-color:#454545;
+	font-weight:normal;
+	font-size:x-small;
+	text-align:right;
+}
+.forumContent #postSeparator
 {
 	position:relative;
 	height:1%;
