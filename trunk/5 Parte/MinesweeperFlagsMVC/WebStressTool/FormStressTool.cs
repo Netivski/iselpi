@@ -79,7 +79,7 @@ namespace WebStressTool
             {
                 pgbPartial.BeginInvoke(new BeginInvoke(delegate()
                 {
-                    pgbPartial.Value += 1;
+                    if( pgbPartial.Value < pgbPartial.Maximum ) pgbPartial.Value += 1;
                 }));
 
                 return;

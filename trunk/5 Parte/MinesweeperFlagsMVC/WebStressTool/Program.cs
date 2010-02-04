@@ -13,10 +13,13 @@ namespace WebStressTool
         [STAThread]
         static void Main()
         {
-
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FormStressTool());
+            try
+            {
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(new FormStressTool());
+            }
+            catch (Exception exc) { Console.WriteLine( exc.Message ); }
         }
     }
 }
