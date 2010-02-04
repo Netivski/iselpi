@@ -7,7 +7,7 @@
 --%>
 <script type="text/javascript">
     $(document).ready(function() {
-        Forum.init();
+        Forum.init(<%="'"+ViewData["pName"]+"'"%>,<%="'"+ViewData["eMail"]+"'"%>);
     });
 </script>
 
@@ -20,5 +20,6 @@
         <div id="forumThreadEntry" class="forumThreadEntry"></div>
         <div id="forumPostEntry" class="forumPostEntry"></div>
     </div>
-    <div id="forumContent" class="forumContent"></div>
+    <div id="forumContent" class="forumContent">
+    </div>
 </div>

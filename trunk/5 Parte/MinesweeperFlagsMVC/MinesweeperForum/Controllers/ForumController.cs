@@ -12,8 +12,10 @@ namespace MinesweeperForum.Controllers
     {
         private string connString = MinesweeperForum.Properties.Settings.Default.MSF_ForumConnectionString;
 
-        public ActionResult Main()
+        public ActionResult Main(string pName, string eMail)
         {
+            ViewData["pName"] = pName;
+            ViewData["eMail"] = eMail;
             return View();
         }
 
@@ -29,13 +31,14 @@ namespace MinesweeperForum.Controllers
             DataContext dc = new DataContext(connString);
             Table<Thread> threads = dc.GetTable<Thread>();
 
-            int currId = thId.HasValue ? thId.Value : threads.First().Id;
+            threads.Single<Thread>(t => t.Id == thId.Value).Visits++;
+            threads.Context.SubmitChanges();
 
-            ViewData["thId"] = currId;
-            ViewData["Title"] = threads.Single(t => t.Id == currId).Title;
+            ViewData["thId"] = thId.Value;
+            ViewData["Title"] = threads.Single(t => t.Id == thId.Value).Title;
 
             var posts = from p in dc.GetTable<Post>()
-                        where p.ThreadId == currId
+                        where p.ThreadId == thId.Value
                         orderby p.AddDate ascending
                         select p;
 

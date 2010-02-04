@@ -328,6 +328,7 @@ LobbyView.init = function(tabId) {
                   + "?pName=" + escape(playerName)
                   + "&eMail=" + escape(playerEMail)
         addTab(url, "Forum");
+		LobbyView.hideForumButton();
     }
 
     this.startGame = function(gName, playerName, playerEMail, type) {
@@ -381,6 +382,8 @@ LobbyView.init = function(tabId) {
         this.showPrivateButton();
         setTimeout('$("#gameNameInput").val("");');
     }
+
+    this.hideForumButton = function() { $("#ForumButton").hide("slow"); }
 
     this.isGameFormVisible = function() { return $(".divGameForm").is(":visible"); }
     this.isPublicGame = function() { return $("#StartPublicButton").is(":visible"); }
