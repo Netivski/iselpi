@@ -16,3 +16,9 @@ C:\TSPPIRES\Personal\my.life\ISEL\3 Ano\PI\Minesweeper Flags\iselpi\trunk\5 Part
 C:\TSPPIRES\Personal\my.life\ISEL\3 Ano\PI\Minesweeper Flags\iselpi\trunk\5 Parte\MinesweeperFlagsMVC\MinesweeperForum\obj\Debug\ResolveAssemblyReference.cache
 C:\TSPPIRES\Personal\my.life\ISEL\3 Ano\PI\Minesweeper Flags\iselpi\trunk\5 Parte\MinesweeperFlagsMVC\MinesweeperForum\obj\Debug\MinesweeperForum.dll
 C:\TSPPIRES\Personal\my.life\ISEL\3 Ano\PI\Minesweeper Flags\iselpi\trunk\5 Parte\MinesweeperFlagsMVC\MinesweeperForum\obj\Debug\MinesweeperForum.pdb
+D:\DSTS\Personal\my.life\ISEL\3 Ano\PI\Minesweeper Flags\Minesweeper Flags\5 Parte\MinesweeperFlagsMVC\MinesweeperForum\bin\Debug\MinesweeperForum.dll.config
+D:\DSTS\Personal\my.life\ISEL\3 Ano\PI\Minesweeper Flags\Minesweeper Flags\5 Parte\MinesweeperFlagsMVC\MinesweeperForum\bin\Debug\MinesweeperForum.dll
+D:\DSTS\Personal\my.life\ISEL\3 Ano\PI\Minesweeper Flags\Minesweeper Flags\5 Parte\MinesweeperFlagsMVC\MinesweeperForum\bin\Debug\MinesweeperForum.pdb
+D:\DSTS\Personal\my.life\ISEL\3 Ano\PI\Minesweeper Flags\Minesweeper Flags\5 Parte\MinesweeperFlagsMVC\MinesweeperForum\obj\Debug\ResolveAssemblyReference.cache
+D:\DSTS\Personal\my.life\ISEL\3 Ano\PI\Minesweeper Flags\Minesweeper Flags\5 Parte\MinesweeperFlagsMVC\MinesweeperForum\obj\Debug\MinesweeperForum.dll
+D:\DSTS\Personal\my.life\ISEL\3 Ano\PI\Minesweeper Flags\Minesweeper Flags\5 Parte\MinesweeperFlagsMVC\MinesweeperForum\obj\Debug\MinesweeperForum.pdb

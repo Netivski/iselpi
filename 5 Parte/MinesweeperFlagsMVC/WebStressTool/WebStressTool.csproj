@@ -31,10 +31,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Microsoft.VisualBasic.PowerPacks.Vs, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Design" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -82,6 +85,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Proxy\RequestItem.cs" />
+    <Compile Include="RequestItemEventArgs.cs" />
+    <Compile Include="StartInvokeEventArgs.cs" />
+    <Compile Include="InvokeRequestEventArgs.cs" />
     <Compile Include="StressToolWorker.cs" />
     <Compile Include="Utils\DelegateUtils.cs" />
     <Compile Include="Utils\FileUtils.cs" />
