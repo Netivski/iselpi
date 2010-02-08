@@ -10,13 +10,13 @@ namespace WebStressTool.HttpClient
     {
         const int    BufferSize = 256;
 
-        public EventHandler EndRequest = null;
+        public EventHandler   EndRequest = null;
 
-        Uri          requestUrl = null;
-        StreamReader dataReader = null;
-        StreamWriter dataWriter = null;
-        Socket       workSocket = null;
-        byte[]       buffer     = null;
+        readonly Uri          requestUrl = null;
+        readonly StreamReader dataReader = null;
+        readonly StreamWriter dataWriter = null;
+        volatile Socket       workSocket = null;
+        volatile byte[]       buffer     = null;
 
 
         public AsynchronousHttpClient(Uri requestUrl, StreamReader dataReader, StreamWriter dataWriter)
