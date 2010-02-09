@@ -11,6 +11,7 @@ namespace WebStressTool
     public partial class FormStressTool : Form
     {
         int totalRequestCount;
+        int execTime;
 
         public FormStressTool()
         {
@@ -107,6 +108,7 @@ namespace WebStressTool
 
         protected void OnStartInvoke(object sender, EventArgs e)
         {
+            execTime = Environment.TickCount;
             InitProgressBarTotal(((StartInvokeEventArgs)e).TotalRequestFiles);
             setResultText("OnStartInvoke");
 
@@ -137,6 +139,7 @@ namespace WebStressTool
         protected void OnEndInvoke(object sender, EventArgs e)
         {
             setResultText("OnEndInvoke");
+            setResultText((( Environment.TickCount - execTime ) / 1000 ).ToString("00000000") + "Seg.");
         }
         
        
